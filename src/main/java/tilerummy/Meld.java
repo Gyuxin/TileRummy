@@ -6,9 +6,6 @@ import java.util.Set;
 
 public class Meld {
 	
-	// S - Set, R - Run, N - Not a valid meld
-	public final static String[] types = {"S", "R", "N"};
-	
 	private ArrayList<Tile> meld;
 	private String type;
 	
@@ -104,12 +101,10 @@ public class Meld {
 	public String setType() {
 
 		if(isSet()){
-			return types[0];
-		} else if (isRun()){
-			return types[1];
+			return "S";
 		} else {
-			return types[2];
-		}
+			return "R";
+		} 
 
 	}
 
