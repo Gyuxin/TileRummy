@@ -18,6 +18,10 @@ class Computer extends Player
   {
     super.drawATile(t);
   }
+  public String toString()
+  {
+    super.toString();
+  }
 
   public void dealCard()
   {
