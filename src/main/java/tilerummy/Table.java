@@ -12,8 +12,6 @@ public class Table {
 		
 	}
 	
-	//if the meld you want to add to the table is a valid meld, the meld is added to table
-	//if it's not a valid meld, the tiles will go back to the player or table
 	public void addMeld(Meld meld) {
 		table.add(meld);
 	}
