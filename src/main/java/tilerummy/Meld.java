@@ -1,10 +1,13 @@
 package tilerummy;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Meld {
 	
-	public final static String[] types = {"S", "R"};
+	// S - Set, R - Run, N - Not a valid meld
+	public final static String[] types = {"S", "R", "N"};
 	
 	private ArrayList<Tile> meld;
 	private String type;
@@ -12,17 +15,76 @@ public class Meld {
 	public Meld() {
 		
 		meld = new ArrayList<Tile>();
+		type = setType();
 		
 	}
+
+	public int getMeldSize(){
+		return meld.size();
+	}
 	
-	public boolean checkSet() {
+	//check if the meld is a set
+	//set: three or four tiles with the same number in different colors
+	public boolean isSet() {
 		
-		for(int i = 0; i < meld.size(); i++) {
-			if (meld.get(i).getRank())
+		boolean isSet = false;
+
+		//get the number of the first tile in the meld
+		int n = meld.get(0).getNumber();
+
+		//check if remaining tiles' ranks are same as the first one
+		for(int i = 1; i < meld.size(); i++) {
+			if (meld.get(i).getNumber() == n){
+				isSet = true;
+			} else {
+				return false;
+			}
+		}
+
+		//A set that stores all colors of tiles in the meld
+		Set<String> c = new HashSet<String>();
+
+		//check if every tile has different color
+		for(int i = 0; i < meld.size(); i++){
+			c.add(meld.get(i).getColor());
 		}
 		
-		return false;
+		//if the size of colors is less than the size of meld, some tiles have same color
+		if(c.size() < meld.size()) {
+			return false;
+		}
+
+		return isSet;
 		
+	}
+
+	public boolean isRun(){
+
+		boolean isRun = false;
+
+		//get the color of the first tile
+		String c = meld.get(0).getColor();
+
+		//check if remaining tiles have same color as the first tile
+		for(int i = 1; i < meld.size(); i++){
+			if(meld.get(i).getColor().indexOf(c.charAt(0)) == 0){
+				isRun = true;
+			} else {
+				return false;
+			}
+		}
+
+		//check if numbers in sequence
+		for(int i = 0; i < meld.size()-2; i++){
+			if((meld.get(i+1).getNumber() - meld.get(i).getNumber()) == 0){
+				isRun = true;
+			} else {
+				return false;
+			}
+		}
+
+		return isRun;
+
 	}
 	
 	public void addTile(Tile t) {	
@@ -39,11 +101,20 @@ public class Meld {
 		}
 	}
 	
-	public boolean checkMeld() {
-		
-		for(int i = 0; )
-		
-		return false;
+	public String setType() {
+
+		if(isSet()){
+			return types[0];
+		} else if (isRun()){
+			return types[1];
+		} else {
+			return types[2];
+		}
+
+	}
+
+	public String getType(){
+		return this.type;
 	}
 
 }

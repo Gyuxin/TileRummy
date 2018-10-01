@@ -3,24 +3,35 @@ package tilerummy;
 public class Tile {
 	
 	private String color;
-	private int rank;
+	private int number;
+	private boolean isOnTable;
 
 	
-	public Tile(String color, int rank) {
+	public Tile(String color, int number) {
 		this.color = color;
-		this.rank = rank;
+		this.number = number;
+		this.isOnTable = false;
 	}
 	
 	public void printTile() {
-		System.out.println(this.color + this.rank);
+		System.out.println(this.color + this.number);
 	}
 	
 	public String getColor() {
 		return this.color;
 	}
 	
-	public int getRank() {
-		return this.rank;
+	public int getNumber() {
+		return this.number;
+	}
+
+	//return if the tile is already on the table
+	public boolean getOnTable(){
+		return this.isOnTable;
+	}
+
+	public void setOnTable(){
+		this.isOnTable = true;
 	}
 
 }
