@@ -27,17 +27,55 @@ public class Player {
 		}
 	}
 	
-	public boolean hasMeld() {
-		
+	
+	//Here i assume i2 always larger than i1
+	public boolean isContinous(int i1, int i2) {
+		if((i2-i1) == 1) 
+			return true;
+		return false;
 	}
 	
-	public ArrayList<Tile> findMeld() {
-		
+	// three or four of a kind of the same rank;
+	public boolean hasRand() {
+		for(int i = 0; i < this.myHandTile.size(); i++) {
+			
+		}
 	}
+	
+	/* three or more cards in sequence, of the same suit
+	 * here we assume the hand card has sorted.!!!!
+	 */
+	public boolean hasRun() {
+		int index = 0;
+		ht = this.myHandTile;
+		int count = 1;
+		
+		while(index<ht.size()-1) {
+				if(ht.get(index).getColor().equals(ht.get(index+1).getColor()) && 
+				isContinous(ht.get(index).getRank(),ht.get(index+1).getRank())) {
+						count++;
+						if(count == 3) return true;
+						index++;
+				} else {
+					count = 1;
+					index++;
+				}
+		}
+		return false;
+	}
+	
+	
+	public boolean hasMeld() {
+
+	}
+	
+
 	
 	public boolean initialCheck(ArrayList<Tile> meld) {
 		
 	}
+	
+	
 	
 	public ArrayList<Tile> dealTile(ArrayList<Tile> al){
 		myHandTile.remove(al);
@@ -59,6 +97,8 @@ public class Player {
 	}
 	
 }
+
+
 
 /* compare each tile in user's hand 
  * in order to sort them in order
