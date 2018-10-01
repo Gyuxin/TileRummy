@@ -13,8 +13,11 @@ public class Player {
 	
 	//Shuffle user's hand tile
 	public void sort() {
-		Comparator<Tile> comp = new CompareTile();
-		Collections.sort(myHandTile, comp);	
+		Collections.sort(myHandTile, new CompareTile());	
+	}
+	
+	public void sortRankFirst() {
+		Collections.sort(myHandTile, new CompareTileRankFirst());
 	}
 	
 	public int getNumberOfHandTile() {
@@ -35,19 +38,40 @@ public class Player {
 		return false;
 	}
 	
-	// three or four of a kind of the same rank;
-	public boolean hasRand() {
-		for(int i = 0; i < this.myHandTile.size(); i++) {
-			
+	
+	
+	/* three or four of a kind of the same rank;
+	 * 
+	 */
+	public boolean hasSet() {
+		this.sortRankFirst();
+		int index = 0;
+		List<Tile> ht = this.myHandTile;
+		int count = 1;
+		
+		while(index<ht.size()-1) {
+				if(!ht.get(index).getColor().equals(ht.get(index+1).getColor()) && 
+				(ht.get(index).getRank()==ht.get(index+1).getRank())) {
+						count++;
+						if(count == 3) return true;
+						index++;
+				} else {
+					count = 1;
+					index++;
+				}
 		}
+		this.sort();
+		return false;
 	}
+	
+	
 	
 	/* three or more cards in sequence, of the same suit
 	 * here we assume the hand card has sorted.!!!!
 	 */
 	public boolean hasRun() {
 		int index = 0;
-		ht = this.myHandTile;
+		List<Tile> ht = this.myHandTile;
 		int count = 1;
 		
 		while(index<ht.size()-1) {
@@ -66,7 +90,7 @@ public class Player {
 	
 	
 	public boolean hasMeld() {
-
+		return this.hasRun()||this.hasSet();
 	}
 	
 
@@ -101,8 +125,8 @@ public class Player {
 
 
 /* compare each tile in user's hand 
- * in order to sort them in order
- * R B G D
+ * in order to sort them in order Color First
+ * R1 R7 R9 B2 G1 D3
  * */
 class CompareTile implements Comparator<Tile>{
 
@@ -118,6 +142,52 @@ class CompareTile implements Comparator<Tile>{
 		i = r1.compareTo(r2);
 		return i;
 	}
+	
+	
+
+
+	/* Convert tile's color to Integer
+	 * So that it can be compared through .compareTo()
+	 * R < B < G < D
+	 * */
+	public Integer convertColorToInteger(Tile t) {
+		if(t.getColor().equals("R")) {
+			Integer i = new Integer(1);
+			return i;
+		} else if(t.getColor().equals("B")) {
+			Integer i = new Integer(2);
+			return i;
+		} else if(t.getColor().equals("G")) {
+			Integer i = new Integer(3);
+			return i;
+		} else {
+			Integer i = new Integer(4);
+			return i;
+		}
+	}
+}
+
+
+/* compare each tile in user's hand 
+ * in order to sort them in order Rank First
+ * int the order: R1 G2 R3 B3 G4 D4 R7
+ * */
+class CompareTileRankFirst implements Comparator<Tile>{
+
+	@Override
+	public int compare(Tile t1, Tile t2) {
+		Integer r1 = new Integer(t1.getRank());
+		Integer r2 = new Integer(t2.getRank());
+		
+		int i = r1.compareTo(r2);
+		if (i != 0)
+		return i;
+ 
+		i = convertColorToInteger(t1).compareTo(convertColorToInteger(t2));		
+		return i;
+	}
+	
+	
 
 
 	/* Convert tile's color to Integer
