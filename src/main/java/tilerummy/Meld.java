@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 public class Meld {
 	
+	public final static String[] types = {"S", "R"};
+	
 	private ArrayList<Tile> meld;
-	private boolean isSet;
-	private boolean isRun;
+	private String type;
 	
 	public Meld() {
 		
@@ -14,12 +15,13 @@ public class Meld {
 		
 	}
 	
-	public void checkSet() {
+	public boolean checkSet() {
 		
-		String r = 
 		for(int i = 0; i < meld.size(); i++) {
-			
+			if (meld.get(i).getRank())
 		}
+		
+		return false;
 		
 	}
 	

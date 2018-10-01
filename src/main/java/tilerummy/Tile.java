@@ -3,17 +3,12 @@ package tilerummy;
 public class Tile {
 	
 	private String color;
-	private String rank;
+	private int rank;
 
 	
-	public Tile(String color, String rank) {
+	public Tile(String color, int rank) {
 		this.color = color;
 		this.rank = rank;
-	}
-	
-	public Tile(String name) {
-		this.color = name.substring(0, 1);
-		this.rank = name.substring(1);
 	}
 	
 	public void printTile() {
@@ -24,7 +19,7 @@ public class Tile {
 		return this.color;
 	}
 	
-	public String getRank() {
+	public int getRank() {
 		return this.rank;
 	}
 

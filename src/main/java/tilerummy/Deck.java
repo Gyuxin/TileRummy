@@ -6,8 +6,7 @@ import java.util.Collections;
 public class Deck {
 	
 	public static final String[] colors = {"R", "B", "G", "O"};
-	public static final String[] ranks = {"1", "2", "3", "4", "5", "6", "7", 
-			"8", "9", "10", "11", "12", "13"};
+	public static final int[] ranks = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 	private ArrayList<Tile> tileDeck;
 	
 	public Deck() {
