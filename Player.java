@@ -11,11 +11,15 @@ public class Player {
 		
 	}
 	
-	//Shuffle user's hand tile
+	/*Shuffle user's hand tile
+	 * sort according to tile's color
+	 */
 	public void sort() {
 		Collections.sort(myHandTile, new CompareTile());	
 	}
 	
+	/** sort according to tile's rank
+	 */
 	public void sortRankFirst() {
 		Collections.sort(myHandTile, new CompareTileRankFirst());
 	}
@@ -24,21 +28,14 @@ public class Player {
 		return this.myHandTile.size();
 	}
 	
+	//initially add 14 tiles to user's handTile.
 	public void initialHandTile(Deck d){
 		for(int i = 0; i < 14; i++) {
 			myHandTile.add(d.drawTile());
 		}
 	}
-	
-	
-	//Here i assume i2 always larger than i1
-	public boolean isContinous(int i1, int i2) {
-		if((i2-i1) == 1) 
-			return true;
-		return false;
-	}
-	
-	
+
+		
 	
 	/* three or four of a kind of the same rank;
 	 * 
@@ -93,6 +90,15 @@ public class Player {
 		return this.hasRun()||this.hasSet();
 	}
 	
+	/* Helper method for hasRun()
+	 * Here i assume i2 always larger than i1
+	 */
+	public boolean isContinous(int i1, int i2) {
+		if((i2-i1) == 1) 
+			return true;
+		return false;
+	}
+	
 
 	
 	public boolean initialCheck(ArrayList<Tile> meld) {
@@ -119,7 +125,6 @@ public class Player {
 		}
 		return result;
 	}
-	
 }
 
 
