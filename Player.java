@@ -6,6 +6,9 @@ import java.util.Comparator;
 public class Player {
 	
 	private List<Tile> myHandTile = new ArrayList<Tile>();
+	private ArrayList<ArrayList<Tile>> myMeld = new ArrayList<ArrayList<Tile>>();
+	private boolean hasSet = false;
+	private boolean hasRun = false;
 	
 	public Player() {
 		
@@ -40,17 +43,34 @@ public class Player {
 	/* three or four of a kind of the same rank;
 	 * 
 	 */
-	public boolean hasSet() {
+	public void hasSet() {
 		this.sortRankFirst();
 		int index = 0;
 		List<Tile> ht = this.myHandTile;
 		int count = 1;
+		List<Tile> temp = new ArrayList<Tile>();
 		
 		while(index<ht.size()-1) {
 				if(!ht.get(index).getColor().equals(ht.get(index+1).getColor()) && 
-				(ht.get(index).getRank()==ht.get(index+1).getRank())) {
+				(ht.get(index).getNumber()==ht.get(index+1).getNumber())) {
 						count++;
-						if(count == 3) return true;
+						if(count >= 3) {
+							if(count == 4) {
+								myMeld.remove(temp);
+								temp.clear();
+								temp.add(ht.get(index-2));
+								temp.add(ht.get(index-1));
+								temp.add(ht.get(index));
+								temp.add(ht.get(index+1));	
+							} else {
+								temp.clear();
+								temp.add(ht.get(index-1));
+								temp.add(ht.get(index));
+								temp.add(ht.get(index+1));	
+								}
+							hasSet = true;
+							myMeld.add(temp);
+						}
 						index++;
 				} else {
 					count = 1;
@@ -58,7 +78,6 @@ public class Player {
 				}
 		}
 		this.sort();
-		return false;
 	}
 	
 	
@@ -66,28 +85,44 @@ public class Player {
 	/* three or more cards in sequence, of the same suit
 	 * here we assume the hand card has sorted.!!!!
 	 */
-	public boolean hasRun() {
+	public void hasRun() {
 		int index = 0;
 		List<Tile> ht = this.myHandTile;
 		int count = 1;
-		
+		List<Tile> temp = new ArrayList<Tile>();
+	
 		while(index<ht.size()-1) {
 				if(ht.get(index).getColor().equals(ht.get(index+1).getColor()) && 
-				isContinous(ht.get(index).getRank(),ht.get(index+1).getRank())) {
+				isContinous(ht.get(index).getNumber(),ht.get(index+1).getNumber())) {
 						count++;
-						if(count == 3) return true;
+						if(count >= 3) {
+							if(count == 4) {
+								myMeld.remove(temp);
+								temp.clear();
+								temp.add(ht.get(index-2));
+								temp.add(ht.get(index-1));
+								temp.add(ht.get(index));
+								temp.add(ht.get(index+1));	
+							} else {
+								temp.clear();
+								temp.add(ht.get(index-1));
+								temp.add(ht.get(index));
+								temp.add(ht.get(index+1));	
+								}
+							hasRun = true;
+							myMeld.add(temp);
+						}
 						index++;
 				} else {
 					count = 1;
 					index++;
 				}
 		}
-		return false;
 	}
 	
 	
 	public boolean hasMeld() {
-		return this.hasRun()||this.hasSet();
+		return this.hasRun||this.hasSet;
 	}
 	
 	/* Helper method for hasRun()
@@ -121,7 +156,7 @@ public class Player {
 		String result = "Hand Tile: ";
 		for(int i = 0; i < this.myHandTile.size(); i++) {
 			result+= this.myHandTile.get(i).getColor()+
-					this.myHandTile.get(i).getRank()+" ";
+					this.myHandTile.get(i).getNumber()+" ";
 		}
 		return result;
 	}
@@ -142,8 +177,8 @@ class CompareTile implements Comparator<Tile>{
        return i;
     }
 
-		Integer r1 = new Integer(t1.getRank());
-		Integer r2 = new Integer(t2.getRank());
+		Integer r1 = new Integer(t1.getNumber());
+		Integer r2 = new Integer(t2.getNumber());
 		i = r1.compareTo(r2);
 		return i;
 	}
@@ -181,8 +216,8 @@ class CompareTileRankFirst implements Comparator<Tile>{
 
 	@Override
 	public int compare(Tile t1, Tile t2) {
-		Integer r1 = new Integer(t1.getRank());
-		Integer r2 = new Integer(t2.getRank());
+		Integer r1 = new Integer(t1.getNumber());
+		Integer r2 = new Integer(t2.getNumber());
 		
 		int i = r1.compareTo(r2);
 		if (i != 0)
