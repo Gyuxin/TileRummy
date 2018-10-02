@@ -20,6 +20,19 @@ public class Player {
 		return this.myMeld;
 	}
 	
+	public List<Tile> getMyHandTile(){
+		return this.myHandTile;
+	}
+	
+//	public void printMyMeld() {
+//	      for(int i = 0; i< this.getMyMeld().size();i++) {
+//	    	  for(int j = 0; j<this.getMyMeld().get(i).size(); j++){
+//	    	      this.getMyMeld().get(i).get(j).printTile();
+//	    	  }
+//	    	  System.out.println("");
+//	      }
+//	}
+	
 	/*Shuffle user's hand tile
 	 * sort according to tile's color
 	 */
@@ -54,15 +67,16 @@ public class Player {
 		int index = 0;
 		List<Tile> ht = this.myHandTile;
 		int count = 1;
-		ArrayList<Tile> temp = new ArrayList<Tile>();
 		
 		while(index<ht.size()-1) {
 				if(!ht.get(index).getColor().equals(ht.get(index+1).getColor()) && 
 				(ht.get(index).getNumber()==ht.get(index+1).getNumber())) {
 						count++;
 						if(count >= 3) {
+							ArrayList<Tile> temp = new ArrayList<Tile>();
 							if(count == 4) {
-								myMeld.remove(temp);
+								
+								myMeld.remove(myMeld.size()-1);
 								temp.clear();
 								temp.add(ht.get(index-2));
 								temp.add(ht.get(index-1));
@@ -95,26 +109,27 @@ public class Player {
 		int index = 0;
 		List<Tile> ht = this.myHandTile;
 		int count = 1;
-		ArrayList<Tile> temp = new ArrayList<Tile>();
 	
 		while(index<ht.size()-1) {
 				if(ht.get(index).getColor().equals(ht.get(index+1).getColor()) && 
 				isContinous(ht.get(index).getNumber(),ht.get(index+1).getNumber())) {
 						count++;
 						if(count >= 3) {
-							if(count == 4) {
-								myMeld.remove(temp);
+							ArrayList<Tile> temp = new ArrayList<Tile>();
+							if(count == 3) {
 								temp.clear();
-								temp.add(ht.get(index-2));
 								temp.add(ht.get(index-1));
 								temp.add(ht.get(index));
 								temp.add(ht.get(index+1));	
 							} else {
+								myMeld.remove(myMeld.size()-1);
 								temp.clear();
-								temp.add(ht.get(index-1));
-								temp.add(ht.get(index));
-								temp.add(ht.get(index+1));	
+								int t = index+1;
+								for(int i = 0; i < count; i++) {
+									temp.add(ht.get(t));
+									t--;
 								}
+							}
 							hasRun = true;
 							myMeld.add(temp);
 						}
