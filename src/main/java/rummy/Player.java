@@ -17,6 +17,8 @@ public class Player {
 	}
 	
 	public ArrayList<ArrayList<Tile>> getMyMeld(){
+		this.hasRun();
+		this.hasSet();
 		return this.myMeld;
 	}
 	
