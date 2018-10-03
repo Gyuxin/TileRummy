@@ -41,10 +41,7 @@ class Computer extends Player
     return super.toString();
   }
 
-  public void dealCard()
-  {
 
-  }
   public void hasSet()
   {
 	  super.hasSet();
@@ -57,26 +54,26 @@ class Computer extends Player
   {
 	  return super.hasMeld();
   }
-  public ArrayList<ArrayList<Tile>> initialFirstMield(Table t)
+  public ArrayList<ArrayList<Tile>> initialFirstMield(Table t, int player1HandCardNumber, int player2HandCardNumber, int player3HandCardNumber)
   {
 	  ArrayList<ArrayList<Tile>> handOutTiles = new ArrayList<ArrayList<Tile>>();
 	  if(this.stratergyType == "stratergy1")
 	  {
 		  if(this.hasMeld())
 		  {
-			  int[] mieldSums = new int[this.myMeld.size()];
+			  int[] mieldSums = new int[this.getNumberOfHandTile()];
 			  int index = 0;
 			  int total = 0;
 			  int initialSum = 0;
-			  for(int i = 0; i<this.myMeld.size();i++)
+			  for(int i = 0; i<this.getNumberOfHandTile();i++)
 			  {
-				  for(int j=0;j<this.myMeld.get(i).size();j++)
+				  for(int j=0;j<this.getMyMeld().get(i).size();j++)
 				  {
-					  total += this.myMeld.get(i).get(j).getNumber();
+					  total += this.getMyMeld().get(i).get(j).getNumber();
 				  }
 				  if(total>=30)
 				  {
-					  handOutTiles = this.myMeld;
+					  handOutTiles = this.getMyMeld();
 					  break;
 				  }
 				  else
@@ -88,14 +85,14 @@ class Computer extends Player
 			  if(handOutTiles.size() == 0)
 			  {
 				  int i = 0;
-				  while(initialSum<=30 || i<this.myMeld.size())
+				  while(initialSum<=30 || i<this.getNumberOfHandTile())
 				  {
 					  initialSum += mieldSums[i];
 					  i++;
 				  }
 				  if(initialSum >=30)
 				  {
-					  handOutTiles = this.myMeld;
+					  handOutTiles = this.getMyMeld();
 				  }
 			  }
 		  }
@@ -108,45 +105,29 @@ class Computer extends Player
 			  if(!t.isEmpty())
 			  {
 				  int indexOfMield = 0;
-			      int[] mieldSums = new int[this.myMeld.size()];
-			      for(int i = 0; i<this.myMeld.size();i++)
+			      int[] mieldSums = new int[this.getNumberOfHandTile()];
+			      for(int i = 0; i<this.getNumberOfHandTile();i++)
 			      {
 			    	  int total = 0;
-				      for(int j=0;j<this.myMeld.get(i).size();j++)
+				      for(int j=0;j<this.getMyMeld().get(i).size();j++)
 				      {
-				    	  total += this.myMeld.get(i).get(j).getNumber();
+				    	  total += this.getMyMeld().get(i).get(j).getNumber();
 				      }
 				      if(total>=30)
 				      {
-				    	  if(this.myMeld.get(i).size() <= 3)
-				    	  {
-				    		  handOutTiles.add(this.myMeld.get(i));
-						      break;
-				          }
-				    	  else
-				    	  {
-				    		  int sum = 0;
-						      int index = this.myMeld.get(i).size()-1;
-						      ArrayList<Tile> temp = new ArrayList<Tile>();
-						      while(sum<=30 || index >=0 )
-						      {
-						    	  sum += this.myMeld.get(i).get(index).getNumber();
-						    	  temp.add(this.myMeld.get(i).get(index));
-							      index--;
-							  }
-						      handOutTiles.add(temp);
-				          }
+				    	  handOutTiles.add(this.getMyMeld().get(i));
+				    	  break;
 				       }
 				      else
 				      {
 				    	  mieldSums[indexOfMield] = total;
 					      indexOfMield++;
 					  }
-				    }
+				  }
 			      if(handOutTiles.size() == 0)
 			      {
 			    	  int i = 0;
-					  while(sumOfInitial<=30 || i<this.myMeld.size())
+					  while(sumOfInitial<=30 || i<this.getNumberOfHandTile())
 					  {
 						  sumOfInitial += mieldSums[i];
 						  i++;
@@ -155,23 +136,167 @@ class Computer extends Player
 					  {
 						  for(int a =0; a<=i; a++)
 						  {
-							  handOutTiles.add(this.myMeld.get(a));
+							  handOutTiles.add(this.getMyMeld().get(a));
 						  }
 					  }
-				  }
-			      else if(handOutTiles.size()>1)
-			      {
 				  }
 			  }
 		  }
 	  }
+	  else if(this.stratergyType == "stratergy3")
+	  {
+		  if(this.hasMeld())
+		  {
+			  if(this.getNumberOfHandTile()- player1HandCardNumber <= 3 || this.getNumberOfHandTile()- player2HandCardNumber <= 3 ||this.getNumberOfHandTile()- player3HandCardNumber <= 3)
+			  {
+				  if(this.hasMeld())
+				  {
+					  int[] mieldSums = new int[this.getNumberOfHandTile()];
+					  int index = 0;
+					  int total = 0;
+					  int initialSum = 0;
+					  for(int i = 0; i<this.getNumberOfHandTile();i++)
+					  {
+						  for(int j=0;j<this.getMyMeld().get(i).size();j++)
+						  {
+							  total += this.getMyMeld().get(i).get(j).getNumber();
+						  }
+						  if(total>=30)
+						  {
+							  handOutTiles = this.getMyMeld();
+							  break;
+						  }
+						  else
+						  {
+							  mieldSums[index] = total;
+							  index++;
+						  }
+					  }
+					  if(handOutTiles.size() == 0)
+					  {
+						  int i = 0;
+						  while(initialSum<=30 || i<this.getNumberOfHandTile())
+						  {
+							  initialSum += mieldSums[i];
+							  i++;
+						  }
+						  if(initialSum >=30)
+						  {
+							  handOutTiles = this.getMyMeld();
+						  }
+					  }
+				  }
 
+			  }
+			  else
+			  {
+				  int[] mieldSums = new int[this.getNumberOfHandTile()];
+				  int index = 0;
+				  int total = 0;
+				  int initialSum = 0;
+				  for(int i = 0; i<this.getNumberOfHandTile();i++)
+				  {
+					  for(int j=0;j<this.getMyMeld().get(i).size();j++)
+					  {
+						  total += this.getMyMeld().get(i).get(j).getNumber();
+					  }
+					  if(total>=30)
+					  {
+						  handOutTiles.add(this.getMyMeld().get(i));
+				    	  break;
+					  }
+					  else
+					  {
+						  mieldSums[index] = total;
+						  index++;
+					  }
+				  }
+				  if(handOutTiles.size() == 0)
+				  {
+					  int i = 0;
+					  while(initialSum<=30 || i<this.getNumberOfHandTile())
+					  {
+						  initialSum += mieldSums[i];
+						  i++;
+					  }
+					  if(initialSum >=30)
+					  {
+						  for(int a =0; a<=i; a++)
+						  {
+							  handOutTiles.add(this.getMyMeld().get(a));
+						  }
+					  }
+				  }
+			  }
+		  }
+	  }
+	  for(int x = 0; x<handOutTiles.size();x++)
+	  {
+		  int index = 0;
+		  for(int y = 0; y<this.getNumberOfHandTile(); y++)
+		  {
+			  for(int a = 0; a < handOutTiles.size(); a++)
+			  {
+				  for(int b = 0; b <handOutTiles.get(a).size();b++)
+				  {
+					  if(handOutTiles.get(a).get(b) == this.getMyHandTile().get(y))
+					  {
+						  index = y;
+						  this.getMyHandTile().remove(y);
+					  }
+				  }
+			  }
+		  }
+	  }
+	  return handOutTiles;
+	 }
+  public void dealCard(int player1HandCardNumber, int player2HandCardNumber, int player3HandCardNumber)
+  {
+	  ArrayList<ArrayList<Tile>> handOutTiles = new ArrayList<ArrayList<Tile>>();
+	  if(this.stratergyType == "stratergy1")
+	  {
+		  if(this.hasMeld())
+		  {
+			  for(int i = 0; i <this.getMyMeld().size(); i++)
+			  {
+				  handOutTiles.add(this.getMyMeld().get(i));
+			  }
+		  }
+		  else
+		  {
+			  //according and the situation on the table to deal card
+		  }
 
+	  }
+	  else if(this.stratergyType == "stratergy2")
+	  {
+		//only deal card according to the situation on the table
+	  }
+	  else if(this.stratergyType == "stratergy3")
+	  {
+		  if(this.getMyHandTile().size() - player1HandCardNumber >= 3 || this.getMyHandTile().size() - player2HandCardNumber >= 3 || this.getMyHandTile().size() - player3HandCardNumber >= 3)
+		  {
+			  if(this.hasMeld())
+			  {
+				  for(int i = 0; i <this.getMyMeld().size(); i++)
+				  {
+					  handOutTiles.add(this.getMyMeld().get(i));
+				  }
+			  }
+			  else
+			  {
+				//according the situation on the table to deal card
+			  }
 
+		  }
+		  else
+		  {
+			//only deal card according to the situation on the table
+		  }
 
-	return handOutTiles;
-
+	  }
   }
+
 
 
   //by using stratergy
