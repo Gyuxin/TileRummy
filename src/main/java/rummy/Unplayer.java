@@ -10,6 +10,7 @@ public class Unplayer extends Player{
 	
 	private String[] dealcard;
 	
+	private ArrayList<String> dealcard1 = new ArrayList <String>();
 	
 	 /*	public void sort(){
 										
