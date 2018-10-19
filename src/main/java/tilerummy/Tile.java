@@ -4,17 +4,25 @@ public class Tile {
 	
 	private String color;
 	private int number;
-	private boolean isOnTable;
-
+	private boolean justPlayed;
+	private boolean justMoved;
 	
 	public Tile(String color, int number) {
 		this.color = color;
 		this.number = number;
-		this.isOnTable = false;
+		this.justPlayed = false;
+		this.justMoved = false;
+	}
+
+	public Tile(String name) {
+		this.color = name.substring(0,1);
+		this.number = Integer.parseInt(name.substring(1));
+		this.justPlayed = false;
+		this.justMoved = false;
 	}
 	
 	public void printTile() {
-		System.out.println(this.color + this.number);
+		System.out.print(this.color + this.number + " ");
 	}
 	
 	public String getColor() {
@@ -25,13 +33,28 @@ public class Tile {
 		return this.number;
 	}
 
-	//return if the tile is already on the table
-	public boolean getOnTable(){
-		return this.isOnTable;
+	public boolean getJustPlayed(){
+		return this.justPlayed;
 	}
 
-	public void setOnTable(){
-		this.isOnTable = true;
+	public void setJustPlayed(){
+		if(getJustPlayed()){
+			justPlayed = false;
+		} else {
+			justPlayed = true;
+		}
+	}
+
+	public boolean getJustMoved(){
+		return this.justMoved;
+	}
+
+	public void setJustMoved(){
+		if(getJustMoved()){
+			justMoved = false;
+		} else {
+			justMoved = true;
+		}
 	}
 
 }

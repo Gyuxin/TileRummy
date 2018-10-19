@@ -12,6 +12,10 @@ public class Table {
 		
 	}
 
+	public int getSize(){
+		return table.size();
+	}
+
 	public Meld getMeld(int position){
 		return table.get(position);
 	}

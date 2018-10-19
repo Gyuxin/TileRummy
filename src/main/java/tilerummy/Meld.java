@@ -84,18 +84,32 @@ public class Meld {
 
 	}
 	
-	public void addTile(Tile t) {	
+	public void addTileAtLast(Tile t) {	
 		meld.add(t);		
+	}
+
+	public void addTileAtFirst(Tile t){
+		meld.add(0, t);
 	}
 	
 	public Tile removeTile(int position) {
 		return meld.remove(position);
 	}
+
+	public Tile getFirstTile(){
+		return meld.get(0);
+	}
+
+	public Tile getLastTile(){
+		return meld.get(meld.size()-1);
+	}
 	
 	public void printMeld() {
+		System.out.print("{ ");
 		for(int i = 0; i < meld.size(); i++) {
 			meld.get(i).printTile();
 		}
+		System.out.print("}");
 	}
 	
 	public String setType() {
@@ -110,6 +124,27 @@ public class Meld {
 
 	public String getType(){
 		return this.type;
+	}
+
+	public Tile removeFirstTile(){
+		return meld.remove(0);
+	}
+
+	public Tile removeLastTile(){
+		return meld.remove(meld.size()-1);
+	}
+
+	//Check if a meld contains a tile
+	public boolean containsTile(Tile t){
+
+		for(int i = 0; i < meld.size(); i++){
+			Tile curTile = meld.get(i);
+			if(t.getColor().equals(curTile.getColor()) && t.getNumber() == curTile.getNumber()){
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }
