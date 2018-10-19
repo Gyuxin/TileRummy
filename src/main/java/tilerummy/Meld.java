@@ -112,4 +112,12 @@ public class Meld {
 		return this.type;
 	}
 
+	public Tile removeFirstTile(){
+		return meld.remove(0);
+	}
+
+	public Tile removeLastTile(){
+		return meld.remove(meld.size()-1);
+	}
+
 }
