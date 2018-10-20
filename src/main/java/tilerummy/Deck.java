@@ -35,6 +35,10 @@ public class Deck {
 	public Tile drawTile() {
 		return tileDeck.remove(0);
 	}
+
+	public void addTile(Tile t){
+		tileDeck.add(t);
+	}
 	
 }
 	
