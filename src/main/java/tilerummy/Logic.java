@@ -2,15 +2,14 @@ package tilerummy;
 
 public class Logic {
 
-    public void addOneTile(Tile t, Table table){
+    public static void addOneTile(Tile t, Table table){
 
         for(int i = 0; i < table.getSize(); i++){
 
             Meld currentMeld = table.getMeld(i);
-            String type = currentMeld.getType();
 
             //If current meld is a set
-            if(type.indexOf('S') == 0){
+            if(currentMeld.isSet()){
                 if(!currentMeld.containsTile(t)){
                     currentMeld.addTileAtLast(t);
                 }

@@ -7,6 +7,7 @@ import java.util.*;
 public class TileRummy {
 
     public static Deck deck = new Deck();
+    public static Table table = new Table();
 
     public static boolean fileIn = false;
     public static ArrayList<String> playerCommand = new ArrayList<String>();

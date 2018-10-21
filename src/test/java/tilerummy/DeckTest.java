@@ -9,6 +9,7 @@ public class DeckTest extends TestCase {
         //check there are 104 tiles in the deck
 
         Deck deck = new Deck();
+        deck.buildDeck();
 
         assertEquals(104, deck.getDeckSize());
 

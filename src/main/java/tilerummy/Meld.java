@@ -7,12 +7,16 @@ import java.util.Set;
 public class Meld {
 	
 	private ArrayList<Tile> meld;
-	private String type;
 	
 	public Meld() {
 		
 		meld = new ArrayList<Tile>();
-		type = setType();
+		
+	}
+
+	public Meld(ArrayList<Tile> m){
+
+		meld = m;
 		
 	}
 
@@ -110,20 +114,6 @@ public class Meld {
 			meld.get(i).printTile();
 		}
 		System.out.print("}");
-	}
-	
-	public String setType() {
-
-		if(isSet()){
-			return "S";
-		} else {
-			return "R";
-		} 
-
-	}
-
-	public String getType(){
-		return this.type;
 	}
 
 	public Tile removeFirstTile(){
