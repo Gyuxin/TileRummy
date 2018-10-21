@@ -25,6 +25,13 @@ public class Table {
 			table.get(i).printMeld();
 		}
 	}
+
+	public boolean isEmpty(){
+		if(table.size() == 0){
+			return true;
+		}
+		return false;
+	}
 	
 	public void addMeld(Meld meld) {
 		table.add(meld);
