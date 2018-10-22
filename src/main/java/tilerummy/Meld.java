@@ -137,4 +137,15 @@ public class Meld {
 		return false;
 	}
 
+	public Tile get(int j) {
+		return this.get(j);
+	}
+	
+
+	public void slice(int s, int e) {	
+		Meld temp = new Meld();
+		temp.meld.addAll(this.meld.subList(s, e));
+		this.meld = temp.meld;
+	}
+
 }
