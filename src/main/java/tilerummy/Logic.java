@@ -23,11 +23,33 @@ public class Logic {
                 if(t.getNumber()-1 == currentMeld.getLastTile().getNumber()){
                     currentMeld.addTileAtLast(t);
                 } 
+                
+                //add a tile to the middle of a run
+                /* e.x O5 -> {O3, O4, O5, O6, O7}
+                 *  newmeld = {O3, O4}
+                 *  oldmeld = {O5, O6, O7}
+                 *  O5 -> newmeld
+                 *  oldmeld = {O3, O4, O5}
+                 * */
+                if(currentMeld.getMeldSize()>=5) {
+            		for(int j = 2; i < currentMeld.getMeldSize()-2; j++){
+            			Tile tempTile = currentMeld.get(j);
+            			if(t.getColor().equals(tempTile.getColor()) && t.getNumber() == tempTile.getNumber()){
+            				Meld newMeld = currentMeld;
+            				newMeld.slice(0, j);	// create a new meld to store the first half of the meld
+            				currentMeld.slice(j, currentMeld.getMeldSize()); 	// the old meld becoming the last half of the meld 
+            				newMeld.addTileAtLast(t);  		//add the tile to newmeld
+            				table.addMeld(newMeld);
+            			}
+            		}
+                }
+                
             }
         }
 
         table.removeEmptyMeld();
 
     }
+    
 
 }
