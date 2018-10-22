@@ -1,4 +1,4 @@
-package rummy;
+package tilerummy;
 
 import junit.framework.TestCase;
 
