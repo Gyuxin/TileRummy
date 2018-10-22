@@ -39,7 +39,7 @@ public class ComputerTest extends TestCase {
 	    	  c1.getMyHandTile().get(i).printTile();
 	      }
 	      c1.hasRun();  
-	      System.out.print(c1.initialFirstMield(t,10,10,10));
+	     // System.out.print(c1.initialFirstMield(t,10,10,10));
 	      System.out.println("begin");
 //	      assertEquals(9, p.getNumberOfHandTile());
 	      for(int i = 0; i< c1.getMyMeld().size();i++) {
