@@ -146,6 +146,9 @@ public class Player {
  
  
  public boolean hasMeld() {
+	 myMeld.clear();
+	 myRunMeld.clear();
+	 mySetMeld.clear();
 	  this.hasRun();
 	  this.hasSet();
 
@@ -163,15 +166,16 @@ public class Player {
 			 duplicateTile.add(myHandTile.get(i));
 		 }
 	 }
-
 		 for(int a=0;a<tempRun.size();a++) {
 			 for(int b=0;b<tempRun.get(a).size();b++){
+
 				 for(int c=0;c<tempSet.size();c++) {
 					 for(int d=0;d<tempSet.get(c).size();d++){
+						 
 						 if(tempRun.get(a).get(b).compareTile(tempSet.get(c).get(d))) {
 							 System.out.print("here");
-							 if(!duplicateTile.contains(myRunMeld.get(a).get(b))) {
-								 getLargerMeld(a,c);
+							 if(!duplicateTile.contains(tempRun.get(a).get(b))) {
+								 getLargerMeld(tempRun.get(a),tempSet.get(c));
 							 }
 						 }
 					 }
@@ -183,19 +187,19 @@ public class Player {
 	 myMeld.addAll(myRunMeld);
  }
  
- public void getLargerMeld(int a, int c) {
+ public void getLargerMeld(ArrayList<Tile> r, ArrayList<Tile> s) {
 	 int countRunVlu = 0;
 	 int countSetVlu = 0;
-	 for(int i=0; i<this.myRunMeld.get(a).size(); i++) {
-		 countRunVlu+=this.myRunMeld.get(a).get(i).getNumber();
+	 for(int i=0; i<r.size(); i++) {
+		 countRunVlu+=r.get(i).getNumber();
 	 }
-	 for(int i=0; i<this.mySetMeld.get(c).size(); i++) {
-		 countSetVlu+=this.mySetMeld.get(c).get(i).getNumber();
+	 for(int i=0; i<s.size(); i++) {
+		 countSetVlu+=s.get(i).getNumber();
 	 }
 	 if(countRunVlu>countSetVlu) {
-		 mySetMeld.remove(this.mySetMeld.get(c));
+		 mySetMeld.remove(s);
 	 } else {
-		 myRunMeld.remove(this.myRunMeld.get(a));
+		 myRunMeld.remove(r);
 	 }
  }
  
