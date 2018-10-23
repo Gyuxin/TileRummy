@@ -13,7 +13,7 @@ public class Player {
  private ArrayList<ArrayList<Tile>> mySetMeld = new ArrayList<ArrayList<Tile>>();
  private boolean hasSet = false;
  private boolean hasRun = false;
- public boolean initialedFirstMield = false;
+ public boolean initialedFirstMeld = false;
  
  public Player() {
   
@@ -149,6 +149,8 @@ public class Player {
 	 myMeld.clear();
 	 myRunMeld.clear();
 	 mySetMeld.clear();
+	 hasRun = false;
+	 hasSet = false;
 	  this.hasRun();
 	  this.hasSet();
 

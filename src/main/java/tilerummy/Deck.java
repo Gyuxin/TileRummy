@@ -33,6 +33,10 @@ public class Deck {
 	}
 	
 	public Tile drawTile() {
+		if(tileDeck.size()==0) {
+			System.out.println("没牌啦");
+			System.exit(0);
+		}
 		return tileDeck.remove(0);
 	}
 
