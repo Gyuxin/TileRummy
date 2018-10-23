@@ -138,7 +138,7 @@ public class Meld {
 	}
 
 	public Tile get(int j) {
-		return this.get(j);
+		return meld.get(j);
 	}
 	
 
