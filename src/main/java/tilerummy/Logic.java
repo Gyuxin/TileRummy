@@ -10,19 +10,19 @@ public class Logic {
 
             //If current meld is a set
             if(currentMeld.isSet()){
-                if(!currentMeld.containsTile(t)){
+                if(!currentMeld.containsTile(t) && currentMeld.sameNumber(t)){
                     currentMeld.addTileAtLast(t);
                     return true;
                 }
             } else {
                 //If tile's number is one less than first tile's number in current meld
-                if(t.getNumber()+1 == currentMeld.getFirstTile().getNumber()){
+                if(t.getNumber()+1 == currentMeld.getFirstTile().getNumber() && currentMeld.sameColor(t)){
                     currentMeld.addTileAtFirst(t);
                     return true;
                 } 
 
                 //If tile's number is one bigger than last tile's number in current meld
-                if(t.getNumber()-1 == currentMeld.getLastTile().getNumber()){
+                else if(t.getNumber()-1 == currentMeld.getLastTile().getNumber() && currentMeld.sameColor(t)){
                     currentMeld.addTileAtLast(t);
                     return true;
                 } 
@@ -34,8 +34,10 @@ public class Logic {
                  *  O5 -> newmeld
                  *  oldmeld = {O3, O4, O5}
                  * */
-                if(currentMeld.getMeldSize()>=5) {
-            		for(int j = 2; i < currentMeld.getMeldSize()-2; j++){
+   
+                
+                else if(currentMeld.getMeldSize()>=5) {
+            		for(int j = 2; j < currentMeld.getMeldSize()-2; j++){
             			Tile tempTile = currentMeld.get(j);
             			if(t.getColor().equals(tempTile.getColor()) && t.getNumber() == tempTile.getNumber()){
             				Meld newMeld = currentMeld;
@@ -46,7 +48,9 @@ public class Logic {
             				return true;
             			}
             		}
-                }
+                } 
+                
+                else return false;
                 
             }
         }
