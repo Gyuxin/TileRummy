@@ -32,13 +32,13 @@ public class Logic {
                  *  oldmeld = {O3, O4, O5}
                  * */
                 if(currentMeld.getMeldSize()>=5) {
-            		for(int j = 2; i < currentMeld.getMeldSize()-2; j++){
+            		for(int j = 2; j < currentMeld.getMeldSize()-2; j++){
             			Tile tempTile = currentMeld.get(j);
             			if(t.getColor().equals(tempTile.getColor()) && t.getNumber() == tempTile.getNumber()){
             				Meld newMeld = currentMeld;
             				newMeld.slice(0, j);	// create a new meld to store the first half of the meld
             				currentMeld.slice(j, currentMeld.getMeldSize()); 	// the old meld becoming the last half of the meld 
-            				newMeld.addTileAtLast(t);  		//add the tile to newmeld
+            				newMeld.addTileAtLast(t);  		//add the tile to the newmeld
             				table.addMeld(newMeld);
             			}
             		}
