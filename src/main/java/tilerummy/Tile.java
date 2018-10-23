@@ -21,6 +21,12 @@ public class Tile {
 		this.justMoved = false;
 	}
 	
+	public boolean compareTile(Tile t1) {
+
+		if(this.color.equals(t1.color)&&this.number==t1.number) return true;
+		return false;
+	}
+	
 	public void printTile() {
 		System.out.print(this.color + this.number + " ");
 	}
