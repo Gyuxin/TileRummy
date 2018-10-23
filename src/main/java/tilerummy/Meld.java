@@ -136,6 +136,26 @@ public class Meld {
 
 		return false;
 	}
+	
+	public boolean sameNumber(Tile t) {
+		for(int i = 0; i < meld.size(); i++){
+			Tile curTile = meld.get(i);
+			if(t.getNumber() == curTile.getNumber()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean sameColor(Tile t) {
+		for(int i = 0; i < meld.size(); i++){
+			Tile curTile = meld.get(i);
+			if(t.getColor().equals(curTile.getColor())){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public Tile get(int j) {
 		return meld.get(j);
