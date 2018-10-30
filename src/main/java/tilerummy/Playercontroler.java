@@ -2,6 +2,7 @@ package tilerummy;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.List;
 
 public class Playercontroler extends Player{
 	
@@ -10,7 +11,7 @@ public class Playercontroler extends Player{
 	private String[] dealcard;
 	
 	private ArrayList<String> dealcard1 = new ArrayList <String>();
-
+	
 	private Scanner scanner;
 
 	private Scanner temp;
@@ -74,42 +75,70 @@ public class Playercontroler extends Player{
 		  }
 	  }
 	
-	  public void dealcard() {
-		
-		
-		System.out.println("do you want to deal new Meld or add a tile ?(M/T)");
-		  scanner = new Scanner(System.in);
-		  String temp = scanner.next();
-		  if (temp.equalsIgnoreCase("M")) {
-				
-				
-		  }
-
-	}
+		public void dealcard() {
+			
+			
+			System.out.println("do you want to deal new Meld or add a tile ?(M/T)");
+			  scanner = new Scanner(System.in);
+			  String temp = scanner.next();
+			  if (temp.equalsIgnoreCase("M")) {
+					dealmeld();
+			  }
+			  if (temp.equalsIgnoreCase("T")) {
+					dealtile();
+			  }else {
+				  return;
+			  }
+			  
+	
+		}
 	  
 	
-	public void dealmeld() {
-		System.out.println("please enter thr meld:");
-		temp = new Scanner(System.in);
-		dealcard = temp.nextLine().split("\\s+");
-		
-		for(int i=0; i< myHandTile.size() ; i++) {
+		public void dealmeld() {
+			System.out.println("please enter thr meld:");
+			temp = new Scanner(System.in);
+			dealcard = temp.nextLine().split("\\s+");
 			
-			for(int j=0; j<dealcard.length;j++) {
+			for(int i=0; i< myHandTile.size() ; i++) {
 				
-				if (dealcard[j] == myHandTile.get(i)) {
+				for(int j=0; j<dealcard.length;j++) {
 					
-					dealcard1.add(dealcard[j]);
-					myHandTile.remove(i);
+					if (dealcard[j] == myHandTile.get(i)) {
+						
+						dealcard1.add(dealcard[j]);
+						myHandTile.remove(i);
+					}
 				}
 			}
+			Table.addMeld(dealcard1);
 		}
-		t.addMeld(dealcard1);
-	}
 	
-	public void dealtile() {
+		public void dealtile() {
+			System.out.println("please choose the meld you want to deal:");
+			 scanner = new Scanner(System.in);
+			 String temp = scanner.next();
+			 Meld.getMeld(temp);
+			 
+			System.out.println("do you want to deal in front or end (F/E)");
+			scanner = new Scanner(System.in);
+			String temp1 = scanner.next();
+			
+			if (temp.equalsIgnoreCase("F")) {
+				dealhelpfront();
+			}
+			
+			if (temp.equalsIgnoreCase("E")) {
+				dealhelpend();
+		  	}
+		}
+	
+		public void dealhelpfront() {
+			
+		}
 		
-	}
+		public void dealhelpend() {
+			
+		}
 	
 }
 
