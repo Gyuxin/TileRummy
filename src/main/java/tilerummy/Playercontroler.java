@@ -65,13 +65,12 @@ public class Playercontroler extends Player{
 	  }
 	  
 	  public void dealornotdeal() {
+		  
 		  System.out.println("do you want to deal the cards?(Y/N)");
 		  scanner = new Scanner(System.in);
 		  String temp = scanner.next();
 		  if (temp.equalsIgnoreCase("Y")) {
 			  dealcard();
-		  }else {
-			  return;
 		  }
 	  }
 	
