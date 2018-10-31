@@ -6,11 +6,13 @@ import java.util.List;
 
 public class Playercontroler extends Player{
 	
-	private ArrayList<String> myHandTile = new ArrayList <String>();
+	private ArrayList<Tile> myHandTile = new ArrayList <Tile>();
 	
-	private String[] dealcard;
+	private ArrayList<Tile> dealcard = new ArrayList <Tile>();
 	
-	private ArrayList<String> dealcard1 = new ArrayList <String>();
+	private ArrayList<Tile> dealcard1 = new ArrayList <Tile>();
+	
+	private Meld dealcard2 = new Meld();
 	
 	private Scanner scanner;
 
@@ -97,66 +99,67 @@ public class Playercontroler extends Player{
 		public void dealmeld() {
 			System.out.println("please enter thr meld:");
 			temp = new Scanner(System.in);
-			dealcard = temp.nextLine().split("\\s+");
+			String s = temp.nextLine();
+			int i = temp.nextInt();			
+			dealcard.add(Tile(s,i));
 			
-			for(int i=0; i< myHandTile.size() ; i++) {
+			for(int i1=0; i1< myHandTile.size() ; i1++) {
 				
-				for(int j=0; j<dealcard.length;j++) {
+				for(int j=0; j<dealcard.size();j++) {
 					
-					if (dealcard[j] == myHandTile.get(i)) {
+					if (dealcard.get(j) == myHandTile.get(i1)) {
 						
-						dealcard1.add(dealcard[j]);
-						myHandTile.remove(i);
+						dealcard1.add(dealcard.get(i));
+						myHandTile.remove(i1);
 					}
 				}
 			}
-			new Table().addMeld(Meld dealcard1);
+			t = new Table();
+			Meld M = new Meld(dealcard1);
+			t.addMeld(M);
 		}
 	
+		private Tile Tile(String s, int i) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
 		public void dealtile() {
 			System.out.println("please choose the meld you want to deal:");
 			 scanner = new Scanner(System.in);
 			 String temp = scanner.next();
 			 int X = Integer.parseInt(temp);
-			 new Table().getMeld(X);
+			 dealcard2 = t.getMeld(X);
 			 
 			System.out.println("do you want to deal in front or end (F/E)");
 			scanner = new Scanner(System.in);
 			String temp1 = scanner.next();
 			
 			if (temp1.equalsIgnoreCase("F")) {
-				dealhelpfront();
+				System.out.println("input the card you want yo deal");
+				scanner = new Scanner(System.in);
+				temp1 = scanner.next();
+				String x = scanner.next();
+				int y = scanner.nextInt();
+				Tile p = new Tile(x,y);
+				dealcard2.addTileAtFirst(p);
+				super.dealTile(p);
 			}
 			
 			if (temp1.equalsIgnoreCase("E")) {
-				dealhelpend();
+				System.out.println("input the card you want yo deal");
+				scanner = new Scanner(System.in);
+				temp1 = scanner.next();
+				String x = scanner.next();
+				int y = scanner.nextInt();
+				Tile p = new Tile(x,y);
+				dealcard2.addTileAtLast(p);
+				super.dealTile(p);
 		  	}
 		}
 	
-		public void dealhelpfront() {
-			System.out.println("please input the card you want to deal");
-			scanner = new Scanner(System.in);
-			String temp = scanner.next();
-			for(int i=0; i< myHandTile.size() ; i++) {
-				if (temp == myHandTile.get(i)) {
-					new Meld().addTileAtFirst(temp,X);
-					myHandTile.remove(i);
-				}
-			}
-			
-		}
+
 		
-		public void dealhelpend() {
-			System.out.println("please input the card you want to deal");
-			scanner = new Scanner(System.in);
-			String temp = scanner.next();
-			for(int i=0; i< myHandTile.size() ; i++) {
-				if (temp == myHandTile.get(i)) {
-					new Meld().addTileAtLast(temp,X);
-					myHandTile.remove(i);
-				}
-			}
-			
-		}
+
 	
 }
