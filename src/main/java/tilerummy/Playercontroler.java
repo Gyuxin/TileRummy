@@ -80,7 +80,7 @@ public class Playercontroler extends Player{
 		public void dealcard() {
 			
 			
-			System.out.println("do you want to deal new Meld or add a tile ?(M/T)");
+			System.out.println("do you want to deal new Meld or add a tile or edit existing table?(M/T/E)");
 			  scanner = new Scanner(System.in);
 			  String temp = scanner.next();
 			  if (temp.equalsIgnoreCase("M")) {
@@ -88,6 +88,8 @@ public class Playercontroler extends Player{
 			  }
 			  if (temp.equalsIgnoreCase("T")) {
 					dealtile();
+			  }if (temp.equalsIgnoreCase("E")) {
+					edittable();
 			  }else {
 				  return;
 			  }
@@ -156,6 +158,10 @@ public class Playercontroler extends Player{
 				dealcard2.addTileAtLast(p);
 				super.dealTile(p);
 		  	}
+		}
+		
+		public void edittable() {
+			
 		}
 	
 
