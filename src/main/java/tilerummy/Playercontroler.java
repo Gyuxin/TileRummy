@@ -2,7 +2,6 @@ package tilerummy;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.List;
 
 public class Playercontroler extends Player{
 	
@@ -13,6 +12,8 @@ public class Playercontroler extends Player{
 	private ArrayList<Tile> dealcard1 = new ArrayList <Tile>();
 	
 	private Meld dealcard2 = new Meld();
+	
+	private Meld dealcard3 = new Meld();
 	
 	private Scanner scanner;
 
@@ -128,10 +129,10 @@ public class Playercontroler extends Player{
 
 		public void dealtile() {
 			System.out.println("please choose the meld you want to deal:");
-			 scanner = new Scanner(System.in);
-			 String temp = scanner.next();
-			 int X = Integer.parseInt(temp);
-			 dealcard2 = t.getMeld(X);
+			scanner = new Scanner(System.in);
+			String temp = scanner.next();
+			int X = Integer.parseInt(temp);
+			dealcard2 = t.getMeld(X);
 			 
 			System.out.println("do you want to deal in front or end (F/E)");
 			scanner = new Scanner(System.in);
@@ -160,9 +161,84 @@ public class Playercontroler extends Player{
 		  	}
 		}
 		
-		public void edittable() {
-			
-		}
+			public void edittable() {
+				System.out.println("please choose the meld you want to edite:");
+				 scanner = new Scanner(System.in);
+				 String temp = scanner.next();
+				 int X = Integer.parseInt(temp);
+				 dealcard2 = t.getMeld(X);
+				 dealcard3 = t.getMeld(X);
+				 
+				 System.out.println("please choose card N to card M to slice:");
+				 scanner = new Scanner(System.in);
+				 String temp1 = scanner.next();
+				 String temp2 = scanner.next();
+				 int s = Integer.parseInt(temp1);
+				 int e = Integer.parseInt(temp2);
+				 int count = dealcard2.getMeldSize();
+				 dealcard2.slice(s,e);
+				 dealcard3.slice(e,count);
+				 
+				 System.out.println("do you want to deal first meld in front or end or not deal(F/E/N)");
+					scanner = new Scanner(System.in);
+					String temp3 = scanner.next();
+					if (temp3.equalsIgnoreCase("N")) {
+						dealsecondmeld();
+					}
+					if (temp3.equalsIgnoreCase("F")) {
+						System.out.println("input the card you want yo deal");
+						scanner = new Scanner(System.in);
+						temp3 = scanner.next();
+						String x = scanner.next();
+						int y = scanner.nextInt();
+						Tile p = new Tile(x,y);
+						dealcard2.addTileAtFirst(p);
+						super.dealTile(p);
+					}
+					
+					if (temp3.equalsIgnoreCase("E")) {
+						System.out.println("input the card you want yo deal");
+						scanner = new Scanner(System.in);
+						temp3 = scanner.next();
+						String x = scanner.next();
+						int y = scanner.nextInt();
+						Tile p = new Tile(x,y);
+						dealcard2.addTileAtLast(p);
+						super.dealTile(p);
+				  	}
+				 
+				 
+				 
+			}
+			public void dealsecondmeld() {
+				System.out.println("do you want to deal second meld in front or end or not deal(F/E/N)");
+				scanner = new Scanner(System.in);
+				String temp3 = scanner.next();
+				if (temp3.equalsIgnoreCase("N")) {
+					return;
+				}
+				if (temp3.equalsIgnoreCase("F")) {
+					System.out.println("input the card you want yo deal");
+					scanner = new Scanner(System.in);
+					temp3 = scanner.next();
+					String x = scanner.next();
+					int y = scanner.nextInt();
+					Tile p = new Tile(x,y);
+					dealcard3.addTileAtFirst(p);
+					super.dealTile(p);
+				}
+				
+				if (temp3.equalsIgnoreCase("E")) {
+					System.out.println("input the card you want yo deal");
+					scanner = new Scanner(System.in);
+					temp3 = scanner.next();
+					String x = scanner.next();
+					int y = scanner.nextInt();
+					Tile p = new Tile(x,y);
+					dealcard3.addTileAtLast(p);
+					super.dealTile(p);
+			  	}
+			}
 	
 
 		
