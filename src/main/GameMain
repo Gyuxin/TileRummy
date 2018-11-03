@@ -1,9 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
 public class GameMain {
 	public static void main(String[] args)
 	{
@@ -11,57 +8,60 @@ public class GameMain {
 		Scanner in = new Scanner(System.in);
 		String name = in.next();
 		System.out.println(name + " Welcome to Runnikub");
-
+		
 		//initial three computer players
-		Computer computer1 = new Computer("stratergy1");
-		Computer computer2 = new Computer("stratergy2");
-		Computer computer3 = new Computer("stratergy3");
-
+		Computer1 computer1 = new Computer1();
+		Computer2 computer2 = new Computer2();
+		Computer3 computer3 = new Computer3();
+		
 		//initial the player(need to be changed after the real player has been initialed)!!!!!!!!!!!!!!!!!!!!
-		Player gamePlayer = new Player();
-
+		Playercontroler gamePlayer = new Playercontroler();
+		
 		//initial deck on the table
 		Deck gameDeck = new Deck();
 		gameDeck.buildDeck();
-
-		//initial table
+		
+		//initial table 
 		Table gameTable = new Table();
-
-
+		
+		
 		//each player initial 14 titles from deck
 		computer1.initialHandTile(gameDeck);
 		computer2.initialHandTile(gameDeck);
 		computer3.initialHandTile(gameDeck);
 		gamePlayer.initialHandTile(gameDeck);
-
+		
 		boolean gameIsNotEnd = true;
-
-
+		
+		
 		while(gameIsNotEnd)
 		{
-			//player class need more
+			//player class need more 
 			//player class need an attribute for check if the player has been initial the first mield which grearter than 30
 			computer1.sort();
 			computer2.sort();
 			computer3.sort();
             System.out.println("\n");
-			System.out.println("computer1 hand tiles:" + computer1.toString());
+			System.out.println("computer1 hand tiles:" + computer1.toString());	
 			System.out.println("computer2 hand tiles:" + computer2.toString());
 			System.out.println("computer3 hand tiles:" + computer3.toString());
 			System.out.println("\n");
 			//player1 round
 			System.out.println("Computer 1 round");
-			computerTurn(computer1,  gameTable,  gameDeck,  computer2.getNumberOfHandTile(),  computer3.getNumberOfHandTile(),  gamePlayer.getNumberOfHandTile());
+			computer1.printHandTile();
+			computer1.computerTurn(computer1, gameTable, gameDeck, computer2.getNumberOfHandTile(), computer3.getNumberOfHandTile(), gamePlayer.getNumberOfHandTile());
 			//player2 round
 			System.out.println("\n");
 			System.out.println("Computer 2 round");
-			computerTurn(computer2,  gameTable,  gameDeck,  computer1.getNumberOfHandTile(),  computer3.getNumberOfHandTile(),  gamePlayer.getNumberOfHandTile());
+			computer2.printHandTile();
+			computer2.computerTurn(computer2, gameTable, gameDeck, computer1.getNumberOfHandTile(), computer3.getNumberOfHandTile(), gamePlayer.getNumberOfHandTile());
 			//player3 round
 			System.out.println("\n");
 			System.out.println("Computer 3 round");
-			computerTurn(computer3,  gameTable,  gameDeck,  computer1.getNumberOfHandTile(),  computer2.getNumberOfHandTile(),  gamePlayer.getNumberOfHandTile());
+			computer3.printHandTile();
+			computer3.computerTurn(computer3, gameTable, gameDeck, computer1.getNumberOfHandTile(), computer2.getNumberOfHandTile(), gamePlayer.getNumberOfHandTile());
 
-
+			
 			//check if game is end
 			if(computer1.getNumberOfHandTile()==0)
 			{
@@ -75,13 +75,13 @@ public class GameMain {
 			{
 				gameIsNotEnd = true;
 			}
-			else if(gamePlayer.getNumberOfHandTile()==0)
+			else if(gamePlayer.getNumberOfHandTile()==0) 
 			{
 				gameIsNotEnd = true;
-			}
-
-			System.out.println("do you want to continue");
-			String answer = in.nextLine();
+			}	
+			
+			System.out.println("\ndo you want to continue");
+			String answer = in.nextLine();	
 			if(answer == "y")
 			{
 				gameIsNotEnd = true;
@@ -89,23 +89,24 @@ public class GameMain {
 		}
 		System.out.println("Game end");
 	}
-
-	public static void computerTurn(Computer thisComputer, Table gameTable, Deck gameDeck, int computer1, int computer2, int gamePlayer)
+	//not finish
+	public void playerTurn(Playercontroler gamePlayer, Table gameTable, Deck gameDeck)
 	{
-		if(!thisComputer.initialedFirstMeld)
+		System.out.println("player's turn");
+		if(!gamePlayer.firstMeldInitialCheck())
 		{
-			System.out.println("Player has not initialed his first meld");
-			thisComputer.initialFirstMeld(gameTable, gameDeck);
-			if(!thisComputer.initialedFirstMeld)
-			{
-				System.out.println("Nothing has been changed on the table");
-			}
+			System.out.println("player has not initial the first meld");
+			gamePlayer.dealmeld();
 		}
 		else
 		{
-			thisComputer.playing(gameTable, gameDeck,  computer1, computer2, gamePlayer);
+			gamePlayer.dealornotdeal();
 		}
+		
+			
 	}
+	
 
+	
 
 }
