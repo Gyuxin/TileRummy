@@ -1,3 +1,5 @@
+package tilerummy;
+
 import java.util.ArrayList;
 public class Computer2 extends Player{
 	public Computer2()
