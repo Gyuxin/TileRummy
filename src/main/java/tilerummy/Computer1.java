@@ -17,12 +17,12 @@ public class Computer1 extends Player{
 	  {
 		  super.sortRankFirst();
 	  }
-
+	  
 	  public int getNumberOfHandTile()
 	  {
 	    return super.getNumberOfHandTile();
 	  }
-
+	  
 	  public void initialHandTitle(Deck d)
 	  {
 	    super.initialHandTile(d);
@@ -31,14 +31,14 @@ public class Computer1 extends Player{
 	  {
 	    return super.drawATile(t);
 	  }
-
+	  
 
 	  public String toString()
 	  {
 	    return super.toString();
 	  }
 
-
+	  
 	  public void hasSet()
 	  {
 		  super.hasSet();
@@ -87,7 +87,7 @@ public class Computer1 extends Player{
 				  else if(total<30)
 				  {
 					  meldSums[index] = total;
-					  index++;
+					  index++;	  
 				  }
 			   }
 			   if(handOutTiles.size() == 0)
@@ -99,7 +99,7 @@ public class Computer1 extends Player{
 					  {
 						  handOutTiles = this.getMyMeld();
 					  }
-				  }
+				  }  
 			   }
 		   }
 		  if(handOutTiles.size()==0)
@@ -111,7 +111,7 @@ public class Computer1 extends Player{
 			  this.drawATile(newTile);
 			  System.out.println("computer1 get:" );
 			  newTile.printTile();
-
+			  
 		  }
 		  else if(!handOutTiles.isEmpty())
 		  {
@@ -124,8 +124,8 @@ public class Computer1 extends Player{
 				  {
 					  handOutTiles.get(x).get(y).printTile();
 					  this.dealTile(handOutTiles.get(x).get(y));
-
-				  }
+				  		
+				  }  
 			  }
 			  //initial player has already initial his or her first meld
 			  this.initialedFirstMeld = true;
@@ -159,7 +159,7 @@ public class Computer1 extends Player{
 				  newMeld.printMeld();
 				  t.addMeld(newMeld);
 			  }
-
+			 
 			  System.out.println("computer 1 deal tiles are: ");
 			  //remove from the hand
 			  for(int x = 0; x<handOutTiles.size();x++)
@@ -167,12 +167,12 @@ public class Computer1 extends Player{
 				  for(int y =0 ; y<handOutTiles.get(x).size(); y++)
 				  {
 					  handOutTiles.get(x).get(y).printTile();
-					  this.dealTile(handOutTiles.get(x).get(y));
-				  }
+					  this.dealTile(handOutTiles.get(x).get(y));  		
+				  }  
 			  }
 			  System.out.println("\nThe situation on the table is: ");
 			  t.printTable();
-
+			  
 			  //check if computer still have tile can be deal on the table according to the situation on the table
 			  ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
 			  for(int j = 0; j<temp.size();j++)
@@ -186,7 +186,7 @@ public class Computer1 extends Player{
 					  this.getMyHandTile().remove(temp.get(j));
 				  }
 			   }
-
+			  
 			   //print out the table
 			   System.out.println("\nsituation on the table");
 			   t.printTable();
@@ -214,16 +214,16 @@ public class Computer1 extends Player{
 				 System.out.println("\ncomputer 1 get :");
 				 newTile.printTile();
 				 System.out.println("\nNothing changed on the table");
-
+				 
 			 }
 			 else if(!computer1NoChanged)
 			 {
 				 System.out.println("\nsituation on the table");
 				 t.printTable();
 			 }
-		  }
+		  }  
 	  }
-
+	  
 	  public static void computerTurn(Computer1 thisComputer, Table gameTable, Deck gameDeck, int computer1, int computer2, int gamePlayer)
 		{
 			if(!thisComputer.initialedFirstMeld)
