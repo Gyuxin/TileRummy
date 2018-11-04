@@ -22,7 +22,14 @@ public class Tile {
 	}
 	
 	public void printTile() {
-		System.out.print(this.color + this.number + " ");
+		if(this.justMoved == true){
+			System.out.print("!" + this.color + this.number + " ");
+		} else if(this.justPlayed == true){
+			System.out.print("*" + this.color + this.number + " ");
+		} else {
+			System.out.print(this.color + this.number + " ");
+		}
+		
 	}
 	
 	public String getColor() {
