@@ -2,9 +2,12 @@ package tilerummy;
 
 import java.util.ArrayList;
 public class Computer2 extends Player{
-	public Computer2()
+	
+	private ObservableValue ov = null;
+	public Computer2(ObservableValue ov)
 	{
 		super();
+		this.ov = ov;
 	}
 	public boolean firstMeldInitialCheck()
 	  {
@@ -26,12 +29,21 @@ public class Computer2 extends Player{
 	  
 	  public void initialHandTitle(Deck d)
 	  {
+		this.ov.setValue(this.getNumberOfHandTile());
 	    super.initialHandTile(d);
 	  }
 	  public Tile drawATile(Tile t)
 	  {
-	    return super.drawATile(t);
+		Tile temp = super.drawATile(t);
+		this.ov.setValue(this.getNumberOfHandTile());
+	    return temp;
 	  }
+	  
+	  public Tile dealTile(Tile t){
+		  Tile temp = super.dealTile(t);
+		  this.ov.setValue(this.getNumberOfHandTile());
+		  return temp;
+		 }
 	  
 
 	  public String toString()
@@ -161,7 +173,7 @@ public class Computer2 extends Player{
 			  t.printTable();
 		  }
 	  }
-	  public void playing(Table t, Deck d, int player1HandCardNumber, int player2HandCardNumber, int player3HandCardNumber)
+	  public void playing(Table t, Deck d)
 	  {
 		  boolean computer2MeldChanged = false;
 		  boolean computer2NoChanged = true;
@@ -175,6 +187,7 @@ public class Computer2 extends Player{
 					 System.out.println("\ncomputer 2 deal tile: ");
 					 temp.get(j).printTile();
 					 this.getMyHandTile().remove(temp.get(j));
+					 this.ov.setValue(this.getNumberOfHandTile());
 					 computer2NoChanged = false;
 				 }
 			 }
@@ -192,7 +205,7 @@ public class Computer2 extends Player{
 				 t.printTable();
 			 }
 	  }
-	  public static void computerTurn(Computer2 thisComputer, Table gameTable, Deck gameDeck, int computer1, int computer2, int gamePlayer)
+	  public static void computerTurn(Computer2 thisComputer, Table gameTable, Deck gameDeck)
 		{
 			if(!thisComputer.initialedFirstMeld)
 			{
@@ -205,7 +218,7 @@ public class Computer2 extends Player{
 			}
 			else
 			{
-				thisComputer.playing(gameTable, gameDeck,  computer1, computer2, gamePlayer);
+				thisComputer.playing(gameTable, gameDeck);
 			}
 		}
 	  

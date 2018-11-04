@@ -1,12 +1,28 @@
 package tilerummy;
 
 import java.util.ArrayList;
+import java.util.Observer;
+import java.util.Observable;
 
-public class Computer3 extends Player{
-	public Computer3()
+public class Computer3 extends Player implements Observer{
+	
+	private ObservableValue ov = null;
+	private boolean canPlay = false;
+	public Computer3(ObservableValue ov)
 	{
 		super();
+		this.ov = ov;
 	}
+
+	public void update(Observable obs, Object obj)
+	{
+		if(this.getNumberOfHandTile() - ov.getValue() >=3) {
+			canPlay = true;
+		} else {
+			canPlay = false;
+		}
+	}
+	
 	public boolean firstMeldInitialCheck()
 	  {
 		  return initialedFirstMeld;
@@ -158,12 +174,12 @@ public class Computer3 extends Player{
 			  t.printTable();
 		  }
 	  }
-	  public void playing(Table t, Deck d, int player1HandCardNumber, int player2HandCardNumber, int player3HandCardNumber)
+	  public void playing(Table t, Deck d)
 	  {
 		  ArrayList<ArrayList<Tile>> handOutTiles = new ArrayList<ArrayList<Tile>>();
 		  boolean computer3MeldChanged = false;
 		  boolean computer3NoChanged = true;
-		  if(this.getMyHandTile().size() - player1HandCardNumber >= 3 || this.getMyHandTile().size() - player2HandCardNumber >= 3 || this.getMyHandTile().size() - player3HandCardNumber >= 3)
+		  if(canPlay)
 		  {
 			  if(this.hasMeld())
 			  {
@@ -263,7 +279,7 @@ public class Computer3 extends Player{
 				 } 
 		  }
 	  }
-	  public static void computerTurn(Computer3 thisComputer, Table gameTable, Deck gameDeck, int computer1, int computer2, int gamePlayer)
+	  public static void computerTurn(Computer3 thisComputer, Table gameTable, Deck gameDeck)
 		{
 			if(!thisComputer.initialedFirstMeld)
 			{
@@ -276,7 +292,7 @@ public class Computer3 extends Player{
 			}
 			else
 			{
-				thisComputer.playing(gameTable, gameDeck,  computer1, computer2, gamePlayer);
+				thisComputer.playing(gameTable, gameDeck);
 			}
 		}
 }

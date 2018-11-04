@@ -3,9 +3,12 @@ package tilerummy;
 import java.util.ArrayList;
 
 public class Computer1 extends Player{
-	public Computer1()
+
+	private ObservableValue ov = null;
+	public Computer1(ObservableValue ov)
 	{
 		super();
+		this.ov = ov;
 	}
 	public boolean firstMeldInitialCheck()
 	  {
@@ -28,12 +31,20 @@ public class Computer1 extends Player{
 	  public void initialHandTitle(Deck d)
 	  {
 	    super.initialHandTile(d);
+	    this.ov.setValue(this.getNumberOfHandTile());
 	  }
 	  public Tile drawATile(Tile t)
 	  {
-	    return super.drawATile(t);
+		Tile temp = super.drawATile(t);
+		this.ov.setValue(this.getNumberOfHandTile());
+	    return temp;
 	  }
 	  
+	  public Tile dealTile(Tile t){
+		  Tile temp = super.dealTile(t);
+		  this.ov.setValue(this.getNumberOfHandTile());
+		  return temp;
+		 }
 
 	  public String toString()
 	  {
@@ -111,6 +122,7 @@ public class Computer1 extends Player{
 			  System.out.println("Computer1 draw a new tile");
 			  Tile newTile = d.drawTile();
 			  this.drawATile(newTile);
+			  
 			  System.out.println("computer1 get:" );
 			  newTile.printTile();
 			  
@@ -142,7 +154,7 @@ public class Computer1 extends Player{
 			  t.printTable();
 		  }
 	  }
-	  public void playing(Table t, Deck d, int player1HandCardNumber, int player2HandCardNumber, int player3HandCardNumber)
+	  public void playing(Table t, Deck d)
 	  {
 		  ArrayList<ArrayList<Tile>> handOutTiles = new ArrayList<ArrayList<Tile>>();
 		  boolean computer1MeldChanged = false;
@@ -186,6 +198,7 @@ public class Computer1 extends Player{
 					  temp.get(j).printTile();
 					  //remove from hand
 					  this.getMyHandTile().remove(temp.get(j));
+					  this.ov.setValue(this.getNumberOfHandTile());
 				  }
 			   }
 			  
@@ -205,6 +218,7 @@ public class Computer1 extends Player{
 					 temp.get(j).printTile();
 					 //remove from hand
 					 this.getMyHandTile().remove(temp.get(j));
+					 this.ov.setValue(this.getNumberOfHandTile());
 					 computer1NoChanged = false;
 				 }
 			 }
@@ -226,7 +240,7 @@ public class Computer1 extends Player{
 		  }  
 	  }
 	  
-	  public static void computerTurn(Computer1 thisComputer, Table gameTable, Deck gameDeck, int computer1, int computer2, int gamePlayer)
+	  public static void computerTurn(Computer1 thisComputer, Table gameTable, Deck gameDeck)
 		{
 			if(!thisComputer.initialedFirstMeld)
 			{
@@ -239,7 +253,7 @@ public class Computer1 extends Player{
 			}
 			else
 			{
-				thisComputer.playing(gameTable, gameDeck,  computer1, computer2, gamePlayer);
+				thisComputer.playing(gameTable, gameDeck);
 			}
 		}
 }

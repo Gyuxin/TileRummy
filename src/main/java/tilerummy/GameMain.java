@@ -1,5 +1,4 @@
 package tilerummy;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -12,9 +11,11 @@ public class GameMain {
 		System.out.println(name + " Welcome to Runnikub");
 		
 		//initial three computer players
-		Computer1 computer1 = new Computer1();
-		Computer2 computer2 = new Computer2();
-		Computer3 computer3 = new Computer3();
+		ObservableValue ov = new ObservableValue(0);
+		Computer1 computer1 = new Computer1(ov);
+		Computer2 computer2 = new Computer2(ov);
+		Computer3 computer3 = new Computer3(ov);
+		ov.addObserver(computer3);
 		
 		//initial the player(need to be changed after the real player has been initialed)!!!!!!!!!!!!!!!!!!!!
 		Playercontroler gamePlayer = new Playercontroler();
@@ -51,17 +52,17 @@ public class GameMain {
 			//player1 round
 			System.out.println("Computer 1 round");
 			computer1.printHandTile();
-			computer1.computerTurn(computer1, gameTable, gameDeck, computer2.getNumberOfHandTile(), computer3.getNumberOfHandTile(), gamePlayer.getNumberOfHandTile());
+			computer1.computerTurn(computer1, gameTable, gameDeck);
 			//player2 round
 			System.out.println("\n");
 			System.out.println("Computer 2 round");
 			computer2.printHandTile();
-			computer2.computerTurn(computer2, gameTable, gameDeck, computer1.getNumberOfHandTile(), computer3.getNumberOfHandTile(), gamePlayer.getNumberOfHandTile());
+			computer2.computerTurn(computer2, gameTable, gameDeck);
 			//player3 round
 			System.out.println("\n");
 			System.out.println("Computer 3 round");
 			computer3.printHandTile();
-			computer3.computerTurn(computer3, gameTable, gameDeck, computer1.getNumberOfHandTile(), computer2.getNumberOfHandTile(), gamePlayer.getNumberOfHandTile());
+			computer3.computerTurn(computer3, gameTable, gameDeck);
 
 			
 			//check if game is end
