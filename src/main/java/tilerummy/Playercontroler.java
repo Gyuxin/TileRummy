@@ -76,6 +76,10 @@ public class Playercontroler extends Player{
 		  if (temp.equalsIgnoreCase("Y")) {
 			  dealcard();
 		  }
+		  if (temp.equalsIgnoreCase("Y")) {
+			  tilerummy.Tile next = null;
+			  super.drawATile(next);
+		  }
 	  }
 	
 		public void dealcard() {
