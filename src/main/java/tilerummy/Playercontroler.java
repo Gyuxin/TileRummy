@@ -92,7 +92,8 @@ public class Playercontroler extends Player{
 			  }if (temp.equalsIgnoreCase("E")) {
 					edittable();
 			  }else {
-				  return;
+				  tilerummy.Tile next = null;
+				  super.drawATile(next);
 			  }
 			  
 	
@@ -147,6 +148,11 @@ public class Playercontroler extends Player{
 				Tile p = new Tile(x,y);
 				dealcard2.addTileAtFirst(p);
 				super.dealTile(p);
+				for(int i1=0; i1< myHandTile.size() ; i1++) {
+					if (p == myHandTile.get(i1)) {
+						myHandTile.remove(i1);
+					}
+				}
 			}
 			
 			if (temp1.equalsIgnoreCase("E")) {
@@ -158,6 +164,11 @@ public class Playercontroler extends Player{
 				Tile p = new Tile(x,y);
 				dealcard2.addTileAtLast(p);
 				super.dealTile(p);
+				for(int i1=0; i1< myHandTile.size() ; i1++) {
+					if (p == myHandTile.get(i1)) {
+						myHandTile.remove(i1);
+					}
+				}
 		  	}
 		}
 		
@@ -194,6 +205,11 @@ public class Playercontroler extends Player{
 						Tile p = new Tile(x,y);
 						dealcard2.addTileAtFirst(p);
 						super.dealTile(p);
+						for(int i1=0; i1< myHandTile.size() ; i1++) {
+							if (p == myHandTile.get(i1)) {
+								myHandTile.remove(i1);
+							}
+						}
 					}
 					
 					if (temp3.equalsIgnoreCase("E")) {
@@ -205,6 +221,11 @@ public class Playercontroler extends Player{
 						Tile p = new Tile(x,y);
 						dealcard2.addTileAtLast(p);
 						super.dealTile(p);
+						for(int i1=0; i1< myHandTile.size() ; i1++) {
+							if (p == myHandTile.get(i1)) {
+								myHandTile.remove(i1);
+							}
+						}
 				  	}
 				 
 				 
@@ -226,6 +247,11 @@ public class Playercontroler extends Player{
 					Tile p = new Tile(x,y);
 					dealcard3.addTileAtFirst(p);
 					super.dealTile(p);
+					for(int i1=0; i1< myHandTile.size() ; i1++) {
+						if (p == myHandTile.get(i1)) {
+							myHandTile.remove(i1);
+						}
+					}
 				}
 				
 				if (temp3.equalsIgnoreCase("E")) {
@@ -237,6 +263,11 @@ public class Playercontroler extends Player{
 					Tile p = new Tile(x,y);
 					dealcard3.addTileAtLast(p);
 					super.dealTile(p);
+					for(int i1=0; i1< myHandTile.size() ; i1++) {
+						if (p == myHandTile.get(i1)) {
+							myHandTile.remove(i1);
+						}
+					}
 			  	}
 			}
 	
