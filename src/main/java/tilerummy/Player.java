@@ -175,7 +175,6 @@ public class Player {
 					 for(int d=0;d<tempSet.get(c).size();d++){
 						 
 						 if(tempRun.get(a).get(b).compareTile(tempSet.get(c).get(d))) {
-							 System.out.print("here");
 							 if(!duplicateTile.contains(tempRun.get(a).get(b))) {
 								 getLargerMeld(tempRun.get(a),tempSet.get(c));
 							 }
