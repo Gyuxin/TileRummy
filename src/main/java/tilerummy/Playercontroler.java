@@ -8,13 +8,8 @@ public class Playercontroler extends Player{
 	private ObservableValue ov = null;
 	public Playercontroler(ObservableValue ov)
 	{
-		super();
 		this.ov = ov;
 	}
-
-	private ArrayList<Tile> dealcard = new ArrayList <Tile>();
-	
-	private ArrayList<Tile> dealcard1 = new ArrayList <Tile>();
 	
 	private ArrayList<Tile> dealmeld = new ArrayList <Tile>();
 	
@@ -89,13 +84,13 @@ public class Playercontroler extends Player{
 		  return super.hasMeld();
 	  }
 	  
-	  public void dealornotdeal(Deck d) {
+	  public void dealornotdeal(Table t, Deck d) {
 		  
 		  System.out.println("do you want to deal the cards?(Y/N)");
 		  scanner = new Scanner(System.in);
 		  String temp = scanner.next();
 		  if (temp.equalsIgnoreCase("Y")) {
-			  dealcard();
+			  dealcard(t);
 		  }
 		  if (temp.equalsIgnoreCase("N")) {
 			  Tile newTile = d.drawTile();
@@ -103,14 +98,14 @@ public class Playercontroler extends Player{
 		  }
 	  }
 	
-		public void dealcard() {
+		public void dealcard(Table t) {
 			
 			
 			System.out.println("do you want to deal new Meld or add a tile or edit existing table?(M/T/E)");
 			  scanner = new Scanner(System.in);
 			  String temp = scanner.next();
 			  if (temp.equalsIgnoreCase("M")) {
-					dealmeld();
+					dealmeld(t);
 			  }
 			  if (temp.equalsIgnoreCase("T")) {
 					dealtile();
@@ -125,35 +120,38 @@ public class Playercontroler extends Player{
 		}
 	  
 	
-		public void dealmeld() {
+		public void dealmeld(Table t) {
 			System.out.println("please enter thr meld:");
 			temp = new Scanner(System.in);
 			String[] N = temp.nextLine().split("\\s+");
-			
+			ArrayList<Tile> dm = new ArrayList <Tile>();
 			for(int a=0; a< N.length; a++) {
 				Tile M = new Tile(N[a]);
-				dealmeld.add(M);
+				dm.add(M);
 			}
 			
-			//String s = temp.nextLine();
-			//int i = temp.nextInt();			
-			//dealcard.add(Tile(s,i));
+			Meld usersHandMeld = new Meld(dm);
+//			System.out.println(usersHandMeld.getMeldSize());
+//			System.out.println(this.getMyHandTile().contains(usersHandMeld.get(0)));
+
 			ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
 			for(int i1=0; i1< temp.size() ; i1++) {
-			for(int j=0; j<dealmeld.size();j++) {
-					if (dealmeld.get(j).compareTile(temp.get(i1))) {
+			for(int j=0; j<dm.size();j++) {
+					if (dm.get(j).compareTile(temp.get(i1))) {
 						System.out.println("Found");
-						dealmeld.get(j).printTile();
+						dm.get(j).printTile();
 						this.getMyHandTile().remove(i1);
 						System.out.println(this.getNumberOfHandTile());
 						this.ov.setValue(this.getNumberOfHandTile());
 					}
 				}
 			}
-			t = new Table();
-			Meld MM = new Meld(dealmeld);
+	
+			Meld MM = new Meld(dm);
 
 			t.addMeld(MM);
+			System.out.println("HANDTILE:"+this.toString());
+			System.out.println("no of handtile"+this.getNumberOfHandTile());
 			
 		}
 	

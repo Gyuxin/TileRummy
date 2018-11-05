@@ -45,6 +45,7 @@ public class GameMain {
 			computer1.sort();
 			computer2.sort();
 			computer3.sort();
+			System.out.println(gamePlayer.getNumberOfHandTile());
 			System.out.println(gamePlayer.toString());
 			gamePlayer.sort();
             System.out.println("\n");
@@ -71,33 +72,33 @@ public class GameMain {
 			System.out.println("\n");
 			System.out.println("Your round");
 			gamePlayer.printHandTile();
-			playerTurn(gamePlayer,gameTable,gameDeck);
+			gamePlayer.dealornotdeal(gameTable,gameDeck);
 
 			
-			//check if game is end
-			if(computer1.getNumberOfHandTile()==0)
-			{
-				gameIsNotEnd = true;
-			}
-			else if(computer2.getNumberOfHandTile()==0)
-			{
-				gameIsNotEnd = true;
-			}
-			else if(computer3.getNumberOfHandTile()==0)
-			{
-				gameIsNotEnd = true;
-			}
-			else if(gamePlayer.getNumberOfHandTile()==0) 
-			{
-				gameIsNotEnd = true;
-			}	
-			
-			System.out.println("\ndo you want to continue");
-			String answer = in.nextLine();	
-			if(answer == "y")
-			{
-				gameIsNotEnd = true;
-			}
+//			//check if game is end
+//			if(computer1.getNumberOfHandTile()==0)
+//			{
+//				gameIsNotEnd = true;
+//			}
+//			else if(computer2.getNumberOfHandTile()==0)
+//			{
+//				gameIsNotEnd = true;
+//			}
+//			else if(computer3.getNumberOfHandTile()==0)
+//			{
+//				gameIsNotEnd = true;
+//			}
+//			else if(gamePlayer.getNumberOfHandTile()==0) 
+//			{
+//				gameIsNotEnd = true;
+//			}	
+//			
+//			System.out.println("\ndo you want to continue");
+//			String answer = in.nextLine();	
+//			if(answer == "y")
+//			{
+//				gameIsNotEnd = true;
+//			}
 		}
 		System.out.println("Game end");
 	}
@@ -108,11 +109,11 @@ public class GameMain {
 		if(!gamePlayer.firstMeldInitialCheck())
 		{
 			System.out.println("player has not initial the first meld");
-			gamePlayer.dealornotdeal(gameDeck);
+			gamePlayer.dealornotdeal(gameTable,gameDeck);
 		}
 		else
 		{
-			gamePlayer.dealornotdeal(gameDeck);
+			gamePlayer.dealornotdeal(gameTable,gameDeck);
 		}
 		
 			
