@@ -223,7 +223,8 @@ public class Player {
  
  
  public Tile dealTile(Tile t){
-  myHandTile.remove(t);
+  System.out.println(myHandTile.remove(t));
+  System.out.println("DEALTILE"+myHandTile.size());
   return t;
  }
  

@@ -11,9 +11,7 @@ public class Playercontroler extends Player{
 		super();
 		this.ov = ov;
 	}
-	
-	private ArrayList<Tile> myHandTile = new ArrayList <Tile>();
-	
+
 	private ArrayList<Tile> dealcard = new ArrayList <Tile>();
 	
 	private ArrayList<Tile> dealcard1 = new ArrayList <Tile>();
@@ -62,6 +60,13 @@ public class Playercontroler extends Player{
 		this.ov.setValue(this.getNumberOfHandTile());
 	    return temp;
 	  }
+	  
+	  public Tile dealTile(Tile t){
+		  Tile temp = super.dealTile(t);
+		  this.ov.setValue(this.getNumberOfHandTile());
+		  return temp;
+		 }
+
 	  
 
 	  public String toString(){
@@ -135,24 +140,21 @@ public class Playercontroler extends Player{
 				Tile M = new Tile(N[a]);
 				dealmeld.add(M);
 			}
+			
 			//String s = temp.nextLine();
 			//int i = temp.nextInt();			
 			//dealcard.add(Tile(s,i));
-			
-			for(int i1=0; i1< myHandTile.size() ; i1++) {
-				
+	
 				for(int j=0; j<dealmeld.size();j++) {
-					
-					if (dealmeld.get(j) == myHandTile.get(i1)) {
-						
-						myHandTile.remove(i1);
-					}
-				}
+					System.out.println(dealmeld.get(j).compareTile(this.getMyHandTile().get(0)));
+						dealmeld.get(j).printTile();
+						this.dealTile(dealmeld.get(j));
+						System.out.println(this.getNumberOfHandTile());
 			}
 			t = new Table();
-			Meld M = new Meld(dealmeld);
-			t.addMeld(M);
-			this.ov.setValue(this.getNumberOfHandTile());
+			Meld MM = new Meld(dealmeld);
+			t.addMeld(MM);
+			
 		}
 	
 
@@ -176,9 +178,9 @@ public class Playercontroler extends Player{
 				Tile p = new Tile(x,y);
 				dealcard2.addTileAtFirst(p);
 				super.dealTile(p);
-				for(int i1=0; i1< myHandTile.size() ; i1++) {
-					if (p == myHandTile.get(i1)) {
-						myHandTile.remove(i1);
+				for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
+					if (p == this.getMyHandTile().get(i1)) {
+						this.getMyHandTile().remove(i1);
 					}
 				}
 			}
@@ -192,9 +194,9 @@ public class Playercontroler extends Player{
 				Tile p = new Tile(x,y);
 				dealcard2.addTileAtLast(p);
 				super.dealTile(p);
-				for(int i1=0; i1< myHandTile.size() ; i1++) {
-					if (p == myHandTile.get(i1)) {
-						myHandTile.remove(i1);
+				for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
+					if (p == this.getMyHandTile().get(i1)) {
+						this.getMyHandTile().remove(i1);
 					}
 				}
 		  	}
@@ -234,9 +236,9 @@ public class Playercontroler extends Player{
 						Tile p = new Tile(x,y);
 						dealcard2.addTileAtFirst(p);
 						super.dealTile(p);
-						for(int i1=0; i1< myHandTile.size() ; i1++) {
-							if (p == myHandTile.get(i1)) {
-								myHandTile.remove(i1);
+						for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
+							if (p == this.getMyHandTile().get(i1)) {
+								this.getMyHandTile().remove(i1);
 							}
 						}
 					}
@@ -250,9 +252,9 @@ public class Playercontroler extends Player{
 						Tile p = new Tile(x,y);
 						dealcard2.addTileAtLast(p);
 						super.dealTile(p);
-						for(int i1=0; i1< myHandTile.size() ; i1++) {
-							if (p == myHandTile.get(i1)) {
-								myHandTile.remove(i1);
+						for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
+							if (p == this.getMyHandTile().get(i1)) {
+								this.getMyHandTile().remove(i1);
 							}
 						}
 				  	}
@@ -276,9 +278,9 @@ public class Playercontroler extends Player{
 					Tile p = new Tile(x,y);
 					dealcard3.addTileAtFirst(p);
 					super.dealTile(p);
-					for(int i1=0; i1< myHandTile.size() ; i1++) {
-						if (p == myHandTile.get(i1)) {
-							myHandTile.remove(i1);
+					for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
+						if (p == this.getMyHandTile().get(i1)) {
+							this.getMyHandTile().remove(i1);
 						}
 					}
 				}
@@ -292,9 +294,9 @@ public class Playercontroler extends Player{
 					Tile p = new Tile(x,y);
 					dealcard3.addTileAtLast(p);
 					super.dealTile(p);
-					for(int i1=0; i1< myHandTile.size() ; i1++) {
-						if (p == myHandTile.get(i1)) {
-							myHandTile.remove(i1);
+					for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
+						if (p == this.getMyHandTile().get(i1)) {
+							this.getMyHandTile().remove(i1);
 						}
 					}
 			  	}
