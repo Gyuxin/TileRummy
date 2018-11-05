@@ -20,10 +20,10 @@ public class Computer3 extends Player implements Observer{
 
 	public void update(Observable obs, Object obj)
 	{
+		System.out.println("+++"+ov.getValue());
 		if(this.getNumberOfHandTile() - ov.getValue() >=3) {
+			System.out.println("+++"+ov.getValue());
 			canPlay = true;
-		} else {
-			canPlay = false;
 		}
 	}
 
