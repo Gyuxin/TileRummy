@@ -67,12 +67,6 @@ public class Playercontroler extends Player{
 		  return temp;
 		 }
 
-	  
-
-	  public String toString(){
-	    return super.toString();
-	  }
-	  
 	  public void printHandTile()
 	  {
 		  System.out.println("\nyour hand tile: ");
@@ -144,16 +138,23 @@ public class Playercontroler extends Player{
 			//String s = temp.nextLine();
 			//int i = temp.nextInt();			
 			//dealcard.add(Tile(s,i));
-	
-				for(int j=0; j<dealmeld.size();j++) {
-					System.out.println(dealmeld.get(j).compareTile(this.getMyHandTile().get(0)));
+			ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
+			for(int i1=0; i1< temp.size() ; i1++) {
+			for(int j=0; j<dealmeld.size();j++) {
+					if (dealmeld.get(j).compareTile(temp.get(i1))) {
+						System.out.println("Found");
 						dealmeld.get(j).printTile();
-						this.dealTile(dealmeld.get(j));
+						this.getMyHandTile().remove(i1);
 						System.out.println(this.getNumberOfHandTile());
+						this.ov.setValue(this.getNumberOfHandTile());
+					}
+				}
 			}
 			t = new Table();
 			Meld MM = new Meld(dealmeld);
+
 			t.addMeld(MM);
+			System.out.println(this.toString());
 			
 		}
 	

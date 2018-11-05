@@ -223,7 +223,7 @@ public class Player {
  
  
  public Tile dealTile(Tile t){
-  System.out.println(myHandTile.remove(t));
+  myHandTile.remove(t);
   System.out.println("DEALTILE"+myHandTile.size());
   return t;
  }
@@ -236,6 +236,7 @@ public class Player {
  
  public String toString() {
   String result = "Hand Tile: ";
+
   for(int i = 0; i < this.myHandTile.size(); i++) {
    result+= this.myHandTile.get(i).getColor()+
      this.myHandTile.get(i).getNumber()+" ";
