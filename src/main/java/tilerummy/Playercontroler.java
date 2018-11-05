@@ -92,7 +92,7 @@ public class Playercontroler extends Player{
 		  if (temp.equalsIgnoreCase("Y")) {
 			  dealcard(t);
 		  }
-		  if (temp.equalsIgnoreCase("N")) {
+		  else if (temp.equalsIgnoreCase("N")) {
 			  Tile newTile = d.drawTile();
 			  this.drawATile(newTile);
 		  }
