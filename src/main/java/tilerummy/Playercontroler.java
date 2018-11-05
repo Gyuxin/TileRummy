@@ -18,6 +18,8 @@ public class Playercontroler extends Player{
 	
 	private ArrayList<Tile> dealcard1 = new ArrayList <Tile>();
 	
+	private ArrayList<Tile> dealmeld = new ArrayList <Tile>();
+	
 	private Meld dealcard2 = new Meld();
 	
 	private Meld dealcard3 = new Meld();
@@ -127,31 +129,32 @@ public class Playercontroler extends Player{
 		public void dealmeld() {
 			System.out.println("please enter thr meld:");
 			temp = new Scanner(System.in);
-			String s = temp.nextLine();
-			int i = temp.nextInt();			
-			dealcard.add(Tile(s,i));
+			String[] N = temp.nextLine().split("\\s+");
+			
+			for(int a=0; a< N.length; a++) {
+				Tile M = new Tile(N[a]);
+				dealmeld.add(M);
+			}
+			//String s = temp.nextLine();
+			//int i = temp.nextInt();			
+			//dealcard.add(Tile(s,i));
 			
 			for(int i1=0; i1< myHandTile.size() ; i1++) {
 				
-				for(int j=0; j<dealcard.size();j++) {
+				for(int j=0; j<dealmeld.size();j++) {
 					
-					if (dealcard.get(j) == myHandTile.get(i1)) {
+					if (dealmeld.get(j) == myHandTile.get(i1)) {
 						
-						dealcard1.add(dealcard.get(i));
 						myHandTile.remove(i1);
 					}
 				}
 			}
 			t = new Table();
-			Meld M = new Meld(dealcard1);
+			Meld M = new Meld(dealmeld);
 			t.addMeld(M);
 			this.ov.setValue(this.getNumberOfHandTile());
 		}
 	
-		private Tile Tile(String s, int i) {
-			// TODO Auto-generated method stub
-			return null;
-		}
 
 		public void dealtile() {
 			System.out.println("please choose the meld you want to deal:");
