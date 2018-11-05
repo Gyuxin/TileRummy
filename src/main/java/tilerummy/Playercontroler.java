@@ -14,9 +14,9 @@ public class Playercontroler extends Player{
 	
 	private ArrayList<Tile> myHandTile = new ArrayList <Tile>();
 	
-	private ArrayList<Tile> dealcard = new ArrayList <Tile>();
+	//private ArrayList<Tile> dealcard = new ArrayList <Tile>();
 	
-	private ArrayList<Tile> dealcard1 = new ArrayList <Tile>();
+	//private ArrayList<Tile> dealcard1 = new ArrayList <Tile>();
 	
 	private ArrayList<Tile> dealmeld = new ArrayList <Tile>();
 	
@@ -132,8 +132,8 @@ public class Playercontroler extends Player{
 			String[] N = temp.nextLine().split("\\s+");
 			
 			for(int a=0; a< N.length; a++) {
-				Tile M = new Tile(N[a]);
-				dealmeld.add(M);
+				Tile P = new Tile(N[a]);
+				dealmeld.add(P);
 			}
 			//String s = temp.nextLine();
 			//int i = temp.nextInt();			
