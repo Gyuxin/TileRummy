@@ -5,6 +5,13 @@ import java.util.Scanner;
 
 public class Playercontroler extends Player{
 	
+	private ObservableValue ov = null;
+	public Playercontroler(ObservableValue ov)
+	{
+		super();
+		this.ov = ov;
+	}
+	
 	private ArrayList<Tile> myHandTile = new ArrayList <Tile>();
 	
 	private ArrayList<Tile> dealcard = new ArrayList <Tile>();
@@ -44,15 +51,28 @@ public class Playercontroler extends Player{
 	  public void initialHandTitle(Deck d)
 	  {
 	    super.initialHandTile(d);
+	    this.ov.setValue(this.getNumberOfHandTile());
 	  }
 	  
-	  public Tile drawATile(Tile t){
-	    return super.drawATile(t);
+	  public Tile drawATile(Tile t)
+	  {
+		Tile temp = super.drawATile(t);
+		this.ov.setValue(this.getNumberOfHandTile());
+	    return temp;
 	  }
-
+	  
 
 	  public String toString(){
 	    return super.toString();
+	  }
+	  
+	  public void printHandTile()
+	  {
+		  System.out.println("\nyour hand tile: ");
+		  for(int i = 0; i < this.getNumberOfHandTile(); i++)
+		  {
+			  this.getMyHandTile().get(i).printTile();
+		  }
 	  }
 
 
@@ -68,13 +88,17 @@ public class Playercontroler extends Player{
 		  return super.hasMeld();
 	  }
 	  
-	  public void dealornotdeal() {
+	  public void dealornotdeal(Deck d) {
 		  
 		  System.out.println("do you want to deal the cards?(Y/N)");
 		  scanner = new Scanner(System.in);
 		  String temp = scanner.next();
 		  if (temp.equalsIgnoreCase("Y")) {
 			  dealcard();
+		  }
+		  if (temp.equalsIgnoreCase("N")) {
+			  Tile newTile = d.drawTile();
+			  this.drawATile(newTile);
 		  }
 	  }
 	
@@ -92,7 +116,8 @@ public class Playercontroler extends Player{
 			  }if (temp.equalsIgnoreCase("E")) {
 					edittable();
 			  }else {
-				  return;
+				  tilerummy.Tile next = null;
+				  super.drawATile(next);
 			  }
 			  
 	
@@ -120,6 +145,7 @@ public class Playercontroler extends Player{
 			t = new Table();
 			Meld M = new Meld(dealcard1);
 			t.addMeld(M);
+			this.ov.setValue(this.getNumberOfHandTile());
 		}
 	
 		private Tile Tile(String s, int i) {
@@ -147,6 +173,11 @@ public class Playercontroler extends Player{
 				Tile p = new Tile(x,y);
 				dealcard2.addTileAtFirst(p);
 				super.dealTile(p);
+				for(int i1=0; i1< myHandTile.size() ; i1++) {
+					if (p == myHandTile.get(i1)) {
+						myHandTile.remove(i1);
+					}
+				}
 			}
 			
 			if (temp1.equalsIgnoreCase("E")) {
@@ -158,7 +189,13 @@ public class Playercontroler extends Player{
 				Tile p = new Tile(x,y);
 				dealcard2.addTileAtLast(p);
 				super.dealTile(p);
+				for(int i1=0; i1< myHandTile.size() ; i1++) {
+					if (p == myHandTile.get(i1)) {
+						myHandTile.remove(i1);
+					}
+				}
 		  	}
+			this.ov.setValue(this.getNumberOfHandTile());
 		}
 		
 			public void edittable() {
@@ -194,6 +231,11 @@ public class Playercontroler extends Player{
 						Tile p = new Tile(x,y);
 						dealcard2.addTileAtFirst(p);
 						super.dealTile(p);
+						for(int i1=0; i1< myHandTile.size() ; i1++) {
+							if (p == myHandTile.get(i1)) {
+								myHandTile.remove(i1);
+							}
+						}
 					}
 					
 					if (temp3.equalsIgnoreCase("E")) {
@@ -205,10 +247,15 @@ public class Playercontroler extends Player{
 						Tile p = new Tile(x,y);
 						dealcard2.addTileAtLast(p);
 						super.dealTile(p);
+						for(int i1=0; i1< myHandTile.size() ; i1++) {
+							if (p == myHandTile.get(i1)) {
+								myHandTile.remove(i1);
+							}
+						}
 				  	}
 				 
 				 
-				 
+					this.ov.setValue(this.getNumberOfHandTile());
 			}
 			public void dealsecondmeld() {
 				System.out.println("do you want to deal second meld in front or end or not deal(F/E/N)");
@@ -226,6 +273,11 @@ public class Playercontroler extends Player{
 					Tile p = new Tile(x,y);
 					dealcard3.addTileAtFirst(p);
 					super.dealTile(p);
+					for(int i1=0; i1< myHandTile.size() ; i1++) {
+						if (p == myHandTile.get(i1)) {
+							myHandTile.remove(i1);
+						}
+					}
 				}
 				
 				if (temp3.equalsIgnoreCase("E")) {
@@ -237,7 +289,13 @@ public class Playercontroler extends Player{
 					Tile p = new Tile(x,y);
 					dealcard3.addTileAtLast(p);
 					super.dealTile(p);
+					for(int i1=0; i1< myHandTile.size() ; i1++) {
+						if (p == myHandTile.get(i1)) {
+							myHandTile.remove(i1);
+						}
+					}
 			  	}
+				this.ov.setValue(this.getNumberOfHandTile());
 			}
 	
 
