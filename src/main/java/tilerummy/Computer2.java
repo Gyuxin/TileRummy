@@ -2,7 +2,7 @@ package tilerummy;
 
 import java.util.ArrayList;
 public class Computer2 extends Player{
-	
+
 	private ObservableValue ov = null;
 	public Computer2(ObservableValue ov)
 	{
@@ -21,12 +21,12 @@ public class Computer2 extends Player{
 	  {
 		  super.sortRankFirst();
 	  }
-	  
+
 	  public int getNumberOfHandTile()
 	  {
 	    return super.getNumberOfHandTile();
 	  }
-	  
+
 	  public void initialHandTitle(Deck d)
 	  {
 		this.ov.setValue(this.getNumberOfHandTile());
@@ -38,20 +38,20 @@ public class Computer2 extends Player{
 		this.ov.setValue(this.getNumberOfHandTile());
 	    return temp;
 	  }
-	  
+
 	  public Tile dealTile(Tile t){
 		  Tile temp = super.dealTile(t);
 		  this.ov.setValue(this.getNumberOfHandTile());
 		  return temp;
 		 }
-	  
+
 
 	  public String toString()
 	  {
 	    return super.toString();
 	  }
 
-	  
+
 	  public void hasSet()
 	  {
 		  super.hasSet();
@@ -86,7 +86,7 @@ public class Computer2 extends Player{
 			      for(int i = 0; i<this.getMyMeld().size();i++)
 			      {
 			    	  int total = 0;
-				     
+
 			    	  for(int j=0;j<this.getMyMeld().get(i).size();j++)
 				      {
 				    	  total += this.getMyMeld().get(i).get(j).getNumber();
@@ -104,7 +104,7 @@ public class Computer2 extends Player{
 				      else
 				      {
 				    	  mieldSums[indexOfMield] = total;
-					      indexOfMield++;  
+					      indexOfMield++;
 					  }
 
 				  }
@@ -123,7 +123,7 @@ public class Computer2 extends Player{
 							  System.out.println("\ncomputer 2 use more than one meld to initial his first 30+, those are: ");
 							  for(int b = 0; b <handOutTiles.size(); b++)
 							  {
-								  
+
 								  for(int c = 0; c <handOutTiles.get(b).size(); c++)
 								  {
 									  handOutTiles.get(b).get(c).printTile();
@@ -132,7 +132,7 @@ public class Computer2 extends Player{
 							  }
 						  }
 						  i++;
-					  }  
+					  }
 				  }
 			  }
 		  }
@@ -142,7 +142,7 @@ public class Computer2 extends Player{
 			  //player draw a new tile
 			  System.out.println("computer2 draw a new tile");
 			  Tile newTile = d.drawTile();
-			  this.drawATile(newTile);  
+			  this.drawATile(newTile);
 			  System.out.println("computer 2 get : ");
 			  newTile.printTile();
 		  }
@@ -157,8 +157,8 @@ public class Computer2 extends Player{
 				  {
 					  handOutTiles.get(x).get(y).printTile();
 					  this.dealTile(handOutTiles.get(x).get(y));
-				  		
-				  }  
+
+				  }
 			  }
 			  //initial player has already initial his or her first meld
 			  this.initialedFirstMeld = true;
@@ -177,7 +177,7 @@ public class Computer2 extends Player{
 	  {
 		  boolean computer2MeldChanged = false;
 		  boolean computer2NoChanged = true;
-		  
+
 		  ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
 			 for(int j = 0; j<temp.size();j++)
 			 {
@@ -191,7 +191,28 @@ public class Computer2 extends Player{
 					 computer2NoChanged = false;
 				 }
 			 }
-			 if(computer2NoChanged)
+
+			//check if computer still have two tiles can be deal at the same time
+			  ArrayList<ArrayList<Tile>> tiles = Logic.twoConsecutiveTiles(this.getMyHandTile());
+			  boolean computer2ChangedAgain = false;
+			  for(int k = 0; k < tiles.size(); k++)
+			  {
+				  computer2ChangedAgain = Logic.addTwoTiles(tiles.get(k), t);
+				  if(computer2ChangedAgain)
+				  {
+					  System.out.println("\ncomputer2 reuse the table again");
+					  for(int l = 0; l<tiles.get(k).size(); l++)
+					  {
+						  //print tiles name
+						  tiles.get(k).get(l).printTile();
+					  }
+					  //remove those two tiles in the arraylist
+					  Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
+
+				  }
+			  }
+
+			 if(computer2NoChanged && !computer2ChangedAgain)
 			 {
 				 System.out.println("\ncomputer 2 can do thing, he draw a card");
 				 Tile newTile = d.drawTile();
@@ -199,7 +220,7 @@ public class Computer2 extends Player{
 				 System.out.println("\ncomputer2 get : ");
 				 newTile.printTile();
 			 }
-			 else if(!computer2NoChanged)
+			 else if(!computer2NoChanged || computer2ChangedAgain)
 			 {
 				 System.out.println("\nthe situation on the table is: ");
 				 t.printTable();
@@ -221,7 +242,7 @@ public class Computer2 extends Player{
 				thisComputer.playing(gameTable, gameDeck);
 			}
 		}
-	  
-	  
+
+
 
 }
