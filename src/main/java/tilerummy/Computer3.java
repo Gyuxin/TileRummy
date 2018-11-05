@@ -220,6 +220,26 @@ public class Computer3 extends Player implements Observer{
 						  this.getMyHandTile().remove(temp.get(j));
 					  }
 				  }
+
+					//check if computer still have two tiles can be deal at the same time
+				  ArrayList<ArrayList<Tile>> tiles = Logic.twoConsecutiveTiles(temp);
+				  boolean computer3ChangedAgain = false;
+				  for(int k = 0; k < tiles.size(); k++)
+				  {
+					  computer3ChangedAgain = Logic.addTwoTiles(tiles.get(k), t);
+					  if(computer3ChangedAgain)
+					  {
+						  System.out.println("\ncomputer2 reuse the table again");
+						  for(int l = 0; l<tiles.get(k).size(); l++)
+						  {
+							  //print tiles name
+							  tiles.get(k).get(l).printTile();
+						  }
+						  //remove those two tiles in the arraylist
+						  Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
+
+					  }
+				  }
 				  System.out.println("\nThe situation on the table is: ");
 				  t.printTable();
 			  }
@@ -237,7 +257,27 @@ public class Computer3 extends Player implements Observer{
 							 computer3NoChanged = false;
 						 }
 					 }
-					 if(computer3NoChanged)
+
+					 //check if computer still have two tiles can be deal at the same time
+					  ArrayList<ArrayList<Tile>> tiles = Logic.twoConsecutiveTiles(this.getMyHandTile());
+					  boolean computer3ChangedAgain = false;
+					  for(int k = 0; k < tiles.size(); k++)
+					  {
+						  computer3ChangedAgain = Logic.addTwoTiles(tiles.get(k), t);
+						  if(computer3ChangedAgain)
+						  {
+							  System.out.println("\ncomputer2 reuse the table again");
+							  for(int l = 0; l<tiles.get(k).size(); l++)
+							  {
+								  //print tiles name
+								  tiles.get(k).get(l).printTile();
+							  }
+							  //remove those two tiles in the arraylist
+							  Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
+
+						  }
+					  }
+					 if(computer3NoChanged && !computer3ChangedAgain)
 					 {
 						 System.out.println("\ncomputer 3 can do nothing, he draw a new card");
 						 Tile newTile = d.drawTile();
@@ -245,7 +285,7 @@ public class Computer3 extends Player implements Observer{
 						 System.out.println("computer 3 get: ");
 						 newTile.printTile();
 					 }
-					 else if(!computer3NoChanged)
+					 else if(!computer3NoChanged || computer3ChangedAgain)
 					 {
 						 System.out.println("\nthe situation on the table is: ");
 					 }
@@ -266,14 +306,34 @@ public class Computer3 extends Player implements Observer{
 						 computer3NoChanged = false;
 					 }
 				 }
-				 if(computer3NoChanged)
+
+				 //check if computer still have two tiles can be deal at the same time
+				  ArrayList<ArrayList<Tile>> tiles = Logic.twoConsecutiveTiles(this.getMyHandTile());
+				  boolean computer3ChangedAgain = false;
+				  for(int k = 0; k < tiles.size(); k++)
+				  {
+					  computer3ChangedAgain = Logic.addTwoTiles(tiles.get(k), t);
+					  if(computer3ChangedAgain)
+					  {
+						  System.out.println("\ncomputer2 reuse the table again");
+						  for(int l = 0; l<tiles.get(k).size(); l++)
+						  {
+							  //print tiles name
+							  tiles.get(k).get(l).printTile();
+						  }
+						  //remove those two tiles in the arraylist
+						  Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
+
+					  }
+				  }
+				 if(computer3NoChanged && !computer3ChangedAgain)
 				 {
 					 System.out.println("\ncomputer 3 can do nothing, he draw a new card");
 					 Tile newTile = d.drawTile();
 					 System.out.println("\ncomputer 3 get: ");
 					 newTile.printTile();
 				 }
-				 else if(!computer3NoChanged)
+				 else if(!computer3NoChanged || computer3ChangedAgain)
 				 {
 					 System.out.println("\nthe situation on the table is: ");
 				 }
