@@ -7,21 +7,32 @@ import java.util.Set;
 public class Meld {
 	
 	private ArrayList<Tile> meld;
+	private boolean justPlayed;
 	
 	public Meld() {
 		
 		meld = new ArrayList<Tile>();
-		
+		justPlayed = false;
+
 	}
 
 	public Meld(ArrayList<Tile> m){
 
 		meld = m;
-		
+		justPlayed = false;
+
 	}
 
 	public int getMeldSize(){
 		return meld.size();
+	}
+
+	public void setJustPlayed(){
+		this.justPlayed = true;
+	}
+
+	public void setJustPlayedFalse(){
+		this.justPlayed = false;
 	}
 	
 	//check if the meld is a set
@@ -109,6 +120,9 @@ public class Meld {
 	}
 	
 	public void printMeld() {
+		if(this.justPlayed){
+			System.out.print("*");
+		}
 		System.out.print("{ ");
 		for(int i = 0; i < meld.size(); i++) {
 			meld.get(i).printTile();

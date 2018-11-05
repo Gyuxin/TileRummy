@@ -20,10 +20,19 @@ public class Table {
 		return table.get(position);
 	}
 
+	public void setMeldsPlayedFalse(){
+
+		for(int i = 0; i < table.size(); i++){
+			table.get(i).setJustPlayedFalse();
+		}
+
+	}
+
 	public void printTable(){
 		for(int i = 0; i < table.size(); i++){
 			table.get(i).printMeld();
 		}
+		setMeldsPlayedFalse();
 	}
 
 	public boolean isEmpty(){
@@ -35,6 +44,7 @@ public class Table {
 	
 	public void addMeld(Meld meld) {
 		table.add(meld);
+		meld.setJustPlayed();
 	}
 
 	//remove empty meld
