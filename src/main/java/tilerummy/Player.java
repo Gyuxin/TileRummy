@@ -2,6 +2,7 @@ package tilerummy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Collections;  
 import java.util.Comparator;
 
@@ -54,10 +55,11 @@ public class Player {
  }
  
  //initially add 14 tiles to user's handTile.
- public void initialHandTile(Deck d){
-  for(int i = 0; i < 14; i++) {
-   myHandTile.add(d.drawTile());
-  }
+ public void initialHandTile(Scanner sc){
+	  for(int i = 0; i < 14; i++) {
+		  Tile temp = new Tile(sc.next());
+		  myHandTile.add(temp);
+	  }
  }
 
   
@@ -224,7 +226,6 @@ public class Player {
  
  public Tile dealTile(Tile t){
   myHandTile.remove(t);
-  System.out.println("DEALTILE"+myHandTile.size());
   return t;
  }
  

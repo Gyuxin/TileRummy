@@ -1,13 +1,16 @@
 package tilerummy;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 public class Computer2 extends Player{
 	
 	private ObservableValue ov = null;
-	public Computer2(ObservableValue ov)
+	private Scanner sc;
+	public Computer2(ObservableValue ov, Scanner sc)
 	{
 		super();
 		this.ov = ov;
+		this.sc = sc;
 	}
 	public boolean firstMeldInitialCheck()
 	  {
@@ -27,14 +30,14 @@ public class Computer2 extends Player{
 	    return super.getNumberOfHandTile();
 	  }
 	  
-	  public void initialHandTitle(Deck d)
+	  public void initialHandTitle(Scanner sc)
 	  {
 		this.ov.setValue(this.getNumberOfHandTile());
-	    super.initialHandTile(d);
+	    super.initialHandTile(sc);
 	  }
 	  public Tile drawATile(Tile t)
 	  {
-		Tile temp = super.drawATile(t);
+		Tile temp = new Tile(sc.next());
 		this.ov.setValue(this.getNumberOfHandTile());
 	    return temp;
 	  }

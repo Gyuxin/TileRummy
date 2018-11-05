@@ -1,17 +1,21 @@
 package tilerummy;
 
 import java.util.ArrayList;
+
 import java.util.Observer;
+import java.util.Scanner;
 import java.util.Observable;
 
 public class Computer3 extends Player implements Observer{
 
 	private ObservableValue ov = null;
 	private boolean canPlay = false;
-	public Computer3(ObservableValue ov)
+	private Scanner sc;
+	public Computer3(ObservableValue ov, Scanner sc)
 	{
 		super();
 		this.ov = ov;
+		this.sc = sc;
 	}
 
 	public void update(Observable obs, Object obj)
@@ -41,12 +45,13 @@ public class Computer3 extends Player implements Observer{
 	    return super.getNumberOfHandTile();
 	  }
 
-	  public void initialHandTitle(Deck d)
+	  public void initialHandTitle(Scanner sc)
 	  {
-	    super.initialHandTile(d);
+	    super.initialHandTile(sc);
 	  }
 	  public Tile drawATile(Tile t)
 	  {
+		Tile temp = new Tile(sc.next());
 	    return super.drawATile(t);
 	  }
 

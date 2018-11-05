@@ -1,23 +1,30 @@
 package tilerummy;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+
 public class GameMain {
-	public static void main(String[] args)
+	public static void main(String[] args) throws FileNotFoundException
 	{
-		System.out.println("Please input your name");
-		Scanner in = new Scanner(System.in);
-		String name = in.next();
-		System.out.println(name + " Welcome to Runnikub");
+		File file = new File("./src/main/java/tilerummy/File1.txt");
+		Scanner sc = new Scanner(file);
+	
+
+		System.out.println("Welcome to Runnikub");
 		
 		//initial three computer players
 		ObservableValue ov = new ObservableValue(0);
-		Computer1 computer1 = new Computer1(ov);
-		Computer2 computer2 = new Computer2(ov);
-		Computer3 computer3 = new Computer3(ov);
 		
 		//initial the player(need to be changed after the real player has been initialed)!!!!!!!!!!!!!!!!!!!!
-		Playercontroler gamePlayer = new Playercontroler(ov);
+		Playercontroler gamePlayer = new Playercontroler(ov,sc);
+		
+		Computer1 computer1 = new Computer1(ov,sc);
+		Computer2 computer2 = new Computer2(ov,sc);
+		Computer3 computer3 = new Computer3(ov,sc);
+		
+
 		
 		ov.addObserver(computer3);
 		
@@ -30,10 +37,11 @@ public class GameMain {
 		
 		
 		//each player initial 14 titles from deck
-		computer1.initialHandTile(gameDeck);
-		computer2.initialHandTile(gameDeck);
-		computer3.initialHandTile(gameDeck);
-		gamePlayer.initialHandTile(gameDeck);
+		gamePlayer.initialHandTile(sc);
+		computer1.initialHandTile(sc);
+		computer2.initialHandTile(sc);
+		computer3.initialHandTile(sc);
+		
 		
 		boolean gameIsNotEnd = true;
 		
@@ -42,18 +50,22 @@ public class GameMain {
 		{
 			//player class need more 
 			//player class need an attribute for check if the player has been initial the first mield which grearter than 30
+			gamePlayer.sort();
 			computer1.sort();
 			computer2.sort();
 			computer3.sort();
-			System.out.println(gamePlayer.getNumberOfHandTile());
-			System.out.println(gamePlayer.toString());
-			gamePlayer.sort();
+
             System.out.println("\n");
 			System.out.println("computer1 hand tiles:" + computer1.toString());	
 			System.out.println("computer2 hand tiles:" + computer2.toString());
 			System.out.println("computer3 hand tiles:" + computer3.toString());
 			System.out.println("your hand tiles:" + gamePlayer.toString());
 			System.out.println("\n");
+			//human's round
+			System.out.println("\n");
+			System.out.println("Your round");
+			gamePlayer.printHandTile();
+			gamePlayer.dealornotdeal(gameTable,gameDeck,sc);
 			//player1 round
 			System.out.println("Computer 1 round");
 			computer1.printHandTile();
@@ -68,58 +80,38 @@ public class GameMain {
 			System.out.println("Computer 3 round");
 			computer3.printHandTile();
 			computer3.computerTurn(computer3, gameTable, gameDeck);
-			//human's round
-			System.out.println("\n");
-			System.out.println("Your round");
-			gamePlayer.printHandTile();
-			gamePlayer.dealornotdeal(gameTable,gameDeck);
+
 
 			
-//			//check if game is end
-//			if(computer1.getNumberOfHandTile()==0)
-//			{
-//				gameIsNotEnd = true;
-//			}
-//			else if(computer2.getNumberOfHandTile()==0)
-//			{
-//				gameIsNotEnd = true;
-//			}
-//			else if(computer3.getNumberOfHandTile()==0)
-//			{
-//				gameIsNotEnd = true;
-//			}
-//			else if(gamePlayer.getNumberOfHandTile()==0) 
-//			{
-//				gameIsNotEnd = true;
-//			}	
-//			
-//			System.out.println("\ndo you want to continue");
-//			String answer = in.nextLine();	
-//			if(answer == "y")
-//			{
-//				gameIsNotEnd = true;
-//			}
+			//check if game is end
+			if(computer1.getNumberOfHandTile()==0)
+			{
+				gameIsNotEnd = true;
+			}
+			else if(computer2.getNumberOfHandTile()==0)
+			{
+				gameIsNotEnd = true;
+			}
+			else if(computer3.getNumberOfHandTile()==0)
+			{
+				gameIsNotEnd = true;
+			}
+			else if(gamePlayer.getNumberOfHandTile()==0) 
+			{
+				gameIsNotEnd = true;
+			}	
+			
+			
+			System.out.println("DO YOU WANT TO CONTINUE? (Y/N)");
+			if(sc.next().equals("Y")) {
+				System.out.println("\n\n**********  Start a new round ...  **********\n\n");
+				gameIsNotEnd = true;
+			} else {
+				gameIsNotEnd = false;
+			}
+			
+
 		}
 		System.out.println("Game end");
 	}
-	//not finish
-	public static void playerTurn(Playercontroler gamePlayer, Table gameTable, Deck gameDeck)
-	{
-		System.out.println("player's turn");
-		if(!gamePlayer.firstMeldInitialCheck())
-		{
-			System.out.println("player has not initial the first meld");
-			gamePlayer.dealornotdeal(gameTable,gameDeck);
-		}
-		else
-		{
-			gamePlayer.dealornotdeal(gameTable,gameDeck);
-		}
-		
-			
-	}
-	
-
-	
-
 }

@@ -1,34 +1,28 @@
 package tilerummy;
 
 import java.util.ArrayList;
+
 import java.util.Scanner;
+import java.util.Iterator;
 
 public class Playercontroler extends Player{
 	
 	private ObservableValue ov = null;
-	public Playercontroler(ObservableValue ov)
+	private Scanner sc;
+	public Playercontroler(ObservableValue ov, Scanner sc)
 	{
 		this.ov = ov;
+		this.sc = sc;
 	}
 	
-	private ArrayList<Tile> dealmeld = new ArrayList <Tile>();
-	
-	private Meld dealcard2 = new Meld();
 	
 	private Meld dealcard3 = new Meld();
 	
-	private Scanner scanner;
-
-	private Scanner temp;
+	private Scanner scanner = new Scanner(System.in);
 	
 	private Table t;
 	
 	public int X;
-	
-	  public boolean firstMeldInitialCheck()
-	  {
-		  return initialedFirstMeld;
-	  }
 	  
 	  public void sort(){
 		  super.sort();
@@ -43,15 +37,15 @@ public class Playercontroler extends Player{
 	    return super.getNumberOfHandTile();
 	  }
 
-	  public void initialHandTitle(Deck d)
+	  public void initialHandTitle(Scanner sc)
 	  {
-	    super.initialHandTile(d);
+	    super.initialHandTile(sc);
 	    this.ov.setValue(this.getNumberOfHandTile());
 	  }
 	  
 	  public Tile drawATile(Tile t)
 	  {
-		Tile temp = super.drawATile(t);
+		Tile temp = new Tile(sc.next());
 		this.ov.setValue(this.getNumberOfHandTile());
 	    return temp;
 	  }
@@ -84,13 +78,12 @@ public class Playercontroler extends Player{
 		  return super.hasMeld();
 	  }
 	  
-	  public void dealornotdeal(Table t, Deck d) {
+	  public void dealornotdeal(Table t, Deck d, Scanner sc) {
 		  
 		  System.out.println("do you want to deal the cards?(Y/N)");
-		  scanner = new Scanner(System.in);
-		  String temp = scanner.next();
+		  String temp = sc.next();
 		  if (temp.equalsIgnoreCase("Y")) {
-			  dealcard(t);
+			  dealcard(t, sc);
 		  }
 		  else if (temp.equalsIgnoreCase("N")) {
 			  Tile newTile = d.drawTile();
@@ -98,20 +91,21 @@ public class Playercontroler extends Player{
 		  }
 	  }
 	
-		public void dealcard(Table t) {
+		public void dealcard(Table t, Scanner sc) {
 			
 			
 			System.out.println("do you want to deal new Meld or add a tile or edit existing table?(M/T/E)");
-			  scanner = new Scanner(System.in);
-			  String temp = scanner.next();
+			  String temp = sc.next();
 			  if (temp.equalsIgnoreCase("M")) {
-					dealmeld(t);
+					dealmeld(t, sc);
 			  }
-			  if (temp.equalsIgnoreCase("T")) {
-					dealtile();
-			  }if (temp.equalsIgnoreCase("E")) {
-					edittable();
-			  }else {
+			  else if (temp.equalsIgnoreCase("T")) {
+					dealtile(t);
+			  }
+//			  }if (temp.equalsIgnoreCase("E")) {
+//					edittable();
+//			  }
+			  else {
 				  tilerummy.Tile next = null;
 				  super.drawATile(next);
 			  }
@@ -119,188 +113,177 @@ public class Playercontroler extends Player{
 	
 		}
 	  
-	
-		public void dealmeld(Table t) {
-			System.out.println("please enter thr meld:");
-			temp = new Scanner(System.in);
-			String[] N = temp.nextLine().split("\\s+");
-			ArrayList<Tile> dm = new ArrayList <Tile>();
+	// User deals a meld from hand 
+		public void dealmeld(Table t, Scanner sc) {
+			System.out.println("NO OF TILES IN YOUR MELD: ");
+			int i = sc.nextInt();
+			System.out.println("please enter meld IN ORDER (seperate each tile by space) :");
+			String[] N = new String[3];
+			for(int j = 0; j<i; j++) {
+				N[j] = sc.next();
+			}
+
+//			String[] N = sc.nextLine().split("\\s+");  // Put each tile in a String array
+			
+			ArrayList<Tile> dm = new ArrayList <Tile>(); // dm is the ArrayList<Tile> user about to deal
 			for(int a=0; a< N.length; a++) {
 				Tile M = new Tile(N[a]);
 				dm.add(M);
 			}
+			Meld usersHandMeld = new Meld(dm); // usersHandMeld is the Meld user about to deal.
 			
-			Meld usersHandMeld = new Meld(dm);
-//			System.out.println(usersHandMeld.getMeldSize());
-//			System.out.println(this.getMyHandTile().contains(usersHandMeld.get(0)));
-
-			ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
-			for(int i1=0; i1< temp.size() ; i1++) {
-			for(int j=0; j<dm.size();j++) {
-					if (dm.get(j).compareTile(temp.get(i1))) {
-						System.out.println("Found");
-						dm.get(j).printTile();
-						this.getMyHandTile().remove(i1);
-						System.out.println(this.getNumberOfHandTile());
-						this.ov.setValue(this.getNumberOfHandTile());
+			
+			Iterator<Tile> it = this.getMyHandTile().iterator(); // Iterator is to remove the tile from users' hand tile.
+			
+			for(int j=0; j<usersHandMeld.getMeldSize();j++) {
+				while(it.hasNext()) {
+				Tile tempT = it.next();
+					if (usersHandMeld.get(j).compareTile(tempT)) {
+						usersHandMeld.get(j).printTile();
+						it.remove();
+						break;
 					}
 				}
 			}
 	
-			Meld MM = new Meld(dm);
-
-			t.addMeld(MM);
-			System.out.println("HANDTILE:"+this.toString());
-			System.out.println("no of handtile"+this.getNumberOfHandTile());
-			
-		}
-	
-
-		public void dealtile() {
-			System.out.println("please choose the meld you want to deal:");
-			scanner = new Scanner(System.in);
-			String temp = scanner.next();
-			int X = Integer.parseInt(temp);
-			dealcard2 = t.getMeld(X);
-			 
-			System.out.println("do you want to deal in front or end (F/E)");
-			scanner = new Scanner(System.in);
-			String temp1 = scanner.next();
-			
-			if (temp1.equalsIgnoreCase("F")) {
-				System.out.println("input the card you want yo deal");
-				scanner = new Scanner(System.in);
-				temp1 = scanner.next();
-				String x = scanner.next();
-				int y = scanner.nextInt();
-				Tile p = new Tile(x,y);
-				dealcard2.addTileAtFirst(p);
-				super.dealTile(p);
-				for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
-					if (p == this.getMyHandTile().get(i1)) {
-						this.getMyHandTile().remove(i1);
-					}
-				}
-			}
-			
-			if (temp1.equalsIgnoreCase("E")) {
-				System.out.println("input the card you want yo deal");
-				scanner = new Scanner(System.in);
-				temp1 = scanner.next();
-				String x = scanner.next();
-				int y = scanner.nextInt();
-				Tile p = new Tile(x,y);
-				dealcard2.addTileAtLast(p);
-				super.dealTile(p);
-				for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
-					if (p == this.getMyHandTile().get(i1)) {
-						this.getMyHandTile().remove(i1);
-					}
-				}
-		  	}
+			t.addMeld(usersHandMeld); // add the Meld to users's 
 			this.ov.setValue(this.getNumberOfHandTile());
 		}
-		
-			public void edittable() {
-				System.out.println("please choose the meld you want to edite:");
-				 scanner = new Scanner(System.in);
-				 String temp = scanner.next();
-				 int X = Integer.parseInt(temp);
-				 dealcard2 = t.getMeld(X);
-				 dealcard3 = t.getMeld(X);
-				 
-				 System.out.println("please choose card N to card M to slice:");
-				 scanner = new Scanner(System.in);
-				 String temp1 = scanner.next();
-				 String temp2 = scanner.next();
-				 int s = Integer.parseInt(temp1);
-				 int e = Integer.parseInt(temp2);
-				 int count = dealcard2.getMeldSize();
-				 dealcard2.slice(s,e);
-				 dealcard3.slice(e,count);
-				 
-				 System.out.println("do you want to deal first meld in front or end or not deal(F/E/N)");
-					scanner = new Scanner(System.in);
-					String temp3 = scanner.next();
-					if (temp3.equalsIgnoreCase("N")) {
-						dealsecondmeld();
-					}
-					if (temp3.equalsIgnoreCase("F")) {
-						System.out.println("input the card you want yo deal");
-						scanner = new Scanner(System.in);
-						temp3 = scanner.next();
-						String x = scanner.next();
-						int y = scanner.nextInt();
-						Tile p = new Tile(x,y);
-						dealcard2.addTileAtFirst(p);
-						super.dealTile(p);
-						for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
-							if (p == this.getMyHandTile().get(i1)) {
-								this.getMyHandTile().remove(i1);
-							}
-						}
-					}
-					
-					if (temp3.equalsIgnoreCase("E")) {
-						System.out.println("input the card you want yo deal");
-						scanner = new Scanner(System.in);
-						temp3 = scanner.next();
-						String x = scanner.next();
-						int y = scanner.nextInt();
-						Tile p = new Tile(x,y);
-						dealcard2.addTileAtLast(p);
-						super.dealTile(p);
-						for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
-							if (p == this.getMyHandTile().get(i1)) {
-								this.getMyHandTile().remove(i1);
-							}
-						}
-				  	}
-				 
-				 
-					this.ov.setValue(this.getNumberOfHandTile());
-			}
-			public void dealsecondmeld() {
-				System.out.println("do you want to deal second meld in front or end or not deal(F/E/N)");
-				scanner = new Scanner(System.in);
-				String temp3 = scanner.next();
-				if (temp3.equalsIgnoreCase("N")) {
-					return;
-				}
-				if (temp3.equalsIgnoreCase("F")) {
-					System.out.println("input the card you want yo deal");
-					scanner = new Scanner(System.in);
-					temp3 = scanner.next();
-					String x = scanner.next();
-					int y = scanner.nextInt();
-					Tile p = new Tile(x,y);
-					dealcard3.addTileAtFirst(p);
-					super.dealTile(p);
-					for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
-						if (p == this.getMyHandTile().get(i1)) {
-							this.getMyHandTile().remove(i1);
-						}
-					}
-				}
-				
-				if (temp3.equalsIgnoreCase("E")) {
-					System.out.println("input the card you want yo deal");
-					scanner = new Scanner(System.in);
-					temp3 = scanner.next();
-					String x = scanner.next();
-					int y = scanner.nextInt();
-					Tile p = new Tile(x,y);
-					dealcard3.addTileAtLast(p);
-					super.dealTile(p);
-					for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
-						if (p == this.getMyHandTile().get(i1)) {
-							this.getMyHandTile().remove(i1);
-						}
-					}
-			  	}
-				this.ov.setValue(this.getNumberOfHandTile());
-			}
 	
+		// User deal a single tile
+		public void dealtile(Table t)
+		  {
+		   System.out.println("please choose the INDEX of meld from table that you want to add a tile to:");
+		   String meldName = scanner.next();
+		   int indexOfMeld = Integer.parseInt(meldName);
+		   
+		   Meld meldToBeAdd = t.getMeld(indexOfMeld);   
+		   
+		   System.out.println("do you want to deal tile in front or end (F/E) of the Meld");
+		   String s = scanner.next();
+
+		    System.out.println("input the tile you want yo deal");
+		    String tileName = scanner.next();
+		    Tile tileToBeDeal = new Tile(tileName);
+		    tileToBeDeal.printTile();
+			
+		    if (s.equalsIgnoreCase("F")) {
+		    	meldToBeAdd.addTileAtFirst(tileToBeDeal);  			// add tile to the meld 
+		    } else {
+		    	meldToBeAdd.addTileAtLast(tileToBeDeal);
+		    }
+		    
+		    Iterator<Tile> it = this.getMyHandTile().iterator();	// remove tile from hand tile
+		    while(it.hasNext()) {
+				Tile tempT = it.next();
+			     if (tileToBeDeal.compareTile(tempT)){
+				      it.remove();
+				      break;
+			     }
+		    }
+		   this.ov.setValue(this.getNumberOfHandTile());
+		  }
+		
+//			public void edittable() {
+//				System.out.println("please choose the meld you want to edite:");
+//				 scanner = new Scanner(System.in);
+//				 String temp = scanner.next();
+//				 int X = Integer.parseInt(temp);
+//				 dealcard2 = t.getMeld(X);
+//				 dealcard3 = t.getMeld(X);
+//				 
+//				 System.out.println("please choose card N to card M to slice:");
+//				 scanner = new Scanner(System.in);
+//				 String temp1 = scanner.next();
+//				 String temp2 = scanner.next();
+//				 int s = Integer.parseInt(temp1);
+//				 int e = Integer.parseInt(temp2);
+//				 int count = dealcard2.getMeldSize();
+//				 dealcard2.slice(s,e);
+//				 dealcard3.slice(e,count);
+//				 
+//				 System.out.println("do you want to deal first meld in front or end or not deal(F/E/N)");
+//					scanner = new Scanner(System.in);
+//					String temp3 = scanner.next();
+//					if (temp3.equalsIgnoreCase("N")) {
+//						dealsecondmeld();
+//					}
+//					if (temp3.equalsIgnoreCase("F")) {
+//						System.out.println("input the card you want yo deal");
+//						scanner = new Scanner(System.in);
+//						temp3 = scanner.next();
+//						String x = scanner.next();
+//						int y = scanner.nextInt();
+//						Tile p = new Tile(x,y);
+//						dealcard2.addTileAtFirst(p);
+//						super.dealTile(p);
+//						for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
+//							if (p == this.getMyHandTile().get(i1)) {
+//								this.getMyHandTile().remove(i1);
+//							}
+//						}
+//					}
+//					
+//					if (temp3.equalsIgnoreCase("E")) {
+//						System.out.println("input the card you want yo deal");
+//						scanner = new Scanner(System.in);
+//						temp3 = scanner.next();
+//						String x = scanner.next();
+//						int y = scanner.nextInt();
+//						Tile p = new Tile(x,y);
+//						dealcard2.addTileAtLast(p);
+//						super.dealTile(p);
+//						for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
+//							if (p == this.getMyHandTile().get(i1)) {
+//								this.getMyHandTile().remove(i1);
+//							}
+//						}
+//				  	}
+//				 
+//				 
+//					this.ov.setValue(this.getNumberOfHandTile());
+//			}
+//			public void dealsecondmeld() {
+//				System.out.println("do you want to deal second meld in front or end or not deal(F/E/N)");
+//				scanner = new Scanner(System.in);
+//				String temp3 = scanner.next();
+//				if (temp3.equalsIgnoreCase("N")) {
+//					return;
+//				}
+//				if (temp3.equalsIgnoreCase("F")) {
+//					System.out.println("input the card you want yo deal");
+//					scanner = new Scanner(System.in);
+//					temp3 = scanner.next();
+//					String x = scanner.next();
+//					int y = scanner.nextInt();
+//					Tile p = new Tile(x,y);
+//					dealcard3.addTileAtFirst(p);
+//					super.dealTile(p);
+//					for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
+//						if (p == this.getMyHandTile().get(i1)) {
+//							this.getMyHandTile().remove(i1);
+//						}
+//					}
+//				}
+//				
+//				if (temp3.equalsIgnoreCase("E")) {
+//					System.out.println("input the card you want yo deal");
+//					scanner = new Scanner(System.in);
+//					temp3 = scanner.next();
+//					String x = scanner.next();
+//					int y = scanner.nextInt();
+//					Tile p = new Tile(x,y);
+//					dealcard3.addTileAtLast(p);
+//					super.dealTile(p);
+//					for(int i1=0; i1< this.getMyHandTile().size() ; i1++) {
+//						if (p == this.getMyHandTile().get(i1)) {
+//							this.getMyHandTile().remove(i1);
+//						}
+//					}
+//			  	}
+//				this.ov.setValue(this.getNumberOfHandTile());
+//			}
+//	
 
 		
 
