@@ -52,6 +52,7 @@ public class Computer3 extends Player implements Observer{
 	  public Tile drawATile(Tile t)
 	  {
 		Tile temp = new Tile(sc.next());
+		super.drawATile(temp);
 	    return super.drawATile(t);
 	  }
 
@@ -147,10 +148,9 @@ public class Computer3 extends Player implements Observer{
 			  System.out.println("Computer3 can not initial his first meld");
 			  //player draw a new tile
 			  System.out.println("Computer3 draw a new tile");
-			  Tile newTile = d.drawTile();
-			  this.drawATile(newTile);
 			  System.out.println("computer 3 get: ");
-			  newTile.printTile();
+			  Tile newTile = d.drawTile();
+			  this.drawATile(newTile).printTile();
 		  }
 		  else if(!handOutTiles.isEmpty())
 		  {
@@ -184,6 +184,7 @@ public class Computer3 extends Player implements Observer{
 		  ArrayList<ArrayList<Tile>> handOutTiles = new ArrayList<ArrayList<Tile>>();
 		  boolean computer3MeldChanged = false;
 		  boolean computer3NoChanged = true;
+		  System.out.println(canPlay);
 		  if(canPlay)
 		  {
 			  if(this.hasMeld())
@@ -245,10 +246,9 @@ public class Computer3 extends Player implements Observer{
 					 if(computer3NoChanged)
 					 {
 						 System.out.println("\ncomputer 3 can do nothing, he draw a new card");
-						 Tile newTile = d.drawTile();
-						 this.drawATile(newTile);
 						 System.out.println("computer 3 get: ");
-						 newTile.printTile();
+						  Tile newTile = d.drawTile();
+						  this.drawATile(newTile).printTile();
 					 }
 					 else if(!computer3NoChanged)
 					 {
@@ -274,9 +274,9 @@ public class Computer3 extends Player implements Observer{
 				 if(computer3NoChanged)
 				 {
 					 System.out.println("\ncomputer 3 can do nothing, he draw a new card");
-					 Tile newTile = d.drawTile();
 					 System.out.println("\ncomputer 3 get: ");
-					 newTile.printTile();
+					  Tile newTile = d.drawTile();
+					  this.drawATile(newTile).printTile();
 				 }
 				 else if(!computer3NoChanged)
 				 {

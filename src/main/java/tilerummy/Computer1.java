@@ -39,6 +39,7 @@ public class Computer1 extends Player{
 	  public Tile drawATile(Tile t)
 	  {
 		Tile temp = new Tile(sc.next());
+		super.drawATile(temp);
 		this.ov.setValue(this.getNumberOfHandTile());
 	    return temp;
 	  }
@@ -123,11 +124,9 @@ public class Computer1 extends Player{
 			  System.out.println("Computer1 can not initial his first meld");
 			  //player draw a new tile
 			  System.out.println("Computer1 draw a new tile");
-			  Tile newTile = d.drawTile();
-			  this.drawATile(newTile);
-			  
 			  System.out.println("computer1 get:" );
-			  newTile.printTile();
+			  Tile newTile = d.drawTile();
+			  this.drawATile(newTile).printTile();
 			  
 		  }
 		  else if(!handOutTiles.isEmpty())
@@ -228,10 +227,9 @@ public class Computer1 extends Player{
 			 if(computer1NoChanged)
 			 {
 				 System.out.println("\ncomputer 1 can do nothing, he draw a need card");
-				 Tile newTile = d.drawTile();
-				 this.drawATile(newTile);
 				 System.out.println("\ncomputer 1 get :");
-				 newTile.printTile();
+				  Tile newTile = d.drawTile();
+				  this.drawATile(newTile).printTile();
 				 System.out.println("\nNothing changed on the table");
 				 
 			 }

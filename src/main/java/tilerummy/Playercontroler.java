@@ -87,7 +87,8 @@ public class Playercontroler extends Player{
 		  }
 		  else if (temp.equalsIgnoreCase("N")) {
 			  Tile newTile = d.drawTile();
-			  this.drawATile(newTile);
+			  System.out.print("You draw a new tile ... ");
+			  this.drawATile(newTile).printTile();
 		  }
 	  }
 	
@@ -96,6 +97,7 @@ public class Playercontroler extends Player{
 			
 			System.out.println("do you want to deal new Meld or add a tile or edit existing table?(M/T/E)");
 			  String temp = sc.next();
+			  System.out.println(temp);
 			  if (temp.equalsIgnoreCase("M")) {
 					dealmeld(t, sc);
 			  }

@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class GameMain {
 	public static void main(String[] args) throws FileNotFoundException
 	{
-		File file = new File("./src/main/java/tilerummy/File1.txt");
+		File file = new File("./src/main/java/tilerummy/File2.txt");
 		Scanner sc = new Scanner(file);
 	
 
@@ -67,7 +67,7 @@ public class GameMain {
 			gamePlayer.printHandTile();
 			gamePlayer.dealornotdeal(gameTable,gameDeck,sc);
 			//player1 round
-			System.out.println("Computer 1 round");
+			System.out.println("\nComputer 1 round");
 			computer1.printHandTile();
 			computer1.computerTurn(computer1, gameTable, gameDeck);
 			//player2 round
