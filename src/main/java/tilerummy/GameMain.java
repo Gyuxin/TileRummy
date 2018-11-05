@@ -45,7 +45,8 @@ public class GameMain {
 			computer1.sort();
 			computer2.sort();
 			computer3.sort();
-
+			System.out.println(gamePlayer.toString());
+			gamePlayer.sort();
             System.out.println("\n");
 			System.out.println("computer1 hand tiles:" + computer1.toString());	
 			System.out.println("computer2 hand tiles:" + computer2.toString());

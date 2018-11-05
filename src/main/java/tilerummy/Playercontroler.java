@@ -154,7 +154,6 @@ public class Playercontroler extends Player{
 			Meld MM = new Meld(dealmeld);
 
 			t.addMeld(MM);
-			System.out.println(this.toString());
 			
 		}
 	
