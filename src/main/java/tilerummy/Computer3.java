@@ -294,49 +294,86 @@ public class Computer3 extends Player implements Observer{
 		  }
 		  else
 		  {
-			  ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
-				 for(int j = 0; j<temp.size();j++)
-				 {
-					 computer3MeldChanged = Logic.addOneTile(temp.get(j),t);
-					 if(computer3MeldChanged)
-					 {
-						 System.out.println("\ncomputer 3 deal tiles: ");
-						 temp.get(j).printTile();
-						 this.getMyHandTile().remove(temp.get(j));
-						 computer3NoChanged = false;
-					 }
-				 }
-
-				 //check if computer still have two tiles can be deal at the same time
-				  ArrayList<ArrayList<Tile>> tiles = Logic.twoConsecutiveTiles(this.getMyHandTile());
-				  boolean computer3ChangedAgain = false;
-				  for(int k = 0; k < tiles.size(); k++)
+			  boolean lastMeldInHand = false;
+			  if(this.hasMeld())
+			  {
+				  ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
+				  for(int a=0; a<this.getMyMeld().size();a++)
 				  {
-					  computer3ChangedAgain = Logic.addTwoTiles(tiles.get(k), t);
-					  if(computer3ChangedAgain)
+					  for(int b=0; b<this.getMyMeld().get(a).size();b++)
 					  {
-						  System.out.println("\ncomputer2 reuse the table again");
-						  for(int l = 0; l<tiles.get(k).size(); l++)
-						  {
-							  //print tiles name
-							  tiles.get(k).get(l).printTile();
-						  }
-						  //remove those two tiles in the arraylist
-						  Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
-
+						  temp.remove(this.getMyMeld().get(a).get(b));
 					  }
 				  }
-				 if(computer3NoChanged && !computer3ChangedAgain)
-				 {
-					 System.out.println("\ncomputer 3 can do nothing, he draw a new card");
-					 Tile newTile = d.drawTile();
-					 System.out.println("\ncomputer 3 get: ");
-					 newTile.printTile();
-				 }
-				 else if(!computer3NoChanged || computer3ChangedAgain)
-				 {
-					 System.out.println("\nthe situation on the table is: ");
-				 }
+				  if(temp.size()==0)
+				  {
+					  lastMeldInHand = true;
+				  }
+			  }
+
+			  if(lastMeldInHand)
+			  {
+				  System.out.println("computer3 deal all the tiles(which is a meld) in his hand and finish the game: ");
+				  for(int a=0; a<this.getMyMeld().size();a++)
+				  {
+					  for(int b=0; b<this.getMyMeld().get(a).size();b++)
+					  {
+						  this.getMyMeld().get(a).get(b).printTile();
+						  this.getMyHandTile().remove(this.getMyMeld().get(a).get(b));
+					  }
+				  }
+			  }
+			  else if(!lastMeldInHand)
+			  {
+				  ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
+					 for(int j = 0; j<temp.size();j++)
+					 {
+						 computer3MeldChanged = Logic.addOneTile(temp.get(j),t);
+						 if(computer3MeldChanged)
+						 {
+							 System.out.println("\ncomputer 3 deal tiles: ");
+							 temp.get(j).printTile();
+							 this.getMyHandTile().remove(temp.get(j));
+							 computer3NoChanged = false;
+						 }
+					 }
+
+					 //check if computer still have two tiles can be deal at the same time
+					  ArrayList<ArrayList<Tile>> tiles = Logic.twoConsecutiveTiles(this.getMyHandTile());
+					  boolean computer3ChangedAgain = false;
+					  for(int k = 0; k < tiles.size(); k++)
+					  {
+						  computer3ChangedAgain = Logic.addTwoTiles(tiles.get(k), t);
+						  if(computer3ChangedAgain)
+						  {
+							  System.out.println("\ncomputer2 reuse the table again");
+							  for(int l = 0; l<tiles.get(k).size(); l++)
+							  {
+								  //print tiles name
+								  tiles.get(k).get(l).printTile();
+							  }
+							  //remove those two tiles in the arraylist
+							  Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
+
+						  }
+					  }
+					 if(computer3NoChanged && !computer3ChangedAgain)
+					 {
+						 System.out.println("\ncomputer 3 can do nothing, he draw a new card");
+						 Tile newTile = d.drawTile();
+						 System.out.println("\ncomputer 3 get: ");
+						 newTile.printTile();
+					 }
+					 else if(!computer3NoChanged || computer3ChangedAgain)
+					 {
+						 System.out.println("\nthe situation on the table is: ");
+					 }
+				  
+			  }
+			  
+			  
+			  
+			 
 		  }
 	  }
 	  public static void computerTurn(Computer3 thisComputer, Table gameTable, Deck gameDeck)
