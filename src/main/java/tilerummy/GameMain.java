@@ -15,10 +15,11 @@ public class GameMain {
 		Computer1 computer1 = new Computer1(ov);
 		Computer2 computer2 = new Computer2(ov);
 		Computer3 computer3 = new Computer3(ov);
-		ov.addObserver(computer3);
 		
 		//initial the player(need to be changed after the real player has been initialed)!!!!!!!!!!!!!!!!!!!!
-		Playercontroler gamePlayer = new Playercontroler();
+		Playercontroler gamePlayer = new Playercontroler(ov);
+		
+		ov.addObserver(computer3);
 		
 		//initial deck on the table
 		Deck gameDeck = new Deck();
@@ -44,10 +45,12 @@ public class GameMain {
 			computer1.sort();
 			computer2.sort();
 			computer3.sort();
+			gamePlayer.sort();
             System.out.println("\n");
 			System.out.println("computer1 hand tiles:" + computer1.toString());	
 			System.out.println("computer2 hand tiles:" + computer2.toString());
 			System.out.println("computer3 hand tiles:" + computer3.toString());
+			System.out.println("your hand tiles:" + gamePlayer.toString());
 			System.out.println("\n");
 			//player1 round
 			System.out.println("Computer 1 round");
@@ -63,6 +66,11 @@ public class GameMain {
 			System.out.println("Computer 3 round");
 			computer3.printHandTile();
 			computer3.computerTurn(computer3, gameTable, gameDeck);
+			//human's round
+			System.out.println("\n");
+			System.out.println("Your round");
+			gamePlayer.printHandTile();
+			playerTurn(gamePlayer,gameTable,gameDeck);
 
 			
 			//check if game is end
@@ -93,17 +101,17 @@ public class GameMain {
 		System.out.println("Game end");
 	}
 	//not finish
-	public void playerTurn(Playercontroler gamePlayer, Table gameTable, Deck gameDeck)
+	public static void playerTurn(Playercontroler gamePlayer, Table gameTable, Deck gameDeck)
 	{
 		System.out.println("player's turn");
 		if(!gamePlayer.firstMeldInitialCheck())
 		{
 			System.out.println("player has not initial the first meld");
-			gamePlayer.dealmeld();
+			gamePlayer.dealornotdeal(gameDeck);
 		}
 		else
 		{
-			gamePlayer.dealornotdeal();
+			gamePlayer.dealornotdeal(gameDeck);
 		}
 		
 			
