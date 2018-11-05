@@ -217,6 +217,7 @@ public class Computer1 extends Player{
 					  }
 					  //remove those two tiles in the arraylist
 					  Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
+						this.ov.setValue(this.getNumberOfHandTile());
 
 				  }
 			  }
@@ -259,6 +260,7 @@ public class Computer1 extends Player{
 					  }
 					  //remove those two tiles in the arraylist
 					  Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
+						this.ov.setValue(this.getNumberOfHandTile());
 
 				  }
 			  }

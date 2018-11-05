@@ -22,14 +22,14 @@ public class Logic {
                 if(t.getNumber()+1 == currentMeld.getFirstTile().getNumber() && currentMeld.sameColor(t)){
                     currentMeld.addTileAtFirst(t);
                     return true;
-                } 
+                }
 
                 //If tile's number is one bigger than last tile's number in current meld
                 else if(t.getNumber()-1 == currentMeld.getLastTile().getNumber() && currentMeld.sameColor(t)){
                     currentMeld.addTileAtLast(t);
                     return true;
-                } 
-                
+                }
+
                 //add a tile to the middle of a run
                 /* e.x O5 -> {O3, O4, O5, O6, O7}
                  *  newmeld = {O3, O4}
@@ -37,24 +37,24 @@ public class Logic {
                  *  O5 -> newmeld
                  *  oldmeld = {O3, O4, O5}
                  * */
-   
-                
+
+
                 else if(currentMeld.getMeldSize()>=5) {
             		for(int j = 2; j < currentMeld.getMeldSize()-2; j++){
             			Tile tempTile = currentMeld.get(j);
             			if(t.getColor().equals(tempTile.getColor()) && t.getNumber() == tempTile.getNumber()){
             				Meld newMeld = currentMeld;
             				newMeld.slice(0, j);	// create a new meld to store the first half of the meld
-            				currentMeld.slice(j, currentMeld.getMeldSize()); 	// the old meld becoming the last half of the meld 
+            				currentMeld.slice(j, currentMeld.getMeldSize()); 	// the old meld becoming the last half of the meld
             				newMeld.addTileAtLast(t);  		//add the tile to the newmeld
             				table.addMeld(newMeld);
             				return true;
             			}
             		}
-                } 
-                
+                }
+
                 else return false;
-                
+
             }
         }
 
@@ -62,13 +62,13 @@ public class Logic {
         return false;
 
     }
-    
+
     //Use one tile on the table and form a run
     //the used tile must be gotten from the meld whose size is bigger than 4
     public static boolean addTwoTiles(ArrayList<Tile> tileArray, Table table) {
-        
+
         String color = tileArray.get(0).getColor();
-        
+
         Meld newMeld = new Meld();
         newMeld.addTileAtLast(tileArray.get(0));
         newMeld.addTileAtLast(tileArray.get(1));
@@ -78,10 +78,10 @@ public class Logic {
 
                 Meld currentMeld = table.getMeld(i);
 
-                //If the meld is a set 
+                //If the meld is a set
                 if(currentMeld.isSet()){
 
-                    //check if the number of the set is 1 larger than tile array 
+                    //check if the number of the set is 1 larger than tile array
                     //or 1 smaller than tile array
 
                     int num = currentMeld.getFirstTile().getNumber();
@@ -95,7 +95,7 @@ public class Logic {
                                 //add the tileArray to table
                                 if(t.getNumber() > tileArray.get(1).getNumber()){
                                     newMeld.addTileAtLast(t);
-                                    table.addMeld(newMeld);                 
+                                    table.addMeld(newMeld);
                                     return true;
                                 } else {
                                     newMeld.addTileAtFirst(t);
@@ -131,7 +131,7 @@ public class Logic {
 
                         //else if the last tile in the meld is bigger than the array
                         //remove it from current meld
-                        //add it the the tilearray 
+                        //add it the the tilearray
                         // add the tile array to table as a meld
 
                         else if(last.getNumber() - tileArray.get(1).getNumber() == 1){
@@ -148,9 +148,9 @@ public class Logic {
                 }
             }
         }
-    	
+
     	return false;
-    	
+
     }
 
     //in: player's in hand tiles
@@ -217,10 +217,10 @@ public class Logic {
                 twoConsecutiveTiles.add(tiles);
             }
         }
-        
+
         //System.out.println(twoConsecutiveTiles.size());
 
-        
+
         /*System.out.println("Tiles*******");
         for(int i = 0; i < twoConsecutiveTiles.size(); i++){
             for(int j = 0; j < twoConsecutiveTiles.get(i).size(); j++){
@@ -228,15 +228,15 @@ public class Logic {
                 System.out.println("\n");
             }
         }*/
-        
+
         //System.out.println("Finished");
-        
+
         return twoConsecutiveTiles;
 
     }
 
     /*public static void main(String[] args){
-        
+
         List<Tile> handTiles = new ArrayList<Tile>();
 
         handTiles.add(new Tile("B1"));
@@ -256,12 +256,12 @@ public class Logic {
         m1.addTileAtLast(new Tile("B2"));
         m1.addTileAtLast(new Tile("R2"));
         m1.addTileAtLast(new Tile("G2"));
-        
+
         t.addMeld(m1);
-        
+
         t.printTable();
         System.out.println("\n");
-        
+
         System.out.println("In hand tiles");
         for(int i = 0; i < handTiles.size(); i++) {
         	handTiles.get(i).printTile();
@@ -278,42 +278,42 @@ public class Logic {
         }
 
         t.printTable();
-        
+
         System.out.println("In hand tiles");
         for(int i = 0; i < handTiles.size(); i++) {
         	handTiles.get(i).printTile();
         }
 
     }
-    
-    
+
+
     Process of add two tiles
     tiles = twoConsecutiveTiles(handTiles)
 	for(int i = 0; i < tiles.size; i++){
-		
+
 		changed = addTwoTiles(tiles.get(i),t)
      	if(changed)
      		print handTiles(i)
      		remove tiles in handTiles
     */
-    
-    
-    
+
+
+
     public static void removeTwoTiles(ArrayList<Tile> tiles, List<Tile> handTiles){
 
     	Tile t1 = tiles.get(0);
     	Tile t2 = tiles.get(1);
-    	
+
     	for(int i = 0; i < handTiles.size(); i++){
-    		if((handTiles.get(i).getColor().equals(t1.getColor())) 
+    		if((handTiles.get(i).getColor().equals(t1.getColor()))
     				&& (handTiles.get(i).getNumber() == t1.getNumber())){
     			handTiles.remove(i);
     			break;
     		}
     	}
-    
+
     	for(int i = 0; i < handTiles.size(); i++){
-    		if((handTiles.get(i).getColor().equals(t2.getColor())) 
+    		if((handTiles.get(i).getColor().equals(t2.getColor()))
     				&& (handTiles.get(i).getNumber() == t2.getNumber())){
     			handTiles.remove(i);
     			break;
