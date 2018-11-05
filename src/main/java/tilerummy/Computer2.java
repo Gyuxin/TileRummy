@@ -37,7 +37,9 @@ public class Computer2 extends Player{
 	  }
 	  public Tile drawATile(Tile t)
 	  {
+		 
 		Tile temp = new Tile(sc.next());
+		
 		super.drawATile(temp);
 		this.ov.setValue(this.getNumberOfHandTile());
 	    return temp;

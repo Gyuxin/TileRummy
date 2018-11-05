@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class GameMain {
 	public static void main(String[] args) throws FileNotFoundException
 	{
-		File file = new File("./src/main/java/tilerummy/File2.txt");
+		File file = new File("./src/main/java/tilerummy/File4.txt");
 		Scanner sc = new Scanner(file);
 	
 
@@ -81,25 +81,6 @@ public class GameMain {
 			computer3.printHandTile();
 			computer3.computerTurn(computer3, gameTable, gameDeck);
 
-
-			
-			//check if game is end
-			if(computer1.getNumberOfHandTile()==0)
-			{
-				gameIsNotEnd = true;
-			}
-			else if(computer2.getNumberOfHandTile()==0)
-			{
-				gameIsNotEnd = true;
-			}
-			else if(computer3.getNumberOfHandTile()==0)
-			{
-				gameIsNotEnd = true;
-			}
-			else if(gamePlayer.getNumberOfHandTile()==0) 
-			{
-				gameIsNotEnd = true;
-			}	
 			
 			
 			System.out.println("DO YOU WANT TO CONTINUE? (Y/N)");
@@ -110,6 +91,27 @@ public class GameMain {
 				gameIsNotEnd = false;
 			}
 			
+			//check if game is end
+			if(computer1.getNumberOfHandTile()==0)
+			{
+				gameIsNotEnd = false;
+				System.out.println("Computer1 Win!");
+			}
+			else if(computer2.getNumberOfHandTile()==0)
+			{
+				gameIsNotEnd = false;
+				System.out.println("Computer2 Win!");
+			}
+			else if(computer3.getNumberOfHandTile()==0)
+			{
+				gameIsNotEnd = false;
+				System.out.println("Computer3 Win!");
+			}
+			else if(gamePlayer.getNumberOfHandTile()==0) 
+			{
+				gameIsNotEnd = false;
+				System.out.println("you Win!");
+			}	
 
 		}
 		System.out.println("Game end");

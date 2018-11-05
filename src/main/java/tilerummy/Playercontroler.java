@@ -156,16 +156,13 @@ public class Playercontroler extends Player{
 		public void dealtile(Table t)
 		  {
 		   System.out.println("please choose the INDEX of meld from table that you want to add a tile to:");
-		   String meldName = scanner.next();
-		   int indexOfMeld = Integer.parseInt(meldName);
-		   
+		   int indexOfMeld = sc.nextInt();
 		   Meld meldToBeAdd = t.getMeld(indexOfMeld);   
 		   
 		   System.out.println("do you want to deal tile in front or end (F/E) of the Meld");
-		   String s = scanner.next();
-
+		   String s = sc.next();
 		    System.out.println("input the tile you want yo deal");
-		    String tileName = scanner.next();
+		    String tileName = sc.next();
 		    Tile tileToBeDeal = new Tile(tileName);
 		    tileToBeDeal.printTile();
 			

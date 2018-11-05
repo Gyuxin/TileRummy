@@ -20,9 +20,7 @@ public class Computer3 extends Player implements Observer{
 
 	public void update(Observable obs, Object obj)
 	{
-		System.out.println("+++"+ov.getValue());
 		if(this.getNumberOfHandTile() - ov.getValue() >=3) {
-			System.out.println("+++"+ov.getValue());
 			canPlay = true;
 		}
 	}
@@ -226,6 +224,26 @@ public class Computer3 extends Player implements Observer{
 						  this.getMyHandTile().remove(temp.get(j));
 					  }
 				  }
+				//check if computer still have two tiles can be deal at the same time
+			      ArrayList<ArrayList<Tile>> tiles = Logic.twoConsecutiveTiles(this.getMyHandTile());
+			      boolean computer1ChangedAgain = false;
+			      for(int k = 0; k < tiles.size(); k++)
+			      {
+			       computer1ChangedAgain = Logic.addTwoTiles(tiles.get(k), t);
+			       if(computer1ChangedAgain)
+			       {
+			        System.out.println("\ncomputer3 reuse the table again");
+			        for(int l = 0; l<tiles.get(k).size(); l++)
+			        {
+			         //print tiles name
+			         tiles.get(k).get(l).printTile();
+			        }
+			        //remove those two tiles in the arraylist
+			        Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
+			       this.ov.setValue(this.getNumberOfHandTile());
+
+			       }
+			      }
 				  System.out.println("\nThe situation on the table is: ");
 				  t.printTable();
 			  }
@@ -243,14 +261,34 @@ public class Computer3 extends Player implements Observer{
 							 computer3NoChanged = false;
 						 }
 					 }
-					 if(computer3NoChanged)
+					//check if computer still have two tiles can be deal at the same time
+				      ArrayList<ArrayList<Tile>> tiles = Logic.twoConsecutiveTiles(this.getMyHandTile());
+				      boolean computer1ChangedAgain = false;
+				      for(int k = 0; k < tiles.size(); k++)
+				      {
+				       computer1ChangedAgain = Logic.addTwoTiles(tiles.get(k), t);
+				       if(computer1ChangedAgain)
+				       {
+				        System.out.println("\ncomputer3 reuse the table again");
+				        for(int l = 0; l<tiles.get(k).size(); l++)
+				        {
+				         //print tiles name
+				         tiles.get(k).get(l).printTile();
+				        }
+				        //remove those two tiles in the arraylist
+				        Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
+				       this.ov.setValue(this.getNumberOfHandTile());
+
+				       }
+				      }
+					 if(computer3NoChanged && !computer1ChangedAgain)
 					 {
 						 System.out.println("\ncomputer 3 can do nothing, he draw a new card");
 						 System.out.println("computer 3 get: ");
 						  Tile newTile = d.drawTile();
 						  this.drawATile(newTile).printTile();
 					 }
-					 else if(!computer3NoChanged)
+					 else if(!computer3NoChanged || computer1ChangedAgain)
 					 {
 						 System.out.println("\nthe situation on the table is: ");
 					 }
@@ -271,14 +309,34 @@ public class Computer3 extends Player implements Observer{
 						 computer3NoChanged = false;
 					 }
 				 }
-				 if(computer3NoChanged)
+				//check if computer still have two tiles can be deal at the same time
+			      ArrayList<ArrayList<Tile>> tiles = Logic.twoConsecutiveTiles(this.getMyHandTile());
+			      boolean computer1ChangedAgain = false;
+			      for(int k = 0; k < tiles.size(); k++)
+			      {
+			       computer1ChangedAgain = Logic.addTwoTiles(tiles.get(k), t);
+			       if(computer1ChangedAgain)
+			       {
+			        System.out.println("\ncomputer3 reuse the table again");
+			        for(int l = 0; l<tiles.get(k).size(); l++)
+			        {
+			         //print tiles name
+			         tiles.get(k).get(l).printTile();
+			        }
+			        //remove those two tiles in the arraylist
+			        Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
+			       this.ov.setValue(this.getNumberOfHandTile());
+
+			       }
+			      }
+				 if(computer3NoChanged && !computer1ChangedAgain)
 				 {
 					 System.out.println("\ncomputer 3 can do nothing, he draw a new card");
 					 System.out.println("\ncomputer 3 get: ");
 					  Tile newTile = d.drawTile();
 					  this.drawATile(newTile).printTile();
 				 }
-				 else if(!computer3NoChanged)
+				 else if(!computer3NoChanged || computer1ChangedAgain)
 				 {
 					 System.out.println("\nthe situation on the table is: ");
 				 }
