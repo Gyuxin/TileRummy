@@ -22,12 +22,12 @@ public class Computer1 extends Player{
 	  {
 		  super.sortRankFirst();
 	  }
-	  
+
 	  public int getNumberOfHandTile()
 	  {
 	    return super.getNumberOfHandTile();
 	  }
-	  
+
 	  public void initialHandTitle(Deck d)
 	  {
 	    super.initialHandTile(d);
@@ -39,7 +39,7 @@ public class Computer1 extends Player{
 		this.ov.setValue(this.getNumberOfHandTile());
 	    return temp;
 	  }
-	  
+
 	  public Tile dealTile(Tile t){
 		  Tile temp = super.dealTile(t);
 		  this.ov.setValue(this.getNumberOfHandTile());
@@ -51,7 +51,7 @@ public class Computer1 extends Player{
 	    return super.toString();
 	  }
 
-	  
+
 	  public void hasSet()
 	  {
 		  super.hasSet();
@@ -100,7 +100,7 @@ public class Computer1 extends Player{
 				  else if(total<30)
 				  {
 					  meldSums[index] = total;
-					  index++;	  
+					  index++;
 				  }
 			   }
 			   if(handOutTiles.size() == 0)
@@ -112,7 +112,7 @@ public class Computer1 extends Player{
 					  {
 						  handOutTiles = this.getMyMeld();
 					  }
-				  }  
+				  }
 			   }
 		   }
 		  if(handOutTiles.size()==0)
@@ -122,10 +122,10 @@ public class Computer1 extends Player{
 			  System.out.println("Computer1 draw a new tile");
 			  Tile newTile = d.drawTile();
 			  this.drawATile(newTile);
-			  
+
 			  System.out.println("computer1 get:" );
 			  newTile.printTile();
-			  
+
 		  }
 		  else if(!handOutTiles.isEmpty())
 		  {
@@ -138,8 +138,8 @@ public class Computer1 extends Player{
 				  {
 					  handOutTiles.get(x).get(y).printTile();
 					  this.dealTile(handOutTiles.get(x).get(y));
-				  		
-				  }  
+
+				  }
 			  }
 			  //initial player has already initial his or her first meld
 			  this.initialedFirstMeld = true;
@@ -173,7 +173,7 @@ public class Computer1 extends Player{
 				  newMeld.printMeld();
 				  t.addMeld(newMeld);
 			  }
-			 
+
 			  System.out.println("computer 1 deal tiles are: ");
 			  //remove from the hand
 			  for(int x = 0; x<handOutTiles.size();x++)
@@ -181,12 +181,12 @@ public class Computer1 extends Player{
 				  for(int y =0 ; y<handOutTiles.get(x).size(); y++)
 				  {
 					  handOutTiles.get(x).get(y).printTile();
-					  this.dealTile(handOutTiles.get(x).get(y));  		
-				  }  
+					  this.dealTile(handOutTiles.get(x).get(y));
+				  }
 			  }
 			  System.out.println("\nThe situation on the table is: ");
 			  t.printTable();
-			  
+
 			  //check if computer still have tile can be deal on the table according to the situation on the table
 			  ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
 			  for(int j = 0; j<temp.size();j++)
@@ -201,14 +201,35 @@ public class Computer1 extends Player{
 					  this.ov.setValue(this.getNumberOfHandTile());
 				  }
 			   }
-			  
+			  //check if computer still have two tiles can be deal at the same time
+			  ArrayList<ArrayList<Tile>> tiles = Logic.twoConsecutiveTiles(this.getMyHandTile());
+			  boolean computer1ChangedAgain = false;
+			  for(int k = 0; k < tiles.size(); k++)
+			  {
+				  computer1ChangedAgain = Logic.addTwoTiles(tiles.get(k), t);
+				  if(computer1ChangedAgain)
+				  {
+					  System.out.println("\ncomputer1 reuse the table again");
+					  for(int l = 0; l<tiles.get(k).size(); l++)
+					  {
+						  //print tiles name
+						  tiles.get(k).get(l).printTile();
+					  }
+					  //remove those two tiles in the arraylist
+					  Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
+						this.ov.setValue(this.getNumberOfHandTile());
+
+				  }
+			  }
+
+
 			   //print out the table
 			   System.out.println("\nsituation on the table");
 			   t.printTable();
 		  }
 		  else
 		  {
-			ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
+			 ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
 			 for(int j = 0; j<temp.size();j++)
 			 {
 				 computer1MeldChanged = Logic.addOneTile(temp.get(j),t);
@@ -222,7 +243,30 @@ public class Computer1 extends Player{
 					 computer1NoChanged = false;
 				 }
 			 }
-			 if(computer1NoChanged)
+
+			 //check if computer still have two tiles can be deal at the same time
+			  ArrayList<ArrayList<Tile>> tiles = Logic.twoConsecutiveTiles(this.getMyHandTile());
+			  boolean computer1ChangedAgain = false;
+			  for(int k = 0; k < tiles.size(); k++)
+			  {
+				  computer1ChangedAgain = Logic.addTwoTiles(tiles.get(k), t);
+				  if(computer1ChangedAgain)
+				  {
+					  System.out.println("\ncomputer1 reuse the table again");
+					  for(int l = 0; l<tiles.get(k).size(); l++)
+					  {
+						  //print tiles name
+						  tiles.get(k).get(l).printTile();
+					  }
+					  //remove those two tiles in the arraylist
+					  Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
+						this.ov.setValue(this.getNumberOfHandTile());
+
+				  }
+			  }
+
+
+			 if(computer1NoChanged && !computer1ChangedAgain)
 			 {
 				 System.out.println("\ncomputer 1 can do nothing, he draw a need card");
 				 Tile newTile = d.drawTile();
@@ -230,16 +274,16 @@ public class Computer1 extends Player{
 				 System.out.println("\ncomputer 1 get :");
 				 newTile.printTile();
 				 System.out.println("\nNothing changed on the table");
-				 
+
 			 }
-			 else if(!computer1NoChanged)
+			 else if(!computer1NoChanged || computer1ChangedAgain)
 			 {
 				 System.out.println("\nsituation on the table");
 				 t.printTable();
 			 }
-		  }  
+		  }
 	  }
-	  
+
 	  public static void computerTurn(Computer1 thisComputer, Table gameTable, Deck gameDeck)
 		{
 			if(!thisComputer.initialedFirstMeld)
