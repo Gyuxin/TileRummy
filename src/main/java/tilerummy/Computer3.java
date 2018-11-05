@@ -5,7 +5,7 @@ import java.util.Observer;
 import java.util.Observable;
 
 public class Computer3 extends Player implements Observer{
-	
+
 	private ObservableValue ov = null;
 	private boolean canPlay = false;
 	public Computer3(ObservableValue ov)
@@ -22,7 +22,7 @@ public class Computer3 extends Player implements Observer{
 			canPlay = false;
 		}
 	}
-	
+
 	public boolean firstMeldInitialCheck()
 	  {
 		  return initialedFirstMeld;
@@ -35,12 +35,12 @@ public class Computer3 extends Player implements Observer{
 	  {
 		  super.sortRankFirst();
 	  }
-	  
+
 	  public int getNumberOfHandTile()
 	  {
 	    return super.getNumberOfHandTile();
 	  }
-	  
+
 	  public void initialHandTitle(Deck d)
 	  {
 	    super.initialHandTile(d);
@@ -49,14 +49,14 @@ public class Computer3 extends Player implements Observer{
 	  {
 	    return super.drawATile(t);
 	  }
-	  
+
 
 	  public String toString()
 	  {
 	    return super.toString();
 	  }
 
-	  
+
 	  public void hasSet()
 	  {
 		  super.hasSet();
@@ -79,7 +79,7 @@ public class Computer3 extends Player implements Observer{
 	  }
 	  public void initialFirstMeld(Table t, Deck d)
 	  {
-		  System.out.println("Computer3 start initial his first meld");  
+		  System.out.println("Computer3 start initial his first meld");
 		  ArrayList<ArrayList<Tile>> handOutTiles = new ArrayList<ArrayList<Tile>>();
 		  if(this.hasMeld())
 		  {
@@ -89,7 +89,7 @@ public class Computer3 extends Player implements Observer{
 		      for(int i = 0; i<this.getMyMeld().size();i++)
 		      {
 		    	  int total = 0;
-			     
+
 		    	  for(int j=0;j<this.getMyMeld().get(i).size();j++)
 			      {
 			    	  total += this.getMyMeld().get(i).get(j).getNumber();
@@ -107,7 +107,7 @@ public class Computer3 extends Player implements Observer{
 			      else
 			      {
 			    	  mieldSums[indexOfMield] = total;
-				      indexOfMield++;  
+				      indexOfMield++;
 				  }
 			  }
 		      if(handOutTiles.size() == 0)
@@ -134,8 +134,8 @@ public class Computer3 extends Player implements Observer{
 						  }
 					  }
 					  i++;
-				  }  
-			  }	  
+				  }
+			  }
 		  }
 		  if(handOutTiles.size()==0)
 		  {
@@ -143,7 +143,7 @@ public class Computer3 extends Player implements Observer{
 			  //player draw a new tile
 			  System.out.println("Computer3 draw a new tile");
 			  Tile newTile = d.drawTile();
-			  this.drawATile(newTile);  
+			  this.drawATile(newTile);
 			  System.out.println("computer 3 get: ");
 			  newTile.printTile();
 		  }
@@ -158,8 +158,8 @@ public class Computer3 extends Player implements Observer{
 				  {
 					  handOutTiles.get(x).get(y).printTile();
 					  this.dealTile(handOutTiles.get(x).get(y));
-				  		
-				  }  
+
+				  }
 			  }
 			  //initial player has already initial his or her first meld
 			  this.initialedFirstMeld = true;
@@ -186,7 +186,7 @@ public class Computer3 extends Player implements Observer{
 				  for(int i = 0; i <this.getMyMeld().size(); i++)
 				  {
 					  handOutTiles.add(this.getMyMeld().get(i));
-				  }  
+				  }
 				  System.out.println("\ncomputer 3 deal some new melds: ");
 				  //add on the table and display on the console
 				  for(int i = 0; i <handOutTiles.size();i++)
@@ -203,8 +203,8 @@ public class Computer3 extends Player implements Observer{
 					  {
 						  handOutTiles.get(x).get(y).printTile();
 						  this.dealTile(handOutTiles.get(x).get(y));
-					  		
-					  }  
+
+					  }
 				  }
 				  System.out.println("\nThe situation on the table is: ");
 				  t.printTable();
@@ -215,7 +215,7 @@ public class Computer3 extends Player implements Observer{
 					  computer3MeldChanged = Logic.addOneTile(temp.get(j),t);
 					  if(computer3MeldChanged)
 					  {
-						  System.out.println("\ncomputer 3 deal another tile on the table ");
+						  System.out.println("\ncomputer 3 would reuse table ");
 						  temp.get(j).printTile();
 						  this.getMyHandTile().remove(temp.get(j));
 					  }
@@ -250,7 +250,7 @@ public class Computer3 extends Player implements Observer{
 						 System.out.println("\nthe situation on the table is: ");
 					 }
 			  }
-				  
+
 		  }
 		  else
 		  {
@@ -276,7 +276,7 @@ public class Computer3 extends Player implements Observer{
 				 else if(!computer3NoChanged)
 				 {
 					 System.out.println("\nthe situation on the table is: ");
-				 } 
+				 }
 		  }
 	  }
 	  public static void computerTurn(Computer3 thisComputer, Table gameTable, Deck gameDeck)
