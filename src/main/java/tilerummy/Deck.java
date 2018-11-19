@@ -24,6 +24,10 @@ public class Deck {
 			}
 		}
 		
+		// add 2 jokers to deck
+		Tile joker=new Tile("J",0);
+		tileDeck.add(joker);
+		tileDeck.add(joker);
 		Collections.shuffle(tileDeck);
 
 	}

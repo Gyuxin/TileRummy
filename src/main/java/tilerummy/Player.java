@@ -14,6 +14,8 @@ public class Player {
  private ArrayList<ArrayList<Tile>> mySetMeld = new ArrayList<ArrayList<Tile>>();
  private boolean hasSet = false;
  private boolean hasRun = false;
+ 
+ 
  public boolean initialedFirstMeld = false;
  
  public Player() {
@@ -21,17 +23,17 @@ public class Player {
  }
  
  public ArrayList<ArrayList<Tile>> getMyMeld(){
-  return this.myMeld;
+	 return this.myMeld;
  }
  
  public List<Tile> getMyHandTile(){
-  return this.myHandTile;
+	 return this.myHandTile;
  }
  
  public void printMyMeld() {
-       for(int i = 0; i< this.mySetMeld.size();i++) {
-        for(int j = 0; j<this.mySetMeld.get(i).size(); j++){
-            this.mySetMeld.get(i).get(j).printTile();
+       for(int i = 0; i< this.myMeld.size();i++) {
+        for(int j = 0; j<this.myMeld.get(i).size(); j++){
+            this.myMeld.get(i).get(j).printTile();
         }
         System.out.println("");
        }
@@ -41,17 +43,17 @@ public class Player {
   * sort according to tile's color
   */
  public void sort() {
-  Collections.sort(myHandTile, new CompareTile()); 
+	 	Collections.sort(myHandTile, new CompareTile()); 
  }
  
  /** sort according to tile's rank
   */
  public void sortRankFirst() {
-  Collections.sort(myHandTile, new CompareTileRankFirst());
+	 	Collections.sort(myHandTile, new CompareTileRankFirst());
  }
  
  public int getNumberOfHandTile() {
-  return this.myHandTile.size();
+	 return this.myHandTile.size();
  }
  
  //initially add 14 tiles to user's handTile.
@@ -62,47 +64,57 @@ public class Player {
 	  }
  }
 
+ 
+ public int numberOfJokerInHand() {
+	 int jokerNum = 0;
+	 for(int i = 0; i<this.getNumberOfHandTile();i++) {
+		 if(this.getMyHandTile().get(i).getColor().equals("J") && this.getMyHandTile().get(i).getNumber()==0) {
+			 jokerNum++;
+		 }
+	 }
+	 return jokerNum;
+ }
   
  
  /* three or four of a kind of the same rank;
   * 
   */
  public void hasSet() {
-  this.sortRankFirst();
-  int index = 0;
-  List<Tile> ht = this.myHandTile;
-  int count = 1;
-  
-  while(index<ht.size()-1) {
-    if(!ht.get(index).getColor().equals(ht.get(index+1).getColor()) && 
-    (ht.get(index).getNumber()==ht.get(index+1).getNumber())) {
-      count++;
-      if(count >= 3) {
-       ArrayList<Tile> temp = new ArrayList<Tile>();
-       if(count == 4) {
-        
-        mySetMeld.remove(mySetMeld.size()-1);
-        temp.clear();
-        temp.add(ht.get(index-2));
-        temp.add(ht.get(index-1));
-        temp.add(ht.get(index));
-        temp.add(ht.get(index+1)); 
-       } else {
-        temp.clear();
-        temp.add(ht.get(index-1));
-        temp.add(ht.get(index));
-        temp.add(ht.get(index+1)); 
-        }
-       hasSet = true;
-       mySetMeld.add(temp);
-      }
-      index++;
-    } else {
-     count = 1;
-     index++;
-    }
-  }
-  this.sort();
+	  this.sortRankFirst();
+	  int index = 0;
+	  List<Tile> ht = this.myHandTile;
+	  int count = 1;
+	  
+	  while(index<ht.size()-1) {
+		    if(!ht.get(index).getColor().equals(ht.get(index+1).getColor()) && 
+		    (ht.get(index).getNumber()==ht.get(index+1).getNumber())) {
+			      count++;
+			      if(count >= 3) {
+				       ArrayList<Tile> temp = new ArrayList<Tile>();
+				       if(count == 4) {
+				        
+					        mySetMeld.remove(mySetMeld.size()-1);
+					        temp.clear();
+					        temp.add(ht.get(index-2));
+					        temp.add(ht.get(index-1));
+					        temp.add(ht.get(index));
+					        temp.add(ht.get(index+1)); 
+				       } else {
+					        temp.clear();
+					        temp.add(ht.get(index-1));
+					        temp.add(ht.get(index));
+					        temp.add(ht.get(index+1)); 
+				        }
+				       hasSet = true;
+				       mySetMeld.add(temp);
+			      }
+			      index++;
+		    } else {
+			     count = 1;
+			     index++;
+		    }
+	  }
+	  this.sort();
  }
  
  
@@ -111,55 +123,89 @@ public class Player {
   * here we assume the hand card has sorted.!!!!
   */
  public void hasRun() {
-  int index = 0;
-  List<Tile> ht = this.myHandTile;
-  int count = 1;
- 
-  while(index<ht.size()-1) {
-    if(ht.get(index).getColor().equals(ht.get(index+1).getColor()) && 
-    isContinous(ht.get(index).getNumber(),ht.get(index+1).getNumber())) {
-      count++;
-      if(count >= 3) {
-       ArrayList<Tile> temp = new ArrayList<Tile>();
-       if(count == 3) {
-        temp.clear();
-        temp.add(ht.get(index-1));
-        temp.add(ht.get(index));
-        temp.add(ht.get(index+1)); 
-       } else {
-        myRunMeld.remove(myRunMeld.size()-1);
-        temp.clear();
-        int t = index+1;
-        for(int i = 0; i < count; i++) {
-         temp.add(ht.get(t));
-         t--;
-        }
-       }
-       hasRun = true;
-       myRunMeld.add(temp);
-      }
-      index++;
-    } else {
-     count = 1;
-     index++;
-    }
-  }
+	  int index = 0;
+	  List<Tile> ht = this.myHandTile;
+	  int count = 1;
+	 
+	  while(index<ht.size()-1) {
+		    if(ht.get(index).getColor().equals(ht.get(index+1).getColor()) && 
+		    isContinous(ht.get(index).getNumber(),ht.get(index+1).getNumber())) {
+			      count++;
+			      if(count >= 3) {
+				       ArrayList<Tile> temp = new ArrayList<Tile>();
+				       if(count == 3) {
+					        temp.clear();
+					        temp.add(ht.get(index-1));
+					        temp.add(ht.get(index));
+					        temp.add(ht.get(index+1)); 
+				       } else {
+					        myRunMeld.remove(myRunMeld.size()-1);
+					        temp.clear();
+					        int t = index+1;
+					        for(int i = 0; i < count; i++) {
+					         temp.add(ht.get(t));
+					         t--;
+					        }
+				       }
+				       hasRun = true;
+				       myRunMeld.add(temp);
+			      }
+			      index++;
+		    } else {
+			     count = 1;
+			     index++;
+		    }
+	  }
  }
  
- 
- public boolean hasMeld() {
+ /* player class 每次出牌前要先call 这个function
+  * 判断有没有meld， 有：形成meld arraylist return true
+  * 没有： return false
+  * */
+ public boolean hasMeld() {				
 	 myMeld.clear();
-	 myRunMeld.clear();
-	 mySetMeld.clear();
+	 myRunMeld.clear();			
+	 mySetMeld.clear();	// 每一次call 这个function，清空上一轮的结果，重新判断。
 	 hasRun = false;
 	 hasSet = false;
-	  this.hasRun();
+	 
+	  this.hasRun();	
 	  this.hasSet();
 
-	  checkDuplicate();
+	  checkDuplicate();	
+
+	  
+	  int joker = this.numberOfJokerInHand();
+	  // 如果没找到meld，但有joker：
+	  if(!this.hasRun && !this.hasSet && joker>0) {
+		  if(joker==1) {	//有1张joker
+			  if(this.twoConsecutiveTiles()!=null) {
+				  ArrayList<Tile> temp = this.twoConsecutiveTiles();
+				  temp.add(new Tile("J",0));
+				  this.myMeld.add(temp);
+				  return true;
+			  }
+		  } else {			//有2张joker
+			  if(this.twoConsecutiveTiles()!=null) {		// 把两张joker 拆成2组
+				  ArrayList<Tile> temp = this.twoConsecutiveTiles();
+				  temp.add(new Tile("J",0));					// 放其中一张joker来形成meld
+				  this.myMeld.add(temp);
+				  return true;
+			  } else {					
+				  ArrayList<Tile> temp = new ArrayList<Tile>();			
+				  temp.add(this.myHandTile.get(this.getMaxNumberInHand())); // 把两张joker和手牌里数字最大的一张牌组成meld
+				  temp.add(new Tile("J",0));
+				  temp.add(new Tile("J",0));
+				  this.myMeld.add(temp);
+				  return true;
+			  }
+			  }
+		  }
 	  return this.hasRun||this.hasSet;
  }
  
+ 
+ // 避免一张牌出现在handmeld里两次。
  public void checkDuplicate() {
 
 	 ArrayList<Tile> duplicateTile = new ArrayList<Tile>();
@@ -178,7 +224,13 @@ public class Player {
 						 
 						 if(tempRun.get(a).get(b).compareTile(tempSet.get(c).get(d))) {
 							 if(!duplicateTile.contains(tempRun.get(a).get(b))) {
-								 getLargerMeld(tempRun.get(a),tempSet.get(c));
+								 if(tempRun.get(a).size()>3 && (b==tempRun.get(a).size()-1 || b==0)) {	// {R2 R3 R4 R5} VS {R5 B5 G5} 可以 remove R5
+									 myRunMeld.get(a).remove(myRunMeld.get(a).get(b));
+								 } else if(tempSet.get(c).size()>3) {									// {R2 O2 B2 G2] VS {R2 R3 R4} 可以 remove R2
+									 mySetMeld.get(c).remove(mySetMeld.get(c).get(d));
+								 } else {
+									 getLargerMeld(tempRun.get(a),tempSet.get(c));		// 舍弃数字小的meld
+								 }
 							 }
 						 }
 					 }
@@ -216,6 +268,20 @@ public class Player {
 	  return false;
  }
  
+ 
+ // return INDEX of mux number tile in hand
+ public int getMaxNumberInHand() {
+	 int maxNumber = 0;
+	 int maxIndex = 0;
+	 for(int i=0; i<this.getNumberOfHandTile();i++) {
+		 if(this.getMyHandTile().get(i).getNumber()>maxNumber) {
+			 maxNumber = this.getMyHandTile().get(i).getNumber();
+			 maxIndex = i;
+		 }
+	 }
+	 return maxIndex;
+ }
+ 
 
  
 // public boolean initialCheck(ArrayList<Tile> meld) {
@@ -233,22 +299,54 @@ public class Player {
  
  
  public Tile drawATile(Tile t) {
-  myHandTile.add(t);
-  return t;
+	  myHandTile.add(t);
+	  return t;
  }
  
  public String toString() {
-  String result = "Hand Tile: ";
-
-  for(int i = 0; i < this.myHandTile.size(); i++) {
-   result+= this.myHandTile.get(i).getColor()+
-     this.myHandTile.get(i).getNumber()+" ";
-  }
-  return result;
- }
+	  String result = "Hand Tile: ";
+	
+	  for(int i = 0; i < this.myHandTile.size(); i++) {
+	   result+= this.myHandTile.get(i).getColor()+
+	     this.myHandTile.get(i).getNumber()+" ";
+	  }
+	  return result;
 }
 
-
+ /* 先找 「o1 o2」, 再找「r1 o1」
+  * 只return 一组
+ */
+public ArrayList<Tile> twoConsecutiveTiles(){
+	// find RUN
+	int count=0;
+	while(count<this.getNumberOfHandTile()-1) {
+		if(this.getMyHandTile().get(count).getColor().equals(this.getMyHandTile().get(count+1).getColor()) && 
+			isContinous(this.getMyHandTile().get(count).getNumber(),this.getMyHandTile().get(count+1).getNumber())) {
+			ArrayList<Tile> temp = new ArrayList<Tile>();
+			temp.add(this.getMyHandTile().get(count));
+			temp.add(this.getMyHandTile().get(count+1));
+			return temp;
+		}
+		count++;	
+	}
+	
+	// find SET
+	this.sortRankFirst();
+	count = 0;
+	while(count<this.getNumberOfHandTile()-1) {
+		if(this.getMyHandTile().get(count).getColor()!=this.getMyHandTile().get(count+1).getColor() && 
+			this.getMyHandTile().get(count).getNumber()==this.getMyHandTile().get(count+1).getNumber()) {
+			ArrayList<Tile> temp = new ArrayList<Tile>();
+			temp.add(this.getMyHandTile().get(count));
+			temp.add(this.getMyHandTile().get(count+1));
+			this.sort();
+			return temp;
+		}
+		count++;
+	}
+	this.sort();
+	return null;
+}
 
 /* compare each tile in user's hand 
  * in order to sort them in order Color First
@@ -256,40 +354,43 @@ public class Player {
  * */
 class CompareTile implements Comparator<Tile>{
 
- public int compare(Tile t1, Tile t2) {
-  int i = convertColorToInteger(t1).compareTo(convertColorToInteger(t2));
-  if (i != 0){
-       return i;
-    }
-
-  Integer r1 = new Integer(t1.getNumber());
-  Integer r2 = new Integer(t2.getNumber());
-  i = r1.compareTo(r2);
-  return i;
- }
- 
- 
-
-
- /* Convert tile's color to Integer
-  * So that it can be compared through .compareTo()
-  * R < B < G < D
-  * */
- public Integer convertColorToInteger(Tile t) {
-  if(t.getColor().equals("R")) {
-   Integer i = new Integer(1);
-   return i;
-  } else if(t.getColor().equals("B")) {
-   Integer i = new Integer(2);
-   return i;
-  } else if(t.getColor().equals("G")) {
-   Integer i = new Integer(3);
-   return i;
-  } else {
-   Integer i = new Integer(4);
-   return i;
-  }
- }
+	 public int compare(Tile t1, Tile t2) {
+	  int i = convertColorToInteger(t1).compareTo(convertColorToInteger(t2));
+	  if (i != 0){
+	       return i;
+	    }
+	
+	  Integer r1 = new Integer(t1.getNumber());
+	  Integer r2 = new Integer(t2.getNumber());
+	  i = r1.compareTo(r2);
+	  return i;
+	 }
+	 
+	 
+	
+	
+	 /* Convert tile's color to Integer
+	  * So that it can be compared through .compareTo()
+	  * R < B < G < O < JOKER
+	  * */
+	 public Integer convertColorToInteger(Tile t) {
+	  if(t.getColor().equals("R")) {
+		   Integer i = new Integer(1);
+		   return i;
+	  } else if(t.getColor().equals("B")) {
+		   Integer i = new Integer(2);
+		   return i;
+	  } else if(t.getColor().equals("G")) {
+		   Integer i = new Integer(3);
+		   return i;
+	  } else if(t.getColor().equals("O")){
+		   Integer i = new Integer(4);
+		   return i;
+	  } else {
+		   Integer i = new Integer(5);
+		   return i;
+	  }
+	 }
 }
 
 
@@ -299,38 +400,42 @@ class CompareTile implements Comparator<Tile>{
  * */
 class CompareTileRankFirst implements Comparator<Tile>{
 
- public int compare(Tile t1, Tile t2) {
-  Integer r1 = new Integer(t1.getNumber());
-  Integer r2 = new Integer(t2.getNumber());
-  
-  int i = r1.compareTo(r2);
-  if (i != 0)
-  return i;
- 
-  i = convertColorToInteger(t1).compareTo(convertColorToInteger(t2));  
-  return i;
- }
+	 public int compare(Tile t1, Tile t2) {
+		  Integer r1 = new Integer(t1.getNumber());
+		  Integer r2 = new Integer(t2.getNumber());
+		  
+		  int i = r1.compareTo(r2);
+		  if (i != 0)
+		  return i;
+		 
+		  i = convertColorToInteger(t1).compareTo(convertColorToInteger(t2));  
+		  return i;
+	 }
  
  
 
 
- /* Convert tile's color to Integer
-  * So that it can be compared through .compareTo()
-  * R < B < G < D
-  * */
- public Integer convertColorToInteger(Tile t) {
-  if(t.getColor().equals("R")) {
-   Integer i = new Integer(1);
-   return i;
-  } else if(t.getColor().equals("B")) {
-   Integer i = new Integer(2);
-   return i;
-  } else if(t.getColor().equals("G")) {
-   Integer i = new Integer(3);
-   return i;
-  } else {
-   Integer i = new Integer(4);
-   return i;
-  }
- }
+	 /* Convert tile's color to Integer
+	  * So that it can be compared through .compareTo()
+	  * R < B < G < D < Joker
+	  * */
+	 public Integer convertColorToInteger(Tile t) {
+		  if(t.getColor().equals("R")) {
+			   Integer i = new Integer(1);
+			   return i;
+		  } else if(t.getColor().equals("B")) {
+			   Integer i = new Integer(2);
+			   return i;
+		  } else if(t.getColor().equals("G")) {
+			   Integer i = new Integer(3);
+			   return i;
+		  } else if(t.getColor().equals("O")) {
+			   Integer i = new Integer(4);
+			   return i;			  
+		  } else {
+			   Integer i = new Integer(5);
+			   return i;
+		  }
+	 }
+}
 }
