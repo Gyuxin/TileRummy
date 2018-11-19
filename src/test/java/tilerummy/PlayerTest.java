@@ -94,5 +94,199 @@ public class PlayerTest extends TestCase {
 	      }
 	      System.out.println("end");
 	}
+	
+	public void testHandTileSortWithJoker() {
+		System.out.println("\n\nTEST FOR HAND TILE SORT WITH JOKER:\n\n");
+		Player p = new Player();
+		  Tile t1 = new Tile("R",3);
+	      Tile t2 = new Tile("J",0);
+	      Tile t3 = new Tile("R",5);
+	      Tile t4 = new Tile("B",4);
+	      Tile t5 = new Tile("B",5);
+	      Tile t6 = new Tile("B",6);
+	      Tile t7 = new Tile("G",5);
+	      Tile t8 = new Tile("G",8);
+	      Tile t9 = new Tile("O",8);
+	      Tile t10 = new Tile("J",0);
 
+	      
+	      p.drawATile(t1);
+	      p.drawATile(t2);
+	      p.drawATile(t3);
+	      p.drawATile(t4);
+	      p.drawATile(t5);
+	      p.drawATile(t6);
+	      p.drawATile(t7);
+	      p.drawATile(t8);
+	      p.drawATile(t9);
+	      p.drawATile(t10);
+	      
+	      p.sort();
+	      
+	      System.out.println(p.toString());
+
+	      p.sortRankFirst();
+
+	      System.out.println(p.toString());
+	}
+
+	public void testNumberOfJokerInHand() {
+		System.out.println("\n\nTEST FOR NUMBER OF JOKER IN HAND:\n\n");
+		Player p = new Player();
+		  Tile t1 = new Tile("R",3);
+	      Tile t2 = new Tile("J",0);
+	      Tile t3 = new Tile("R",5);
+	      Tile t4 = new Tile("B",4);
+	      Tile t5 = new Tile("B",5);
+	      Tile t6 = new Tile("B",6);
+	      Tile t7 = new Tile("G",5);
+	      Tile t8 = new Tile("G",8);
+	      Tile t9 = new Tile("O",8);
+	      Tile t10 = new Tile("J",0);
+
+	      
+	      p.drawATile(t1);
+	      p.drawATile(t2);
+	      p.drawATile(t3);
+	      p.drawATile(t4);
+	      p.drawATile(t5);
+	      p.drawATile(t6);
+	      p.drawATile(t7);
+	      p.drawATile(t8);
+	      p.drawATile(t9);
+	      p.drawATile(t10);
+	      
+	      System.out.println(p.numberOfJokerInHand());
+	      
+	      p.dealTile(t2);
+	      System.out.println(p.numberOfJokerInHand());
+	}
+	
+	public void testTwoConsecutiveFunction() {
+		System.out.println("\n\nTEST FOR twoConsecutiveTiles RETURN:\n\n");
+		Player p = new Player();
+		  Tile t1 = new Tile("R",3);
+	      Tile t2 = new Tile("J",0);
+	      Tile t3 = new Tile("R",5);
+	      Tile t4 = new Tile("B",4);
+	      Tile t5 = new Tile("B",5);
+	      Tile t6 = new Tile("B",6);
+	      Tile t7 = new Tile("G",5);
+	      Tile t8 = new Tile("G",8);
+	      Tile t9 = new Tile("O",8);
+	      Tile t10 = new Tile("J",0);
+
+	      
+	      p.drawATile(t1);
+	      p.drawATile(t2);
+	      p.drawATile(t3);
+	      p.drawATile(t4);
+	      p.drawATile(t5);
+	      p.drawATile(t6);
+	      p.drawATile(t7);
+	      p.drawATile(t8);
+	      p.drawATile(t9);
+	      p.drawATile(t10);
+
+	      if(p.twoConsecutiveTiles()!=null) {
+		      for(int i = 0; i<p.twoConsecutiveTiles().size();i++) {
+		    	  p.twoConsecutiveTiles().get(i).printTile();
+		      }
+	      }
+	}
+	
+	public void testMaxNumberInHand() {
+		System.out.println("\n\nTEST FOR RETURN MAX NUMBER IN HAND\n\n");
+		Player p = new Player();
+		  Tile t1 = new Tile("R",3);
+	      Tile t2 = new Tile("J",0);
+	      Tile t3 = new Tile("R",5);
+	      Tile t4 = new Tile("B",4);
+	      Tile t5 = new Tile("B",5);
+	      Tile t6 = new Tile("B",6);
+	      Tile t7 = new Tile("G",5);
+	      Tile t8 = new Tile("G",8);
+	      Tile t9 = new Tile("O",8);
+	      Tile t10 = new Tile("J",0);
+
+	      
+	      p.drawATile(t1);
+	      p.drawATile(t2);
+	      p.drawATile(t3);
+	      p.drawATile(t4);
+	      p.drawATile(t5);
+	      p.drawATile(t6);
+	      p.drawATile(t7);
+	      p.drawATile(t8);
+	      p.drawATile(t9);
+	      p.drawATile(t10);
+
+	      System.out.println(p.getMaxNumberInHand());
+	}
+
+	public void testCheckDuplicate() {
+		System.out.println("\n\nTEST CHECK DUPLICATE\n\n");
+		Player p = new Player();
+		  Tile t1 = new Tile("R",3);
+	      Tile t2 = new Tile("J",0);
+	      Tile t3 = new Tile("R",5);
+	      Tile t4 = new Tile("B",4);
+	      Tile t5 = new Tile("B",5);
+	      Tile t6 = new Tile("B",6);
+	      Tile t7 = new Tile("G",5);
+	      Tile t8 = new Tile("R",2);
+	      Tile t9 = new Tile("R",4);
+	      Tile t10 = new Tile("O",5);
+
+	      
+	      p.drawATile(t1);
+	      p.drawATile(t2);
+	      p.drawATile(t3);
+	      p.drawATile(t4);
+	      p.drawATile(t5);
+	      p.drawATile(t6);
+	      p.drawATile(t7);
+	      //p.drawATile(t8);
+	      p.drawATile(t9);
+	      p.drawATile(t10);
+	      p.sort();
+	      p.hasMeld();
+	      System.out.println(p.toString());
+	      p.printMyMeld();
+	      System.out.println(p.getMyMeld().size());
+	}
+	
+	public void testMeldWithJoker() {
+		System.out.println("\n\nTEST HAND MELD WITH JOKER\n\n");
+		Player p = new Player();
+		  Tile t1 = new Tile("R",3);
+	      Tile t2 = new Tile("J",0);
+	      Tile t3 = new Tile("R",5);
+	      Tile t4 = new Tile("B",4);
+	      Tile t5 = new Tile("B",5);
+	      Tile t6 = new Tile("O",6);
+	      Tile t7 = new Tile("G",5);
+	      Tile t8 = new Tile("R",2);
+	      Tile t9 = new Tile("R",4);
+	      Tile t10 = new Tile("J",0);
+
+	      
+	      //p.drawATile(t1);
+	      p.drawATile(t2);
+	     // p.drawATile(t3);
+	    //  p.drawATile(t4);
+	    //  p.drawATile(t5);
+	      p.drawATile(t6);
+	      p.drawATile(t7);
+	     // p.drawATile(t8);
+	      p.drawATile(t9);
+	      p.drawATile(t10);
+
+	      p.sort();
+	      p.hasMeld();
+	      System.out.println(p.toString());
+	      p.printMyMeld();
+	      
+	}
+	
 }
