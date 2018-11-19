@@ -22,6 +22,10 @@ public class Meld {
 		justPlayed = false;
 
 	}
+	
+	public ArrayList<Tile> getMeld(){
+		return this.meld;
+	}
 
 	public int getMeldSize(){
 		return meld.size();

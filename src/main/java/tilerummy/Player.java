@@ -211,9 +211,9 @@ public class Player {
   * Here i assume i2 always larger than i1
   */
  public boolean isContinous(int i1, int i2) {
-  if((i2-i1) == 1) 
-   return true;
-  return false;
+	  if((i2-i1) == 1) 
+	   return true;
+	  return false;
  }
  
 
@@ -223,10 +223,12 @@ public class Player {
 // }
 // 
  
+ public void computerTurn(Table t, Deck d, Scanner sc) {
+ }
  
  public Tile dealTile(Tile t){
-  myHandTile.remove(t);
-  return t;
+	  myHandTile.remove(t);
+	  return t;
  }
  
  

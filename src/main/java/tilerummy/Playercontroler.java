@@ -43,11 +43,12 @@ public class Playercontroler extends Player{
 	    this.ov.setValue(this.getNumberOfHandTile());
 	  }
 	  
-	  public Tile drawATile(Tile t)
+	  public Tile drawATile()
 	  {
-		Tile temp = new Tile(sc.next());
-		this.ov.setValue(this.getNumberOfHandTile());
-	    return temp;
+			Tile temp = new Tile(sc.next());
+			super.drawATile(temp);
+			this.ov.setValue(this.getNumberOfHandTile());
+		    return temp;
 	  }
 	  
 	  public Tile dealTile(Tile t){
@@ -78,7 +79,7 @@ public class Playercontroler extends Player{
 		  return super.hasMeld();
 	  }
 	  
-	  public void dealornotdeal(Table t, Deck d, Scanner sc) {
+	  public void computerTurn(Table t, Deck d, Scanner sc) {
 		  
 		  System.out.println("do you want to deal the cards?(Y/N)");
 		  String temp = sc.next();
@@ -86,9 +87,8 @@ public class Playercontroler extends Player{
 			  dealcard(t, sc);
 		  }
 		  else if (temp.equalsIgnoreCase("N")) {
-			  Tile newTile = d.drawTile();
 			  System.out.print("You draw a new tile ... ");
-			  this.drawATile(newTile).printTile();
+			  this.drawATile().printTile();
 		  }
 	  }
 	
@@ -108,8 +108,7 @@ public class Playercontroler extends Player{
 //					edittable();
 //			  }
 			  else {
-				  tilerummy.Tile next = null;
-				  super.drawATile(next);
+				  this.drawATile();
 			  }
 			  
 	
@@ -120,7 +119,7 @@ public class Playercontroler extends Player{
 			System.out.println("NO OF TILES IN YOUR MELD: ");
 			int i = sc.nextInt();
 			System.out.println("please enter meld IN ORDER (seperate each tile by space) :");
-			String[] N = new String[3];
+			String[] N = new String[i];
 			for(int j = 0; j<i; j++) {
 				N[j] = sc.next();
 			}
@@ -150,6 +149,9 @@ public class Playercontroler extends Player{
 	
 			t.addMeld(usersHandMeld); // add the Meld to users's 
 			this.ov.setValue(this.getNumberOfHandTile());
+			  //print the situation on the table
+			  System.out.println("\nSituation of table");
+			  t.printTable();
 		}
 	
 		// User deal a single tile
@@ -181,6 +183,9 @@ public class Playercontroler extends Player{
 			     }
 		    }
 		   this.ov.setValue(this.getNumberOfHandTile());
+			  //print the situation on the table
+			  System.out.println("\nSituation of table");
+			  t.printTable();
 		  }
 		
 //			public void edittable() {

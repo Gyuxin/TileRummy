@@ -6,28 +6,94 @@ import java.util.Scanner;
 
 
 public class GameMain {
+	
+	private int numberOfTotalPlayer;
+	private ArrayList<Player> players = new ArrayList<Player>();
+	private boolean gameContinue = true;
+	
+	public void totalNumberOfPlayer(Scanner sc) {
+		System.out.println("\n\nHOW MANY PLAYER IN TOTAL(2-4) ??? \n\n");
+		this.numberOfTotalPlayer = sc.nextInt();
+	}
+	
+	public int initAI(Scanner sc, ObservableValue ov) {
+		System.out.println("\n\nHOW MANY AI PLAYER(0-4) ??? \n\n ");
+		int numberOfAI = sc.nextInt();
+		if(numberOfAI>0) {
+			System.out.println("\n\nASSIGN STRATEGY 1-3 TO THEM IN ORDER: \n\n");
+			for(int i=0; i<numberOfAI; i++) {
+				int temp = sc.nextInt();
+				if(temp==1) {
+					players.add(new Computer1(ov,sc));
+				} else if(temp==2) {
+					players.add(new Computer2(ov,sc));
+				} else if(temp==3) {
+					Computer3 c = new Computer3(ov,sc);
+	           		players.add(c);
+	           		ov.addObserver(c);					//problem here with observer. what if we have more than one computer3?
+				}
+			}
+		}
+		return numberOfAI;
+	}
+
+	public void initPlayers(Scanner sc, ObservableValue ov) {
+		totalNumberOfPlayer(sc);
+		int numberOfHuman = this.numberOfTotalPlayer - initAI(sc,ov);
+		if(numberOfHuman>0) {
+			for(int i=0;i<numberOfHuman;i++) {
+				players.add(new Playercontroler(ov,sc));	
+			}
+		}
+	}
+	
+	public void initPlayersHandTile(Scanner sc) {
+		for(int i=0;i<players.size();i++) {
+			players.get(i).initialHandTile(sc);
+			players.get(i).sort();
+		}
+	}
+	
+	public void printPlayersHandTile() {
+		for(int i=0;i<players.size();i++) {
+			System.out.println("\nPLAYER"+(i+1)+" hand tiles: " + players.get(i).toString());	
+		}
+	}
+	
+	public void playGame(Table t, Deck d, Scanner sc) {
+		for(int i=0;i<players.size();i++) {
+			System.out.println("\n\nPLAYER"+(i+1)+"'s round !!! !!! !!!\n\n");
+			System.out.println(players.get(i).toString());
+			players.get(i).computerTurn(t,d,sc);
+		}
+	}
+	
+	public void checkGameEnd() {
+		for(int i=0;i<players.size();i++) {
+			if(players.get(i).getNumberOfHandTile()==0)
+			{
+				gameContinue=false;
+				System.out.println("\n\n\n\n PLAYER"+(i+1)+" WIN THE GAME!!! !!! !!! !!!\n\n\n\n");
+				break;
+			}
+		}
+	}
+	
 	public static void main(String[] args) throws FileNotFoundException
 	{
-		File file = new File("./src/main/java/tilerummy/File4.txt");
+		File file = new File("./src/main/java/tilerummy/File7.txt");
 		Scanner sc = new Scanner(file);
-	
+		GameMain newGame = new GameMain();
 
-		System.out.println("Welcome to Runnikub");
+		System.out.println("\n\n\nWelcome to Runnikub\n\n\n");
 		
 		//initial three computer players
 		ObservableValue ov = new ObservableValue(0);
 		
-		//initial the player(need to be changed after the real player has been initialed)!!!!!!!!!!!!!!!!!!!!
-		Playercontroler gamePlayer = new Playercontroler(ov,sc);
 		
-		Computer1 computer1 = new Computer1(ov,sc);
-		Computer2 computer2 = new Computer2(ov,sc);
-		Computer3 computer3 = new Computer3(ov,sc);
-		
+		//initial human players and AI players as requested by users.
+		newGame.initPlayers(sc,ov);		
 
-		
-		ov.addObserver(computer3);
-		
 		//initial deck on the table
 		Deck gameDeck = new Deck();
 		gameDeck.buildDeck();
@@ -35,85 +101,21 @@ public class GameMain {
 		//initial table 
 		Table gameTable = new Table();
 		
-		
 		//each player initial 14 titles from deck
-		gamePlayer.initialHandTile(sc);
-		computer1.initialHandTile(sc);
-		computer2.initialHandTile(sc);
-		computer3.initialHandTile(sc);
+		newGame.initPlayersHandTile(sc);
 		
-		
-		boolean gameIsNotEnd = true;
-		
-		
-		while(gameIsNotEnd)
+		while(newGame.gameContinue)
 		{
 			//player class need more 
 			//player class need an attribute for check if the player has been initial the first mield which grearter than 30
-			gamePlayer.sort();
-			computer1.sort();
-			computer2.sort();
-			computer3.sort();
 
-            System.out.println("\n");
-			System.out.println("computer1 hand tiles:" + computer1.toString());	
-			System.out.println("computer2 hand tiles:" + computer2.toString());
-			System.out.println("computer3 hand tiles:" + computer3.toString());
-			System.out.println("your hand tiles:" + gamePlayer.toString());
-			System.out.println("\n");
-			//human's round
-			System.out.println("\n");
-			System.out.println("Your round");
-			gamePlayer.printHandTile();
-			gamePlayer.dealornotdeal(gameTable,gameDeck,sc);
-			//player1 round
-			System.out.println("\nComputer 1 round");
-			computer1.printHandTile();
-			computer1.computerTurn(computer1, gameTable, gameDeck);
-			//player2 round
-			System.out.println("\n");
-			System.out.println("Computer 2 round");
-			computer2.printHandTile();
-			computer2.computerTurn(computer2, gameTable, gameDeck);
-			//player3 round
-			System.out.println("\n");
-			System.out.println("Computer 3 round");
-			computer3.printHandTile();
-			computer3.computerTurn(computer3, gameTable, gameDeck);
-
+			newGame.printPlayersHandTile();
 			
+			newGame.playGame(gameTable, gameDeck, sc);
 			
-			System.out.println("DO YOU WANT TO CONTINUE? (Y/N)");
-			if(sc.next().equals("Y")) {
-				System.out.println("\n\n**********  Start a new round ...  **********\n\n");
-				gameIsNotEnd = true;
-			} else {
-				gameIsNotEnd = false;
-			}
-			
-			//check if game is end
-			if(computer1.getNumberOfHandTile()==0)
-			{
-				gameIsNotEnd = false;
-				System.out.println("Computer1 Win!");
-			}
-			else if(computer2.getNumberOfHandTile()==0)
-			{
-				gameIsNotEnd = false;
-				System.out.println("Computer2 Win!");
-			}
-			else if(computer3.getNumberOfHandTile()==0)
-			{
-				gameIsNotEnd = false;
-				System.out.println("Computer3 Win!");
-			}
-			else if(gamePlayer.getNumberOfHandTile()==0) 
-			{
-				gameIsNotEnd = false;
-				System.out.println("you Win!");
-			}	
+			newGame.checkGameEnd();
 
 		}
-		System.out.println("Game end");
+		System.out.println("\n\n\n\n\n\nGGGGGGAAAAAMMMMMMEEEEEEE  EEEEENNNNNNNDDDDD\n\n\n\n\n");
 	}
 }

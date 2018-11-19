@@ -25,6 +25,11 @@ public class Computer3 extends Player implements Observer{
 		}
 	}
 
+	public void setCanplay(boolean flag)
+	{
+		this.canPlay = flag;
+	}
+	
 	public boolean firstMeldInitialCheck()
 	  {
 		  return initialedFirstMeld;
@@ -49,9 +54,10 @@ public class Computer3 extends Player implements Observer{
 	  }
 	  public Tile drawATile(Tile t)
 	  {
-		Tile temp = new Tile(sc.next());
-		super.drawATile(temp);
-	    return super.drawATile(t);
+			Tile temp = new Tile(sc.next());
+			
+			super.drawATile(temp);
+		    return temp;
 	  }
 
 
@@ -291,71 +297,107 @@ public class Computer3 extends Player implements Observer{
 					 else if(!computer3NoChanged || computer1ChangedAgain)
 					 {
 						 System.out.println("\nthe situation on the table is: ");
+						 t.printTable();
 					 }
 			  }
 
 		  }
 		  else
 		  {
-			  ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
-				 for(int j = 0; j<temp.size();j++)
-				 {
-					 computer3MeldChanged = Logic.addOneTile(temp.get(j),t);
-					 if(computer3MeldChanged)
-					 {
-						 System.out.println("\ncomputer 3 deal tiles: ");
-						 temp.get(j).printTile();
-						 this.getMyHandTile().remove(temp.get(j));
-						 computer3NoChanged = false;
-					 }
-				 }
-				//check if computer still have two tiles can be deal at the same time
-			      ArrayList<ArrayList<Tile>> tiles = Logic.twoConsecutiveTiles(this.getMyHandTile());
-			      boolean computer1ChangedAgain = false;
-			      for(int k = 0; k < tiles.size(); k++)
-			      {
-			       computer1ChangedAgain = Logic.addTwoTiles(tiles.get(k), t);
-			       if(computer1ChangedAgain)
-			       {
-			        System.out.println("\ncomputer3 reuse the table again");
-			        for(int l = 0; l<tiles.get(k).size(); l++)
-			        {
-			         //print tiles name
-			         tiles.get(k).get(l).printTile();
-			        }
-			        //remove those two tiles in the arraylist
-			        Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
-			       this.ov.setValue(this.getNumberOfHandTile());
+			  boolean lastMeldInHand = false;
+			  if(this.hasMeld())
+			  {
+				  ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
+				  for(int a=0; a<this.getMyMeld().size();a++)
+				  {
+					  for(int b=0; b<this.getMyMeld().get(a).size();b++)
+					  {
+						  temp.remove(this.getMyMeld().get(a).get(b));
+					  }
+				  }
+				  if(temp.size()==0)
+				  {
+					  lastMeldInHand = true;
+				  }
+			  }
 
-			       }
-			      }
-				 if(computer3NoChanged && !computer1ChangedAgain)
-				 {
-					 System.out.println("\ncomputer 3 can do nothing, he draw a new card");
-					 System.out.println("\ncomputer 3 get: ");
-					  Tile newTile = d.drawTile();
-					  this.drawATile(newTile).printTile();
-				 }
-				 else if(!computer3NoChanged || computer1ChangedAgain)
-				 {
-					 System.out.println("\nthe situation on the table is: ");
-				 }
+			  if(lastMeldInHand)
+			  {
+				  System.out.println("computer3 deal all the tiles(which is a meld) in his hand and finish the game: ");
+				  for(int a=0; a<this.getMyMeld().size();a++)
+				  {
+					  for(int b=0; b<this.getMyMeld().get(a).size();b++)
+					  {
+						  this.getMyMeld().get(a).get(b).printTile();
+						  this.getMyHandTile().remove(this.getMyMeld().get(a).get(b));
+					  }
+				  }
+			  }
+			  else if(!lastMeldInHand)
+			  {
+				  ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
+					 for(int j = 0; j<temp.size();j++)
+					 {
+						 computer3MeldChanged = Logic.addOneTile(temp.get(j),t);
+						 if(computer3MeldChanged)
+						 {
+							 System.out.println("\ncomputer 3 deal tiles: ");
+							 temp.get(j).printTile();
+							 this.getMyHandTile().remove(temp.get(j));
+							 computer3NoChanged = false;
+						 }
+					 }
+
+					 //check if computer still have two tiles can be deal at the same time
+					  ArrayList<ArrayList<Tile>> tiles = Logic.twoConsecutiveTiles(this.getMyHandTile());
+					  boolean computer3ChangedAgain = false;
+					  for(int k = 0; k < tiles.size(); k++)
+					  {
+						  computer3ChangedAgain = Logic.addTwoTiles(tiles.get(k), t);
+						  if(computer3ChangedAgain)
+						  {
+							  System.out.println("\ncomputer3 reuse the table again");
+							  for(int l = 0; l<tiles.get(k).size(); l++)
+							  {
+								  //print tiles name
+								  tiles.get(k).get(l).printTile();
+							  }
+							  //remove those two tiles in the arraylist
+							  Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
+
+						  }
+					  }
+					 if(computer3NoChanged && !computer3ChangedAgain)
+					 {
+						 System.out.println("\ncomputer 3 can do nothing, he draw a new card");
+						 Tile newTile = d.drawTile();
+						 System.out.println("\ncomputer 3 get: ");
+						 newTile.printTile();
+					 }
+					 else if(!computer3NoChanged || computer3ChangedAgain)
+					 {
+						 System.out.println("\nthe situation on the table is: ");
+						 t.printTable();
+					 }
+				  
+			  }
 		  }
 	  }
-	  public static void computerTurn(Computer3 thisComputer, Table gameTable, Deck gameDeck)
+	  public void computerTurn(Table gameTable, Deck gameDeck, Scanner sc)
 		{
-			if(!thisComputer.initialedFirstMeld)
+			if(!this.initialedFirstMeld)
 			{
 				System.out.println("\nComputer3 has not initialed his first meld");
-				thisComputer.initialFirstMeld(gameTable, gameDeck);
-				if(!thisComputer.initialedFirstMeld)
+				this.initialFirstMeld(gameTable, gameDeck);
+				if(!this.initialedFirstMeld)
 				{
 					System.out.println("\nNothing has been changed on the table");
 				}
 			}
 			else
 			{
-				thisComputer.playing(gameTable, gameDeck);
+				this.playing(gameTable, gameDeck);
 			}
+			this.setCanplay(false);
 		}
 }
