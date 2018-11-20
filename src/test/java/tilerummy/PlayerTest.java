@@ -1,5 +1,8 @@
 package tilerummy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.TestCase;
 
 
@@ -168,16 +171,16 @@ public class PlayerTest extends TestCase {
 		  Tile t1 = new Tile("R",3);
 	      Tile t2 = new Tile("J",0);
 	      Tile t3 = new Tile("R",5);
-	      Tile t4 = new Tile("B",4);
+	      Tile t4 = new Tile("R",4);
 	      Tile t5 = new Tile("B",5);
-	      Tile t6 = new Tile("B",6);
+	      Tile t6 = new Tile("R",5);
 	      Tile t7 = new Tile("G",5);
 	      Tile t8 = new Tile("G",8);
 	      Tile t9 = new Tile("O",8);
 	      Tile t10 = new Tile("J",0);
 
 	      
-	      p.drawATile(t1);
+	      //p.drawATile(t1);
 	      p.drawATile(t2);
 	      p.drawATile(t3);
 	      p.drawATile(t4);
@@ -188,9 +191,22 @@ public class PlayerTest extends TestCase {
 	      p.drawATile(t9);
 	      p.drawATile(t10);
 
-	      if(p.twoConsecutiveTiles()!=null) {
-		      for(int i = 0; i<p.twoConsecutiveTiles().size();i++) {
-		    	  p.twoConsecutiveTiles().get(i).printTile();
+	      p.sort();
+	      p.hasMeld();
+	      System.out.println(p.toString());
+	      List<Tile> exclude = p.tilesNotInMeld();
+	      p.printMyMeld();
+	      for(int i=0;i<exclude.size();i++) {
+		      exclude.get(i).printTile();
+		      System.out.println("\n");
+	      }
+
+	      
+	      if(p.twoConsecutiveTiles(exclude)!=null) {
+		      for(int i = 0; i<p.twoConsecutiveTiles(exclude).size();i++) {
+		    	  for(int j = 0; j<p.twoConsecutiveTiles(exclude).get(i).size(); j++) {
+		    		  p.twoConsecutiveTiles(exclude).get(i).get(j).printTile();
+		    	  }
 		      }
 	      }
 	}
@@ -286,6 +302,46 @@ public class PlayerTest extends TestCase {
 	      p.hasMeld();
 	      System.out.println(p.toString());
 	      p.printMyMeld();
+	      
+	}
+	
+	public void testTilesNotInMeld() {
+		System.out.println("\n\nTEST HAND TILES EXCLUDE FROM MELD\n\n");
+		Player p = new Player();
+		  Tile t1 = new Tile("R",3);
+	      Tile t2 = new Tile("J",0);
+	      Tile t3 = new Tile("R",5);
+	      Tile t4 = new Tile("B",4);
+	      Tile t5 = new Tile("B",5);
+	      Tile t6 = new Tile("O",6);
+	      Tile t7 = new Tile("G",5);
+	      Tile t8 = new Tile("R",2);
+	      Tile t9 = new Tile("R",4);
+	      Tile t10 = new Tile("J",0);
+
+	      
+	      p.drawATile(t1);
+	      p.drawATile(t2);
+	      p.drawATile(t3);
+	      p.drawATile(t4);
+	      p.drawATile(t5);
+	      p.drawATile(t6);
+	      p.drawATile(t7);
+	      p.drawATile(t8);
+	      p.drawATile(t9);
+	      p.drawATile(t10);
+
+	      p.sort();
+	      p.hasMeld();
+	      p.printMyMeld();
+	      System.out.println(p.toString());
+	      for(int i=0;i<p.tilesNotInMeld().size();i++) {
+	    	  p.tilesNotInMeld().get(i).printTile();
+	      }
+	
+	      
+	      System.out.println(p.toString());
+	      
 	      
 	}
 	

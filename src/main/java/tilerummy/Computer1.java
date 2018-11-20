@@ -7,6 +7,9 @@ public class Computer1 extends Player{
 
 	private ObservableValue ov = null;
 	private Scanner sc;
+	public Computer1() {
+		
+	}
 	public Computer1(ObservableValue ov, Scanner sc)
 	{
 		super();
@@ -41,6 +44,7 @@ public class Computer1 extends Player{
 		Tile temp = new Tile(sc.next());
 		super.drawATile(temp);
 		this.ov.setValue(this.getNumberOfHandTile());
+		this.sort();
 	    return temp;
 	  }
 	  
@@ -121,6 +125,7 @@ public class Computer1 extends Player{
 		  if(this.hasMeld())
 		  {
 			  if(this.numberOfJokerInMeld()>0) {			// 手里有joker
+				  
 				  int index = jokerIndex();
 				  if(this.numberOfJokerInMeld()==1) {		// 一张joker
 					  this.jokerReplaceVlu(index);
