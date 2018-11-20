@@ -17,6 +17,10 @@ public class Tile {
 		this.number = Integer.parseInt(name.substring(1));
 	}
 	
+	public void setNumber(int num) {
+		this.number = num;				// for joker
+	}
+	
 	public boolean compareTile(Tile t1) {
 
 		if(this.color.equals(t1.color)&&this.number==t1.number) return true;

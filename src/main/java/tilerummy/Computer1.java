@@ -76,12 +76,58 @@ public class Computer1 extends Player{
 			  this.getMyHandTile().get(i).printTile();
 		  }
 	  }
+	  
+	  public int jokerIndex() {
+		  for(int i = 0; i<this.getMyMeld().size(); i++) {
+			  if(this.getMyMeld().get(i).get(2).getColor().equals("J")) {	// JOKER is always in the 2nd index of a meld.
+				  return i;
+			  }
+		  }
+		  return 99;
+	  }
+	  
+	  public void jokerReplaceVlu(int index) {
+		  if(this.getMyMeld().get(index).get(0).getNumber()==this.getMyMeld().get(index).get(1).getNumber()) {	// meld is a set
+			  this.getMyMeld().get(index).get(2).setNumber(this.getMyMeld().get(index).get(0).getNumber());  // 把joker number换成它replace的值
+		  } else {		// meld is a run
+			  int temp = this.getMyMeld().get(index).get(1).getNumber()+1;
+			  if(temp!=14) {		// case{o12 o13 j0}
+				  this.getMyMeld().get(index).get(2).setNumber(this.getMyMeld().get(index).get(1).getNumber()+1);  // 把joker number换成它replace的值
+			  } else {
+				  this.getMyMeld().get(index).get(2).setNumber(11);
+			  }
+		  }
+	  }
+	  
+	  public void bothJokerReplaceVlu(int index) {
+			  this.getMyMeld().get(index).get(2).setNumber(this.getMyMeld().get(index).get(0).getNumber());  // 把joker number换成它replace的值
+			  this.getMyMeld().get(index).get(1).setNumber(this.getMyMeld().get(index).get(0).getNumber());  // 把joker number换成它replace的值
+	  }
+	  
+	  public int numberOfJokerInMeld() {
+		  int count=0;
+		  for(int i=0;i<this.getMyMeld().size();i++) {
+			  if(this.getMyMeld().get(i).get(2).getColor().equals("J")){
+				  count++;
+			  }
+		  }
+		  return count;
+	  }
+
 	  public void initialFirstMeld(Table t, Deck d)
 	  {
 		  System.out.println("Computer1 start initial his first meld");
 		  ArrayList<ArrayList<Tile>> handOutTiles = new ArrayList<ArrayList<Tile>>();
 		  if(this.hasMeld())
 		  {
+			  if(this.numberOfJokerInMeld()>0) {			// 手里有joker
+				  int index = jokerIndex();
+				  if(this.numberOfJokerInMeld()==1) {		// 一张joker
+					  this.jokerReplaceVlu(index);
+				  } else {									// 两张joker
+					  this.bothJokerReplaceVlu(index);
+				  }
+			  }
 			  int[] meldSums = new int[this.getMyMeld().size()];
 			  int initialSum = 0;
 	     	  int index = 0;
@@ -134,6 +180,7 @@ public class Computer1 extends Player{
 			  System.out.println("Computer1 initial his first meld successfully");
 			  //delete those tiles from player hand tile
 			  System.out.println("computer 1 hand tiles are: ");
+			  
 			  for(int x = 0; x<handOutTiles.size();x++)
 			  {
 				  for(int y =0 ; y<handOutTiles.get(x).size(); y++)

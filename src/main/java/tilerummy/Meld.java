@@ -123,12 +123,16 @@ public class Meld {
 		return meld.get(meld.size()-1);
 	}
 	
+	
 	public void printMeld() {
 		if(this.justPlayed){
 			System.out.print("*");
 		}
 		System.out.print("{ ");
 		for(int i = 0; i < meld.size(); i++) {
+			if(meld.get(i).getColor().equals("J")) {			// 还原joker的值
+				meld.get(i).setNumber(0);
+			}
 			meld.get(i).printTile();
 		}
 		System.out.print("}");

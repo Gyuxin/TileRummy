@@ -82,7 +82,8 @@ public class GameMain {
 	public static void main(String[] args) throws FileNotFoundException
 	{
 		File file = new File("./src/main/java/tilerummy/File7.txt");
-		Scanner sc = new Scanner(file);
+		//Scanner sc = new Scanner(file);
+		Scanner sc = new Scanner(System.in);
 		GameMain newGame = new GameMain();
 
 		System.out.println("\n\n\nWelcome to Runnikub\n\n\n");

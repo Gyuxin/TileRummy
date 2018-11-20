@@ -58,7 +58,7 @@ public class Player {
  
  //initially add 14 tiles to user's handTile.
  public void initialHandTile(Scanner sc){
-	  for(int i = 0; i < 14; i++) {
+	  for(int i = 0; i < 4; i++) {
 		  Tile temp = new Tile(sc.next());
 		  myHandTile.add(temp);
 	  }
@@ -75,6 +75,17 @@ public class Player {
 	 return jokerNum;
  }
   
+ 
+ public boolean isSet(ArrayList<Tile> s) {
+	 Meld m = new Meld(s);
+	 return m.isSet();
+ }
+ 
+ public boolean isRun(ArrayList<Tile> r) {
+	 Meld m = new Meld(r);
+	 return m.isRun();
+ }
+ 
  
  /* three or four of a kind of the same rank;
   * 
@@ -174,7 +185,6 @@ public class Player {
 
 	  checkDuplicate();	
 
-	  
 	  int joker = this.numberOfJokerInHand();
 	  // 如果没找到meld，但有joker：
 	  if(!this.hasRun && !this.hasSet && joker>0) {
@@ -242,6 +252,7 @@ public class Player {
 	 myMeld.addAll(myRunMeld);
  }
  
+ 
  public void getLargerMeld(ArrayList<Tile> r, ArrayList<Tile> s) {
 	 int countRunVlu = 0;
 	 int countSetVlu = 0;
@@ -293,7 +304,17 @@ public class Player {
  }
  
  public Tile dealTile(Tile t){
-	  myHandTile.remove(t);
+	  if(t.getColor().equals("J")) {			// 还原joker 的值
+		  for(int i=0;i<this.getNumberOfHandTile();i++) {
+			  if(this.getMyHandTile().get(i).getColor().equals("J")) {
+				  myHandTile.remove(i);
+				  t.setNumber(0);
+				  break;
+			  }
+		  }
+	  } else {
+		  myHandTile.remove(t);
+	  }
 	  return t;
  }
  
