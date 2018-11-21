@@ -30,10 +30,10 @@ public class Computer2 extends Player{
 	    return super.getNumberOfHandTile();
 	  }
 	  
-	  public void initialHandTitle(Scanner sc)
+	  public void initialHandTitle(Scanner sc, Deck d)
 	  {
 		this.ov.setValue(this.getNumberOfHandTile());
-	    super.initialHandTile(sc);
+	    super.initialHandTile(sc,d);
 	  }
 	  public Tile drawATile(Tile t)
 	  {

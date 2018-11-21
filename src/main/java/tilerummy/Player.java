@@ -57,9 +57,10 @@ public class Player {
  }
  
  //initially add 14 tiles to user's handTile.
- public void initialHandTile(Scanner sc){
-	  for(int i = 0; i < 4; i++) {
-		  Tile temp = new Tile(sc.next());
+ public void initialHandTile(Scanner sc, Deck d){
+	  for(int i = 0; i < 14; i++) {
+		 // Tile temp = new Tile(sc.next());
+		  Tile temp = d.drawTile();
 		  myHandTile.add(temp);
 	  }
  }

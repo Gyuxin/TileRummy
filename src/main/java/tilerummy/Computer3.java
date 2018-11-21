@@ -48,9 +48,9 @@ public class Computer3 extends Player implements Observer{
 	    return super.getNumberOfHandTile();
 	  }
 
-	  public void initialHandTitle(Scanner sc)
+	  public void initialHandTitle(Scanner sc, Deck d)
 	  {
-	    super.initialHandTile(sc);
+	    super.initialHandTile(sc,d);
 	  }
 	  public Tile drawATile(Tile t)
 	  {

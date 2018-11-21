@@ -345,4 +345,44 @@ public class PlayerTest extends TestCase {
 	      
 	}
 	
+	public void testPlayFirst() {
+		System.out.println("\n\nTEST PLAY FIRST\n\n");
+		Player p = new Player();
+		  Tile t1 = new Tile("R",3);
+	      Tile t2 = new Tile("J",0);
+	      Tile t3 = new Tile("R",5);
+	      Tile t4 = new Tile("B",4);
+	      Tile t5 = new Tile("B",5);
+	      Tile t6 = new Tile("O",6);
+	      Tile t7 = new Tile("G",5);
+	      Tile t8 = new Tile("R",2);
+	      Tile t9 = new Tile("R",4);
+	      Tile t10 = new Tile("J",0);
+
+	      
+	      p.drawATile(t1);
+	      p.drawATile(t2);
+	      p.drawATile(t3);
+	      p.drawATile(t4);
+	      p.drawATile(t5);
+	      p.drawATile(t6);
+	      p.drawATile(t7);
+	      p.drawATile(t8);
+	      p.drawATile(t9);
+	      p.drawATile(t10);
+
+	      p.sort();
+	      p.hasMeld();
+	      p.printMyMeld();
+	      System.out.println(p.toString());
+	      for(int i=0;i<p.tilesNotInMeld().size();i++) {
+	    	  p.tilesNotInMeld().get(i).printTile();
+	      }
+	
+	      
+	      System.out.println(p.toString());
+	      
+	      
+	}
+	
 }
