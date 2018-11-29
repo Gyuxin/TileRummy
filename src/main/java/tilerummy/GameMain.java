@@ -10,6 +10,15 @@ public class GameMain {
 	private int numberOfTotalPlayer;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private boolean gameContinue = true;
+	private static Table gameTable;
+	
+	public ArrayList<Player> getPlayers(){
+		return players;
+	}
+	
+	public Table getTable() {
+		return gameTable;
+	}
 	
 	public void totalNumberOfPlayer(Scanner sc) {
 		System.out.println("\n\nHOW MANY PLAYER IN TOTAL(2-4) ??? \n\n");
@@ -100,7 +109,7 @@ public class GameMain {
 		gameDeck.buildDeck();
 		
 		//initial table 
-		Table gameTable = new Table();
+		gameTable = new Table();
 		
 		//each player initial 14 titles from deck
 		newGame.initPlayersHandTile(sc);
