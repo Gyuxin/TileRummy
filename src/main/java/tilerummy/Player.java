@@ -345,6 +345,17 @@ public class Player {
 	  return t;
  }
  
+ public void  hightlightrecenttile(Tile t) {
+	
+	 t.setColor(t.getColor()+"*");
+ }
+ public void resettile(Tile t) {
+	 
+	if (t.getColor().contains("*") ) {
+		t.getColor().substring(0, t.getColor().length()-1);
+	}
+	 
+ }
  
  public Tile drawATile(Tile t) {
 	  myHandTile.add(t);
