@@ -106,6 +106,17 @@ public class GameMain {
 	public void playGame(Table t, Deck d, Scanner sc, int first) {
 		
 		// 某个player 先出牌。
+		for (int num=0; num<t.getSize();num++) {
+			 
+			for(int m=0; m<t.getMeld(num).getMeldSize();m++) {
+				 
+				if(t.getMeld(num).get(m).getColor().contains("*")) {
+					t.getMeld(num).get(m).resettile(t.getMeld(num).get(m));
+				}
+				 
+			}
+		}
+		
 		System.out.println("\n\nPLAYER"+(first+1)+"'s round !!! !!! !!!\n\n");
 		System.out.println(players.get(first).toString());
 		players.get(first).computerTurn(t,d,sc);

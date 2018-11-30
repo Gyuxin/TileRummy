@@ -334,27 +334,17 @@ public class Player {
 	  if(t.getColor().equals("J")) {			// 还原joker 的值
 		  for(int i=0;i<this.getNumberOfHandTile();i++) {
 			  if(this.getMyHandTile().get(i).getColor().equals("J")) {
+				  t.hightlightrecenttile(t);
 				  myHandTile.remove(i);
 				  t.setNumber(0);
 				  break;
 			  }
 		  }
 	  } else {
+	  	  t.hightlightrecenttile(t);
 		  myHandTile.remove(t);
 	  }
 	  return t;
- }
- 
- public void  hightlightrecenttile(Tile t) {
-	
-	 t.setColor(t.getColor()+"*");
- }
- public void resettile(Tile t) {
-	 
-	if (t.getColor().contains("*") ) {
-		t.getColor().substring(0, t.getColor().length()-1);
-	}
-	 
  }
  
  public Tile drawATile(Tile t) {

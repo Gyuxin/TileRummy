@@ -44,10 +44,16 @@ public class Tile {
 		return this.number;
 	}
 
-	public boolean contains() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public void  hightlightrecenttile(Tile t) {
+		
+		 t.setColor(t.getColor()+"*");
+	 }
+	 public void resettile(Tile t) {
+		 
+	   t.setColor(t.getColor().substring(0,1));
+	  
+		 
+	 }
 <<<<<<< Updated upstream
 }
 =======
