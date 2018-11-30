@@ -24,8 +24,18 @@ public class Deck {
 			}
 		}
 		
+		// add 2 jokers to deck
+		Tile joker=new Tile("J",0);
+		tileDeck.add(joker);
+		tileDeck.add(joker);
 		Collections.shuffle(tileDeck);
 
+	}
+	
+	// 随机生成一张牌，不拿走。用来决定哪个玩家先出牌
+	public Tile getARandomTile() {
+		Collections.shuffle(tileDeck);
+		return this.tileDeck.get(0);
 	}
 	
 	public int getDeckSize(){
@@ -33,6 +43,10 @@ public class Deck {
 	}
 	
 	public Tile drawTile() {
+		if(tileDeck.size()==0) {
+			System.out.println("没牌啦");
+			System.exit(0);
+		}
 		return tileDeck.remove(0);
 	}
 

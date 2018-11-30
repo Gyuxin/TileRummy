@@ -9,8 +9,7 @@ import javafx.scene.control.Button;
 
 @SuppressWarnings("restriction")
 public class CardView extends Button{
-    @SuppressWarnings("restriction")
-	public CardView(Tile t)
+    public CardView(Tile t)
     {
 
         String colour = t.getColor();
