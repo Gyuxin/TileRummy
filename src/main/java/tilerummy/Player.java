@@ -57,9 +57,10 @@ public class Player {
  }
  
  //initially add 14 tiles to user's handTile.
- public void initialHandTile(Scanner sc){
-	  for(int i = 0; i < 4; i++) {
-		  Tile temp = new Tile(sc.next());
+ public void initialHandTile(Scanner sc, Deck d){
+	  for(int i = 0; i < 14; i++) {
+		 // Tile temp = new Tile(sc.next());
+		  Tile temp = d.drawTile();
 		  myHandTile.add(temp);
 	  }
  }
@@ -169,6 +170,19 @@ public class Player {
 	  }
  }
  
+ 
+ //没法组成meld的剩余的牌
+ public List<Tile> tilesNotInMeld(){
+	 List<Tile> list = new ArrayList<Tile>();
+	 list.addAll(this.myHandTile);				// make a deep copy
+	 for(int i=0; i<this.myMeld.size();i++) {
+		 for(int j=0;j<this.myMeld.get(i).size();j++) {
+			 list.remove(this.myMeld.get(i).get(j));		// 把meld 从 handtile 里移除
+		 }
+	 }
+	 return list;
+ }
+ 
  /* player class 每次出牌前要先call 这个function
   * 判断有没有meld， 有：形成meld arraylist return true
   * 没有： return false
@@ -184,26 +198,27 @@ public class Player {
 	  this.hasSet();
 
 	  checkDuplicate();	
-
+	  
 	  int joker = this.numberOfJokerInHand();
-	  // 如果没找到meld，但有joker：
-	  if(!this.hasRun && !this.hasSet && joker>0) {
+	  List<Tile> list = this.tilesNotInMeld();
+	  // 有joker：
+	  if(joker>0) {
 		  if(joker==1) {	//有1张joker
-			  if(this.twoConsecutiveTiles()!=null) {
-				  ArrayList<Tile> temp = this.twoConsecutiveTiles();
+			  if(this.twoConsecutiveTiles(list)!=null) {
+				  ArrayList<Tile> temp = this.getLargestConsuctiveList(twoConsecutiveTiles(list));
 				  temp.add(new Tile("J",0));
 				  this.myMeld.add(temp);
 				  return true;
 			  }
 		  } else {			//有2张joker
-			  if(this.twoConsecutiveTiles()!=null) {		// 把两张joker 拆成2组
-				  ArrayList<Tile> temp = this.twoConsecutiveTiles();
+			  if(this.twoConsecutiveTiles(list)!=null) {		// 把两张joker 拆成2组
+				  ArrayList<Tile> temp = this.getLargestConsuctiveList(twoConsecutiveTiles(list));
 				  temp.add(new Tile("J",0));					// 放其中一张joker来形成meld
 				  this.myMeld.add(temp);
 				  return true;
 			  } else {					
 				  ArrayList<Tile> temp = new ArrayList<Tile>();			
-				  temp.add(this.myHandTile.get(this.getMaxNumberInHand())); // 把两张joker和手牌里数字最大的一张牌组成meld
+				  temp.add(list.get(this.getMaxNumberInHand(list))); // 把两张joker和手牌里数字最大的一张牌组成meld
 				  temp.add(new Tile("J",0));
 				  temp.add(new Tile("J",0));
 				  this.myMeld.add(temp);
@@ -269,6 +284,18 @@ public class Player {
 	 }
  }
  
+ public ArrayList<Tile> getLargestConsuctiveList(ArrayList<ArrayList<Tile>> ll) {
+	 int maxNum = 0;
+	 int maxIndex = 0;
+	 for(int i=0;i<ll.size();i++) {
+		 if((ll.get(i).get(0).getNumber()+ll.get(i).get(1).getNumber())>maxNum){
+			 maxNum = ll.get(i).get(0).getNumber()+ll.get(i).get(1).getNumber();
+			 maxIndex = i;
+		 }
+	 }
+	 return ll.get(maxIndex);
+ }
+ 
  
  /* Helper method for hasRun()
   * Here i assume i2 always larger than i1
@@ -280,13 +307,13 @@ public class Player {
  }
  
  
- // return INDEX of mux number tile in hand
- public int getMaxNumberInHand() {
+ // return INDEX of max number tile in hand
+ public int getMaxNumberInHand(List<Tile> list) {
 	 int maxNumber = 0;
 	 int maxIndex = 0;
-	 for(int i=0; i<this.getNumberOfHandTile();i++) {
-		 if(this.getMyHandTile().get(i).getNumber()>maxNumber) {
-			 maxNumber = this.getMyHandTile().get(i).getNumber();
+	 for(int i=0; i<list.size();i++) {
+		 if(list.get(i).getNumber()>maxNumber) {
+			 maxNumber = list.get(i).getNumber();
 			 maxIndex = i;
 		 }
 	 }
@@ -318,6 +345,17 @@ public class Player {
 	  return t;
  }
  
+ public void  hightlightrecenttile(Tile t) {
+	
+	 t.setColor(t.getColor()+"*");
+ }
+ public void resettile(Tile t) {
+	 
+	if (t.getColor().contains("*") ) {
+		t.getColor().substring(0, t.getColor().length()-1);
+	}
+	 
+ }
  
  public Tile drawATile(Tile t) {
 	  myHandTile.add(t);
@@ -337,36 +375,41 @@ public class Player {
  /* 先找 「o1 o2」, 再找「r1 o1」
   * 只return 一组
  */
-public ArrayList<Tile> twoConsecutiveTiles(){
+public ArrayList<ArrayList<Tile>> twoConsecutiveTiles(List<Tile> list){
+	ArrayList<ArrayList<Tile>> tempList = new ArrayList<ArrayList<Tile>>();
+	List<Tile> newList = new ArrayList<Tile>();
+	newList.addAll(list);
 	// find RUN
+	Collections.sort(list, new CompareTile()); 
 	int count=0;
-	while(count<this.getNumberOfHandTile()-1) {
-		if(this.getMyHandTile().get(count).getColor().equals(this.getMyHandTile().get(count+1).getColor()) && 
-			isContinous(this.getMyHandTile().get(count).getNumber(),this.getMyHandTile().get(count+1).getNumber())) {
+	while(count<list.size()-1) {
+		if(list.get(count).getColor().equals(list.get(count+1).getColor()) && 
+			isContinous(list.get(count).getNumber(),list.get(count+1).getNumber())) {
 			ArrayList<Tile> temp = new ArrayList<Tile>();
-			temp.add(this.getMyHandTile().get(count));
-			temp.add(this.getMyHandTile().get(count+1));
-			return temp;
+			temp.add(list.get(count));
+			temp.add(list.get(count+1));
+			newList.remove(list.get(count));
+			newList.remove(list.get(count+1));
+			tempList.add(temp);
 		}
 		count++;	
 	}
 	
 	// find SET
-	this.sortRankFirst();
+	Collections.sort(newList, new CompareTileRankFirst()); 
 	count = 0;
-	while(count<this.getNumberOfHandTile()-1) {
-		if(this.getMyHandTile().get(count).getColor()!=this.getMyHandTile().get(count+1).getColor() && 
-			this.getMyHandTile().get(count).getNumber()==this.getMyHandTile().get(count+1).getNumber()) {
+	while(count<newList.size()-1) {
+		if(newList.get(count).getColor()!=newList.get(count+1).getColor() && 
+			newList.get(count).getNumber()==newList.get(count+1).getNumber()) {
 			ArrayList<Tile> temp = new ArrayList<Tile>();
-			temp.add(this.getMyHandTile().get(count));
-			temp.add(this.getMyHandTile().get(count+1));
-			this.sort();
-			return temp;
+			temp.add(newList.get(count));
+			temp.add(newList.get(count+1));
+			tempList.add(temp);
 		}
 		count++;
 	}
-	this.sort();
-	return null;
+	if(tempList.size()==0) return null;
+	else return tempList;
 }
 
 /* compare each tile in user's hand 

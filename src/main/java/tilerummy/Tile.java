@@ -21,6 +21,11 @@ public class Tile {
 		this.number = num;				// for joker
 	}
 	
+	public void setColor(String color) {
+		this.color = color;            // for highlight tile
+		
+	}
+	
 	public boolean compareTile(Tile t1) {
 
 		if(this.color.equals(t1.color)&&this.number==t1.number) return true;
@@ -37,5 +42,10 @@ public class Tile {
 	
 	public int getNumber() {
 		return this.number;
+	}
+
+	public boolean contains() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

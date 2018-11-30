@@ -56,9 +56,9 @@ public class GameMain {
 		}
 	}
 	
-	public void initPlayersHandTile(Scanner sc) {
+	public void initPlayersHandTile(Scanner sc, Deck d) {
 		for(int i=0;i<players.size();i++) {
-			players.get(i).initialHandTile(sc);
+			players.get(i).initialHandTile(sc, d);
 			players.get(i).sort();
 		}
 	}
@@ -69,8 +69,48 @@ public class GameMain {
 		}
 	}
 	
-	public void playGame(Table t, Deck d, Scanner sc) {
-		for(int i=0;i<players.size();i++) {
+	// return index of Player who start first;
+	public int decideWhoPlayFirst(Deck d) {
+		int result = -1;
+		int maxNum = -1;
+		
+		int count = 0;
+		
+		for(int i=0;i<4;i++) {
+			int temp = generateRandonTile(d);
+			System.out.println(temp);
+			if(temp==maxNum) {			// 和前玩家一样大。再抽一次
+				i--;
+			}
+			if(temp>maxNum) {
+				maxNum = temp;
+				result = i;
+			}
+		}
+		System.out.println("\n\nPlayer"+(result+1)+"\nGet Largest Tile: "+maxNum);
+		System.out.println("So Player"+(result+1)+" plays first!\n\n");
+		return result;
+	}
+	
+	// 随机抽一张不是鬼的牌
+	public int generateRandonTile(Deck d) {
+		while(true) {
+			int temp = d.getARandomTile().getNumber();
+			if(temp!=0) {		// 不是鬼
+				return temp;
+			}
+			System.out.println("抽到鬼啦");
+		}
+	}
+	
+	public void playGame(Table t, Deck d, Scanner sc, int first) {
+		
+		// 某个player 先出牌。
+		System.out.println("\n\nPLAYER"+(first+1)+"'s round !!! !!! !!!\n\n");
+		System.out.println(players.get(first).toString());
+		players.get(first).computerTurn(t,d,sc);
+		
+		for(int i=0;i<players.size() && i!=first;i++) {
 			System.out.println("\n\nPLAYER"+(i+1)+"'s round !!! !!! !!!\n\n");
 			System.out.println(players.get(i).toString());
 			players.get(i).computerTurn(t,d,sc);
@@ -102,17 +142,20 @@ public class GameMain {
 		
 		
 		//initial human players and AI players as requested by users.
-		newGame.initPlayers(sc,ov);		
+		newGame.initPlayers(sc,ov);	
 
 		//initial deck on the table
 		Deck gameDeck = new Deck();
 		gameDeck.buildDeck();
 		
+		// 谁先开始
+		int firstPlayerIndex = newGame.decideWhoPlayFirst(gameDeck);
+		
 		//initial table 
 		gameTable = new Table();
 		
 		//each player initial 14 titles from deck
-		newGame.initPlayersHandTile(sc);
+		newGame.initPlayersHandTile(sc, gameDeck);
 		
 		while(newGame.gameContinue)
 		{
@@ -121,7 +164,7 @@ public class GameMain {
 
 			newGame.printPlayersHandTile();
 			
-			newGame.playGame(gameTable, gameDeck, sc);
+			newGame.playGame(gameTable, gameDeck, sc, firstPlayerIndex);
 			
 			newGame.checkGameEnd();
 

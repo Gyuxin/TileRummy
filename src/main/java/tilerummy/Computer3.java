@@ -48,9 +48,9 @@ public class Computer3 extends Player implements Observer{
 	    return super.getNumberOfHandTile();
 	  }
 
-	  public void initialHandTitle(Scanner sc)
+	  public void initialHandTitle(Scanner sc, Deck d)
 	  {
-	    super.initialHandTile(sc);
+	    super.initialHandTile(sc,d);
 	  }
 	  public Tile drawATile(Tile t)
 	  {
@@ -87,12 +87,59 @@ public class Computer3 extends Player implements Observer{
 			  this.getMyHandTile().get(i).printTile();
 		  }
 	  }
+	  
+	  public int jokerIndex() {
+		  for(int i = 0; i<this.getMyMeld().size(); i++) {
+			  if(this.getMyMeld().get(i).get(2).getColor().equals("J")) {	// JOKER is always in the 2nd index of a meld.
+				  return i;
+			  }
+		  }
+		  return 99;
+	  }
+	  
+	  public void jokerReplaceVlu(int index) {
+		  if(this.getMyMeld().get(index).get(0).getNumber()==this.getMyMeld().get(index).get(1).getNumber()) {	// meld is a set
+			  this.getMyMeld().get(index).get(2).setNumber(this.getMyMeld().get(index).get(0).getNumber());  // 把joker number换成它replace的值
+		  } else {		// meld is a run
+			  int temp = this.getMyMeld().get(index).get(1).getNumber()+1;
+			  if(temp!=14) {		// case{o12 o13 j0}
+				  this.getMyMeld().get(index).get(2).setNumber(this.getMyMeld().get(index).get(1).getNumber()+1);  // 把joker number换成它replace的值
+			  } else {
+				  this.getMyMeld().get(index).get(2).setNumber(11);
+			  }
+		  }
+	  }
+	  
+	  public void bothJokerReplaceVlu(int index) {
+			  this.getMyMeld().get(index).get(2).setNumber(this.getMyMeld().get(index).get(0).getNumber());  // 把joker number换成它replace的值
+			  this.getMyMeld().get(index).get(1).setNumber(this.getMyMeld().get(index).get(0).getNumber());  // 把joker number换成它replace的值
+	  }
+	  
+	  public int numberOfJokerInMeld() {
+		  int count=0;
+		  for(int i=0;i<this.getMyMeld().size();i++) {
+			  if(this.getMyMeld().get(i).get(2).getColor().equals("J")){
+				  count++;
+			  }
+		  }
+		  return count;
+	  }
+	  
 	  public void initialFirstMeld(Table t, Deck d)
 	  {
 		  System.out.println("Computer3 start initial his first meld");
 		  ArrayList<ArrayList<Tile>> handOutTiles = new ArrayList<ArrayList<Tile>>();
 		  if(this.hasMeld())
 		  {
+			  if(this.numberOfJokerInMeld()>0) {			// 手里有joker
+				  
+				  int index = jokerIndex();
+				  if(this.numberOfJokerInMeld()==1) {		// 一张joker
+					  this.jokerReplaceVlu(index);
+				  } else {									// 两张joker
+					  this.bothJokerReplaceVlu(index);
+				  }
+			  }
 			  int indexOfMield = 0;
 			  int sumOfInitial = 0;
 		      int[] mieldSums = new int[this.getMyMeld().size()];
