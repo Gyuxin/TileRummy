@@ -10,7 +10,7 @@ public class GameMain {
 	private int numberOfTotalPlayer;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private boolean gameContinue = true;
-	private static Table gameTable;
+	private static Table gameTable = new Table();
 	
 	public ArrayList<Player> getPlayers(){
 		return players;
@@ -151,9 +151,7 @@ public class GameMain {
 		// 谁先开始
 		int firstPlayerIndex = newGame.decideWhoPlayFirst(gameDeck);
 		
-		//initial table 
-		gameTable = new Table();
-		
+		//initial table 		
 		//each player initial 14 titles from deck
 		newGame.initPlayersHandTile(sc, gameDeck);
 		

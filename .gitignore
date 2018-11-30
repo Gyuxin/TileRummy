@@ -2,3 +2,9 @@
 *.java
 *.java
 src/main/java/tilerummy/GameMain.java
+*.java
+src/main/java/tilerummy/GameMain.java
+src/main/java/tilerummy/MainGameView.java
+target/classes/tilerummy/Tile.class
+src/main/java/tilerummy/GameMain.java
+src/main/java/tilerummy/MainGameView.java
