@@ -9,16 +9,16 @@ public class InfoView extends Pane{
 	public InfoView()
 	{
 		Pane innerPane = new Pane();
-		Label label1 = new Label("computer1's tiles:"); 
+		Label label1 = new Label("player1's tiles:"); 
 		label1.relocate(10, 30); 
 		label1.setPrefSize(120, 30);
-		Label label2 = new Label("computer2's tiles:"); 
+		Label label2 = new Label("player2's tiles:"); 
 		label2.relocate(10, 65); 
 		label2.setPrefSize(120, 30);
-		Label label3 = new Label("computer3's tiles:"); 
+		Label label3 = new Label("player3's tiles:"); 
 		label3.relocate(10, 100);
 		label3.setPrefSize(120, 30);
-		Label label4 = new Label("player's tiles:"); 
+		Label label4 = new Label("player4's  tiles:"); 
 		label4.relocate(10, 135);
 		label4.setPrefSize(120, 30);
 		Label label5 = new Label("rest of time:"); 

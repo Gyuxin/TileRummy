@@ -1,123 +1,171 @@
 package tilerummy;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+
 public class GameMain {
-	public static void main(String[] args)
+	
+	private int numberOfTotalPlayer;
+	private ArrayList<Player> players = new ArrayList<Player>();
+	private boolean gameContinue = true;
+	private static Table gameTable = new Table();
+	
+	public ArrayList<Player> getPlayers(){
+		return players;
+	}
+	
+	public Table getTable() {
+		return gameTable;
+	}
+	
+	public void totalNumberOfPlayer(Scanner sc) {
+		System.out.println("\n\nHOW MANY PLAYER IN TOTAL(2-4) ??? \n\n");
+		this.numberOfTotalPlayer = sc.nextInt();
+	}
+	
+	public int initAI(Scanner sc, ObservableValue ov) {
+		System.out.println("\n\nHOW MANY AI PLAYER(0-4) ??? \n\n ");
+		int numberOfAI = sc.nextInt();
+		if(numberOfAI>0) {
+			System.out.println("\n\nASSIGN STRATEGY 1-3 TO THEM IN ORDER: \n\n");
+			for(int i=0; i<numberOfAI; i++) {
+				int temp = sc.nextInt();
+				if(temp==1) {
+					players.add(new Computer1(ov,sc));
+				} else if(temp==2) {
+					players.add(new Computer2(ov,sc));
+				} else if(temp==3) {
+					Computer3 c = new Computer3(ov,sc);
+	           		players.add(c);
+	           		ov.addObserver(c);					//problem here with observer. what if we have more than one computer3?
+				}
+			}
+		}
+		return numberOfAI;
+	}
+
+	public void initPlayers(Scanner sc, ObservableValue ov) {
+		totalNumberOfPlayer(sc);
+		int numberOfHuman = this.numberOfTotalPlayer - initAI(sc,ov);
+		if(numberOfHuman>0) {
+			for(int i=0;i<numberOfHuman;i++) {
+				players.add(new Playercontroler(ov,sc));	
+			}
+		}
+	}
+	
+	public void initPlayersHandTile(Scanner sc, Deck d) {
+		for(int i=0;i<players.size();i++) {
+			players.get(i).initialHandTile(sc, d);
+			players.get(i).sort();
+		}
+	}
+	
+	public void printPlayersHandTile() {
+		for(int i=0;i<players.size();i++) {
+			System.out.println("\nPLAYER"+(i+1)+" hand tiles: " + players.get(i).toString());	
+		}
+	}
+	
+	// return index of Player who start first;
+	public int decideWhoPlayFirst(Deck d) {
+		int result = -1;
+		int maxNum = -1;
+		
+		int count = 0;
+		
+		for(int i=0;i<4;i++) {
+			int temp = generateRandonTile(d);
+			System.out.println(temp);
+			if(temp==maxNum) {			// 和前玩家一样大。再抽一次
+				i--;
+			}
+			if(temp>maxNum) {
+				maxNum = temp;
+				result = i;
+			}
+		}
+		System.out.println("\n\nPlayer"+(result+1)+"\nGet Largest Tile: "+maxNum);
+		System.out.println("So Player"+(result+1)+" plays first!\n\n");
+		return result;
+	}
+	
+	// 随机抽一张不是鬼的牌
+	public int generateRandonTile(Deck d) {
+		while(true) {
+			int temp = d.getARandomTile().getNumber();
+			if(temp!=0) {		// 不是鬼
+				return temp;
+			}
+			System.out.println("抽到鬼啦");
+		}
+	}
+	
+	public void playGame(Table t, Deck d, Scanner sc, int first) {
+		
+		// 某个player 先出牌。
+		System.out.println("\n\nPLAYER"+(first+1)+"'s round !!! !!! !!!\n\n");
+		System.out.println(players.get(first).toString());
+		players.get(first).computerTurn(t,d,sc);
+		
+		for(int i=0;i<players.size() && i!=first;i++) {
+			System.out.println("\n\nPLAYER"+(i+1)+"'s round !!! !!! !!!\n\n");
+			System.out.println(players.get(i).toString());
+			players.get(i).computerTurn(t,d,sc);
+		}
+	}
+	
+	public void checkGameEnd() {
+		for(int i=0;i<players.size();i++) {
+			if(players.get(i).getNumberOfHandTile()==0)
+			{
+				gameContinue=false;
+				System.out.println("\n\n\n\n PLAYER"+(i+1)+" WIN THE GAME!!! !!! !!! !!!\n\n\n\n");
+				break;
+			}
+		}
+	}
+	
+	public static void main(String[] args) throws FileNotFoundException
 	{
-		System.out.println("Please input your name");
-		Scanner in = new Scanner(System.in);
-		String name = in.next();
-		System.out.println(name + " Welcome to Runnikub");
+		File file = new File("./src/main/java/tilerummy/File7.txt");
+		//Scanner sc = new Scanner(file);
+		Scanner sc = new Scanner(System.in);
+		GameMain newGame = new GameMain();
+
+		System.out.println("\n\n\nWelcome to Runnikub\n\n\n");
 		
-		//initial three computer players
 		ObservableValue ov = new ObservableValue(0);
-		Computer1 computer1 = new Computer1(ov);
-		Computer2 computer2 = new Computer2(ov);
-		Computer3 computer3 = new Computer3(ov);
 		
-		//initial the player(need to be changed after the real player has been initialed)!!!!!!!!!!!!!!!!!!!!
-		Playercontroler gamePlayer = new Playercontroler(ov);
 		
-		ov.addObserver(computer3);
-		
+		//initial human players and AI players as requested by users.
+		newGame.initPlayers(sc,ov);	
+
 		//initial deck on the table
 		Deck gameDeck = new Deck();
 		gameDeck.buildDeck();
 		
-		//initial table 
-		Table gameTable = new Table();
+		// 谁先开始
+		int firstPlayerIndex = newGame.decideWhoPlayFirst(gameDeck);
 		
-		
+		//initial table 		
 		//each player initial 14 titles from deck
-		computer1.initialHandTile(gameDeck);
-		computer2.initialHandTile(gameDeck);
-		computer3.initialHandTile(gameDeck);
-		gamePlayer.initialHandTile(gameDeck);
+		newGame.initPlayersHandTile(sc, gameDeck);
 		
-		boolean gameIsNotEnd = true;
-		
-		
-		while(gameIsNotEnd)
+		while(newGame.gameContinue)
 		{
 			//player class need more 
 			//player class need an attribute for check if the player has been initial the first mield which grearter than 30
-			computer1.sort();
-			computer2.sort();
-			computer3.sort();
-			gamePlayer.sort();
-            System.out.println("\n");
-			System.out.println("computer1 hand tiles:" + computer1.toString());	
-			System.out.println("computer2 hand tiles:" + computer2.toString());
-			System.out.println("computer3 hand tiles:" + computer3.toString());
-			System.out.println("your hand tiles:" + gamePlayer.toString());
-			System.out.println("\n");
-			//player1 round
-			System.out.println("Computer 1 round");
-			computer1.printHandTile();
-			computer1.computerTurn(computer1, gameTable, gameDeck);
-			//player2 round
-			System.out.println("\n");
-			System.out.println("Computer 2 round");
-			computer2.printHandTile();
-			computer2.computerTurn(computer2, gameTable, gameDeck);
-			//player3 round
-			System.out.println("\n");
-			System.out.println("Computer 3 round");
-			computer3.printHandTile();
-			computer3.computerTurn(computer3, gameTable, gameDeck);
-			//human's round
-			System.out.println("\n");
-			System.out.println("Your round");
-			gamePlayer.printHandTile();
-			playerTurn(gamePlayer,gameTable,gameDeck);
 
+			newGame.printPlayersHandTile();
 			
-			//check if game is end
-			if(computer1.getNumberOfHandTile()==0)
-			{
-				gameIsNotEnd = true;
-			}
-			else if(computer2.getNumberOfHandTile()==0)
-			{
-				gameIsNotEnd = true;
-			}
-			else if(computer3.getNumberOfHandTile()==0)
-			{
-				gameIsNotEnd = true;
-			}
-			else if(gamePlayer.getNumberOfHandTile()==0) 
-			{
-				gameIsNotEnd = true;
-			}	
+			newGame.playGame(gameTable, gameDeck, sc, firstPlayerIndex);
 			
-			System.out.println("\ndo you want to continue");
-			String answer = in.nextLine();	
-			if(answer == "y")
-			{
-				gameIsNotEnd = true;
-			}
+			newGame.checkGameEnd();
+
 		}
-		System.out.println("Game end");
+		System.out.println("\n\n\n\n\n\nGGGGGGAAAAAMMMMMMEEEEEEE  EEEEENNNNNNNDDDDD\n\n\n\n\n");
 	}
-	//not finish
-	public static void playerTurn(Playercontroler gamePlayer, Table gameTable, Deck gameDeck)
-	{
-		System.out.println("player's turn");
-		if(!gamePlayer.firstMeldInitialCheck())
-		{
-			System.out.println("player has not initial the first meld");
-			gamePlayer.dealornotdeal(gameDeck);
-		}
-		else
-		{
-			gamePlayer.dealornotdeal(gameDeck);
-		}
-		
-			
-	}
-	
-
-	
-
 }
