@@ -38,4 +38,8 @@ public class CardView extends Button{
 
     }
 
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

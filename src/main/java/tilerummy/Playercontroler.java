@@ -37,9 +37,9 @@ public class Playercontroler extends Player{
 	    return super.getNumberOfHandTile();
 	  }
 
-	  public void initialHandTitle(Scanner sc)
+	  public void initialHandTitle(Scanner sc, Deck d)
 	  {
-	    super.initialHandTile(sc);
+	    super.initialHandTile(sc, d);
 	    this.ov.setValue(this.getNumberOfHandTile());
 	  }
 	  
@@ -187,6 +187,7 @@ public class Playercontroler extends Player{
 			  System.out.println("\nSituation of table");
 			  t.printTable();
 		  }
+}
 		
 //			public void edittable() {
 //				System.out.println("please choose the meld you want to edite:");
@@ -292,4 +293,3 @@ public class Playercontroler extends Player{
 		
 
 	
-}

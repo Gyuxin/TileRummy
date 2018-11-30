@@ -48,4 +48,8 @@ public class Tile {
 		// TODO Auto-generated method stub
 		return false;
 	}
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

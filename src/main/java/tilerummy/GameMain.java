@@ -137,7 +137,10 @@ public class GameMain {
 
 		System.out.println("\n\n\nWelcome to Runnikub\n\n\n");
 		
+<<<<<<< Updated upstream
 		//initial three computer players
+=======
+>>>>>>> Stashed changes
 		ObservableValue ov = new ObservableValue(0);
 		
 		
@@ -161,9 +164,15 @@ public class GameMain {
 			//player class need an attribute for check if the player has been initial the first mield which grearter than 30
 
 			newGame.printPlayersHandTile();
+<<<<<<< Updated upstream
 			
 			newGame.playGame(gameTable, gameDeck, sc, firstPlayerIndex);
 			
+=======
+			
+			newGame.playGame(gameTable, gameDeck, sc, firstPlayerIndex);
+			
+>>>>>>> Stashed changes
 			newGame.checkGameEnd();
 
 		}
