@@ -8,7 +8,9 @@ public class Logic {
 	public static boolean addOneTile(Tile t, Table table){
 
         for(int i = 0; i < table.getSize(); i++){
+
             Meld currentMeld = table.getMeld(i);
+
             //If current meld is a set
             if(currentMeld.isSet()){
                 if(!currentMeld.containsTile(t) && currentMeld.sameNumber(t)){
@@ -41,7 +43,7 @@ public class Logic {
             		for(int j = 2; j < currentMeld.getMeldSize()-2; j++){
             			Tile tempTile = currentMeld.get(j);
             			if(t.getColor().equals(tempTile.getColor()) && t.getNumber() == tempTile.getNumber()){
-            				Meld newMeld = new Meld(currentMeld.getMeld());
+            				Meld newMeld = currentMeld;
             				newMeld.slice(0, j);	// create a new meld to store the first half of the meld
             				currentMeld.slice(j, currentMeld.getMeldSize()); 	// the old meld becoming the last half of the meld 
             				newMeld.addTileAtLast(t);  		//add the tile to the newmeld
@@ -51,6 +53,7 @@ public class Logic {
             		}
                 } 
                 
+                else return false;
                 
             }
         }

@@ -24,6 +24,11 @@ public class Playercontroler extends Player{
 	
 	public int X;
 	  
+	@Override
+	 public String getPlayerType() {
+		 return "Human Player";
+	 }
+	
 	  public void sort(){
 		  super.sort();
 	  }
@@ -37,18 +42,18 @@ public class Playercontroler extends Player{
 	    return super.getNumberOfHandTile();
 	  }
 
-	  public void initialHandTitle(Scanner sc)
+	  public void initialHandTitle(Scanner sc, Deck d)
 	  {
-	    super.initialHandTile(sc);
+	    super.initialHandTile(sc, d);
 	    this.ov.setValue(this.getNumberOfHandTile());
 	  }
 	  
-	  public Tile drawATile()
+	  public Tile drawATile(Tile t)
 	  {
-			Tile temp = new Tile(sc.next());
-			super.drawATile(temp);
+//			Tile temp = new Tile(sc.next());
+			super.drawATile(t);
 			this.ov.setValue(this.getNumberOfHandTile());
-		    return temp;
+		    return t;
 	  }
 	  
 	  public Tile dealTile(Tile t){
@@ -79,20 +84,20 @@ public class Playercontroler extends Player{
 		  return super.hasMeld();
 	  }
 	  
-	  public void computerTurn(Table t, Deck d, Scanner sc) {
+	  public void playerTurn(Table t, Deck d, Scanner sc) {
 		  
 		  System.out.println("do you want to deal the cards?(Y/N)");
 		  String temp = sc.next();
 		  if (temp.equalsIgnoreCase("Y")) {
-			  dealcard(t, sc);
+			  dealcard(t, sc, d);
 		  }
 		  else if (temp.equalsIgnoreCase("N")) {
 			  System.out.print("You draw a new tile ... ");
-			  this.drawATile().printTile();
+			  this.drawATile(d.drawTile()).printTile();
 		  }
 	  }
 	
-		public void dealcard(Table t, Scanner sc) {
+		public void dealcard(Table t, Scanner sc, Deck d) {
 			
 			
 			System.out.println("do you want to deal new Meld or add a tile or edit existing table?(M/T/E)");
@@ -108,7 +113,7 @@ public class Playercontroler extends Player{
 //					edittable();
 //			  }
 			  else {
-				  this.drawATile();
+				  this.drawATile(d.drawTile());
 			  }
 			  
 	
@@ -187,6 +192,7 @@ public class Playercontroler extends Player{
 			  System.out.println("\nSituation of table");
 			  t.printTable();
 		  }
+}
 		
 //			public void edittable() {
 //				System.out.println("please choose the meld you want to edite:");
@@ -292,4 +298,3 @@ public class Playercontroler extends Player{
 		
 
 	
-}
