@@ -25,7 +25,7 @@ import javafx.scene.control.TextInputDialog;
 
 public class TileRummyApp extends Application  {
 	private static ObservableValue ov = new ObservableValue(0);
-	private static File file = new File("./src/tilerummy/Test/Test1.txt");
+	private static File file = new File("./src/main/java/tilerummy/Test/Test1.txt");
 	private static Scanner sc;
 	private static int numberOfTotalPlayer;
 	private static ArrayList<Player> players = new ArrayList<Player>();
