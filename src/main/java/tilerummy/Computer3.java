@@ -60,10 +60,10 @@ public class Computer3 extends Player implements Observer{
    }
    public Tile drawATile(Tile t)
    {
-//   Tile temp = new Tile(sc.next());
+   Tile temp = new Tile(sc.next());
    
-   super.drawATile(t);
-      return t;
+   super.drawATile(temp);
+      return temp;
    }
 
 
@@ -191,7 +191,7 @@ public class Computer3 extends Player implements Observer{
          info.addToConsole("\n{");
          for(int c = 0; c <handOutTiles.get(b).size(); c++)
          {
-          info.addToConsole(handOutTiles.get(b).get(c).printTile());
+          handOutTiles.get(b).get(c).printTile();
          }
          info.addToConsole("\n}");
         }
@@ -233,7 +233,7 @@ public class Computer3 extends Player implements Observer{
      }
      //print the situation on the table
      info.addToConsole("\n\nSituation of table");
-     info.addToConsole(t.printTable());
+     t.printTable();
     }
    }
    public void playing(Table t, Deck d)
@@ -254,7 +254,7 @@ public class Computer3 extends Player implements Observer{
       for(int i = 0; i <handOutTiles.size();i++)
       {
        Meld newMeld = new Meld(handOutTiles.get(i));
-       info.addToConsole(newMeld.printMeld());
+       newMeld.printMeld();
        t.addMeld(newMeld);
       }
       info.addToConsole("\n\ncomputer 3 deal tiles are: ");
@@ -269,7 +269,7 @@ public class Computer3 extends Player implements Observer{
        }
       }
       info.addToConsole("\n\nThe situation on the table is: ");
-      info.addToConsole(t.printTable());
+      t.printTable();
       //check if computer still have tile in hand can be deal on the table according to the situation on the table
       ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
       for(int j = 0; j<temp.size();j++)
@@ -303,7 +303,7 @@ public class Computer3 extends Player implements Observer{
           }
          }
       info.addToConsole("\n\nThe situation on the table is: ");
-      info.addToConsole(t.printTable());
+      t.printTable();
      }
      else
      {
@@ -321,11 +321,11 @@ public class Computer3 extends Player implements Observer{
       }
      //check if computer still have two tiles can be deal at the same time
           ArrayList<ArrayList<Tile>> tiles = Logic.twoConsecutiveTiles(this.getMyHandTile());
-          boolean computer1ChangedAgain = false;
+          boolean computer3ChangedAgain = false;
           for(int k = 0; k < tiles.size(); k++)
           {
-           computer1ChangedAgain = Logic.addTwoTiles(tiles.get(k), t);
-           if(computer1ChangedAgain)
+        	  computer3ChangedAgain = Logic.addTwoTiles(tiles.get(k), t);
+           if(computer3ChangedAgain)
            {
             info.addToConsole("\n\ncomputer3 reuse the table again");
             for(int l = 0; l<tiles.get(k).size(); l++)
@@ -339,14 +339,14 @@ public class Computer3 extends Player implements Observer{
 
            }
           }
-      if(computer3NoChanged && !computer1ChangedAgain)
+      if(computer3NoChanged && !computer3ChangedAgain)
       {
        info.addToConsole("\n\ncomputer 3 can do nothing, he draw a new card");
        info.addToConsole("\ncomputer 3 get: ");
         Tile newTile = d.drawTile();
         info.addToConsole(this.drawATile(newTile).printTile());
       }
-      else if(!computer3NoChanged || computer1ChangedAgain)
+      else if(!computer3NoChanged || computer3ChangedAgain)
       {
        info.addToConsole("\n\nthe situation on the table is: ");
        t.printTable();
@@ -437,7 +437,6 @@ public class Computer3 extends Player implements Observer{
    }
    public void playerTurn(Table gameTable, Deck gameDeck, Scanner sc, InfoView info)
   {
-	   info.addToConsole(this.toString());
     this.info = info;
    if(!this.initialedFirstMeld)
    {

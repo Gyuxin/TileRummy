@@ -44,12 +44,11 @@ public class Computer2 extends Player{
    public Tile drawATile(Tile t)
    {
    
-//  Tile temp = new Tile(sc.next());
+  Tile temp = new Tile(sc.next());
   
-  super.drawATile(t);
+  super.drawATile(temp);
   this.ov.setValue(this.getNumberOfHandTile());
-  this.sort();
-     return t;
+     return temp;
    }
    
    public Tile dealTile(Tile t){
@@ -213,7 +212,7 @@ public class Computer2 extends Player{
      {
       for(int y =0 ; y<handOutTiles.get(x).size(); y++)
       {
-       info.addToConsole(handOutTiles.get(x).get(y).printTile());
+    	  info.addToConsole(handOutTiles.get(x).get(y).printTile());
        this.dealTile(handOutTiles.get(x).get(y));
         
       }  
@@ -228,7 +227,7 @@ public class Computer2 extends Player{
      }
      //print the situation on the table
      info.addToConsole("\n\nSituation of table");
-     info.addToConsole(t.printTable());
+     t.printTable();
     }
    }
    public void playing(Table t, Deck d)
@@ -315,13 +314,12 @@ public class Computer2 extends Player{
      else if(!computer2NoChanged || computer2ChangedAgain)
      {
       info.addToConsole("\n\nthe situation on the table is: ");
-      info.addToConsole(t.printTable());
+      t.printTable();
      }
     }
    }
    public void playerTurn(Table gameTable, Deck gameDeck, Scanner sc, InfoView info)
   {
-	   info.addToConsole(this.toString());
      this.info = info;
    if(!this.initialedFirstMeld)
    {

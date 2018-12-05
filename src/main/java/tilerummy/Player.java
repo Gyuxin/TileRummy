@@ -30,6 +30,10 @@ public class Player {
   return this.myMeld;
  }
  
+ public void setHandTiles(List<Tile> l) {
+	 this.myHandTile = l;
+ }
+ 
  public List<Tile> getMyHandTile(){
   return this.myHandTile;
  }
@@ -63,8 +67,8 @@ public class Player {
  //initially add 14 tiles to user's handTile.
  public void initialHandTile(Scanner sc, Deck d){
    for(int i = 0; i < 14; i++) {
-   // Tile temp = new Tile(sc.next());
-    Tile temp = d.drawTile();
+    Tile temp = new Tile(sc.next());
+//    Tile temp = d.drawTile();
     myHandTile.add(temp);
    }
  }
@@ -363,6 +367,7 @@ public class Player {
  
  public Tile drawATile(Tile t) {
    myHandTile.add(t);
+   this.sort();
    return t;
  }
  

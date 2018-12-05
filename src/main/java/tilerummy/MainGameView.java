@@ -3,6 +3,7 @@ package tilerummy;
 import java.util.ArrayList;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.layout.*;
 
 public class MainGameView extends Pane {
@@ -15,6 +16,8 @@ public class MainGameView extends Pane {
 	private Button deal;
 	private Button AIGo;
 	private Button end;
+	private Button reset;
+	private Button add;
 	
 	private int numPlayers;
 	
@@ -60,6 +63,16 @@ public class MainGameView extends Pane {
 		exit.relocate(1000, 660);
 		exit.setPrefSize(120, 20);
 		
+		reset = new Button();
+		reset.setText("CLEAR");
+		reset.relocate(1130, 660);
+		reset.setPrefSize(120, 20);
+		
+		add = new Button();
+		add.setText("ADD TILE");
+		add.relocate(1130, 570);
+		add.setPrefSize(120, 20);
+		
 
 		
 		
@@ -77,6 +90,8 @@ public class MainGameView extends Pane {
 		getChildren().add(deal);
 		getChildren().add(AIGo);
 		getChildren().add(end);
+		getChildren().add(reset);
+		getChildren().add(add);
 	}
 	
 	public void update() {
@@ -114,5 +129,12 @@ public class MainGameView extends Pane {
 	public Button getEndButton()
 	{
 		return end;
+	}
+
+	public ButtonBase getResetButton() {
+		return reset;
+	}
+	public Button getAddButton() {
+		return add;
 	}
 }

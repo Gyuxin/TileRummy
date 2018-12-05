@@ -13,6 +13,7 @@ public class TileRummy {
     public static ArrayList<String> playerCommand = new ArrayList<String>();
 
     public static Scanner sc = new Scanner(System.in);
+	public Memento memento;
 
     public static void main(String[] args) throws FileNotFoundException{
         

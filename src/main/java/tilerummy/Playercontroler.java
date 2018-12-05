@@ -50,10 +50,10 @@ public class Playercontroler extends Player{
 	  
 	  public Tile drawATile(Tile t)
 	  {
-//			Tile temp = new Tile(sc.next());
-			super.drawATile(t);
+			Tile temp = new Tile(sc.next());
+			super.drawATile(temp);
 			this.ov.setValue(this.getNumberOfHandTile());
-		    return t;
+		    return temp;
 	  }
 	  
 	  public Tile dealTile(Tile t){

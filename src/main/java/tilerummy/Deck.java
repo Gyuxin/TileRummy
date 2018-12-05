@@ -34,8 +34,10 @@ public class Deck {
 	
 	// 随机生成一张牌，不拿走。用来决定哪个玩家先出牌
 	public Tile getARandomTile() {
-		Collections.shuffle(tileDeck);
-		return this.tileDeck.get(0);
+		  //Collections.shuffle(tileDeck);
+		  Tile aTile = this.tileDeck.get(0);
+		  tileDeck.remove(0);
+		  return aTile;	  
 	}
 	
 	public int getDeckSize(){

@@ -5,6 +5,7 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
 import javafx.scene.control.Label;
+import javafx.scene.effect.Glow;
 
 public class PlayerPane extends Pane {
 
@@ -73,6 +74,35 @@ public class PlayerPane extends Pane {
      player = players.get(currentIndex);
      getChildren().removeAll(inhandTiles);
      //System.out.println(inhandTiles.length);
+     
+     ArrayList<Tile> suggestion = new ArrayList<Tile>();
+     
+     if(player.getPlayerType().equals("Human Player")) {
+    	 if(player.hasMeld()) {
+    		 //Already initial
+    		 if(player.initialedFirstMeld) {
+    			 for(int i = 0; i < player.getMyMeld().size(); i++) {
+    	        	 for(int j = 0; j < player.getMyMeld().get(i).size(); j++) {
+    	        		 suggestion.add(player.getMyMeld().get(i).get(j));
+    	        		 
+    	        	 }
+    	         }
+    		 }
+    		 //Not initial
+    		 else {
+    			 //Suggestion for initial
+    			 for(int i = 0; i < player.getMyMeld().size(); i++) {
+    				 Meld mm = new Meld(player.getMyMeld().get(i));
+    				 if(mm.getMeldScore() > 29) {
+    					 for(int j = 0; j < player.getMyMeld().get(i).size(); j++) {
+    						 suggestion.add(player.getMyMeld().get(i).get(j));
+    					 }
+    				 }
+    			 }
+    		 }
+    	 } 
+     }
+     
      for(int i = 0; i < player.getNumberOfHandTile(); i++){
             inhandTiles[i] = new CardView(player.getMyHandTile().get(i));
             inhandTiles[i].setTranslateX(cardWidth*i);
@@ -80,6 +110,11 @@ public class PlayerPane extends Pane {
 
             inhandTiles[i].setPrefHeight(cardHeight);
             inhandTiles[i].setPrefWidth(cardWidth);
+            if(suggestion.contains(player.getMyHandTile().get(i))) {
+            	System.out.println("TRUE");
+            	inhandTiles[i].setEffect(new Glow(0.8));
+            }
+            
             getChildren().add(inhandTiles[i]);
         }
      

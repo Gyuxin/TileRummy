@@ -11,6 +11,14 @@ public class Table {
   table = new ArrayList<Meld>();
   
  }
+ 
+ public ArrayList<Meld> getTable(){
+	 return table;
+ }
+ 
+ public void setNewTable(ArrayList<Meld> t) {
+	 this.table = t;
+ }
 
  public int getSize(){
   return table.size();
@@ -58,6 +66,20 @@ public class Table {
     i--;
    }
   }
+ }
+ 
+ public boolean checkInValid() {
+ 	 
+	 for(int i = 0; i < table.size(); i++) {
+		 
+		 if(!table.get(i).isMeld()) {
+			 return false;
+		 }
+		 
+	 }
+	 	 
+	 return true;
+	 
  }
 
 }

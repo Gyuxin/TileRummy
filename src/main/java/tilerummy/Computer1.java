@@ -48,11 +48,10 @@ public class Computer1 extends Player{
    }
    public Tile drawATile(Tile t)
    {
-  //Tile temp = new Tile(sc.next());
-  super.drawATile(t);
+  Tile temp = new Tile(sc.next());
+  super.drawATile(temp);
   this.ov.setValue(this.getNumberOfHandTile());
-  this.sort();
-     return t;
+     return temp;
    }
    
    public Tile dealTile(Tile t){
@@ -212,7 +211,7 @@ public class Computer1 extends Player{
      }
      //print the situation on the table
      info.addToConsole("\n\nSituation of table");
-     info.addToConsole(t.printTable());
+     t.printTable();
     }
    }
    public void playing(Table t, Deck d)
@@ -231,7 +230,7 @@ public class Computer1 extends Player{
      for(int i = 0; i <handOutTiles.size();i++)
      {
       Meld newMeld = new Meld(handOutTiles.get(i));
-      info.addToConsole(newMeld.printMeld());
+      newMeld.printMeld();
       t.addMeld(newMeld);
      }
     
@@ -246,7 +245,7 @@ public class Computer1 extends Player{
       }  
      }
      info.addToConsole("\n\nThe situation on the table is: ");
-     info.addToConsole(t.printTable());
+     t.printTable();
      
      //check if computer still have tile can be deal on the table according to the situation on the table
      ArrayList<Tile> temp = new ArrayList<Tile>(this.getMyHandTile());
@@ -284,7 +283,7 @@ public class Computer1 extends Player{
      }
       //print out the table
       info.addToConsole("\n\nsituation on the table");
-      info.addToConsole(t.printTable());
+      t.printTable();
     }
     else
     {
@@ -314,7 +313,7 @@ public class Computer1 extends Player{
         for(int l = 0; l<tiles.get(k).size(); l++)
         {
          //print tiles name
-         info.addToConsole(tiles.get(k).get(l).printTile());
+         tiles.get(k).get(l).printTile();
         }
         //remove those two tiles in the arraylist
         Logic.removeTwoTiles(tiles.get(k), this.getMyHandTile());
@@ -335,14 +334,13 @@ public class Computer1 extends Player{
      else if(!computer1NoChanged || computer1ChangedAgain)
      {
       info.addToConsole("\n\nsituation on the table");
-      info.addToConsole(t.printTable());
+      t.printTable();
      }
     }  
    }
    
    public void playerTurn(Table gameTable, Deck gameDeck, Scanner sc, InfoView info)
   {
-	   info.addToConsole(this.toString());
      this.info = info;
    if(!this.initialedFirstMeld)
    {

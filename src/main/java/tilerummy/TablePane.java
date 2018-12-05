@@ -2,9 +2,9 @@ package tilerummy;
 
  import java.util.ArrayList;
 
- import javafx.scene.layout.*;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.*;
 
- @SuppressWarnings("restriction")
  public class TablePane extends Pane {
  	
  	private float paneWidth;
@@ -15,6 +15,8 @@ package tilerummy;
  	
  	private Table table;
  	private ArrayList<CardView[]> melds;
+ 		
+ 	DropShadow shadow = new DropShadow();
  	
  	public TablePane(Table t) {
  		
@@ -56,6 +58,11 @@ package tilerummy;
  				
  				meldView[j].setPrefWidth(cardWidth);
  				meldView[j].setPrefHeight(cardHeight);
+ 				
+ 				if(m.getJustPlayed()) {
+ 					meldView[j].setEffect(shadow);
+ 				}
+ 				
  				getChildren().add(meldView[j]);
  				
  			}
@@ -63,16 +70,17 @@ package tilerummy;
  			currentX += m.getMeldSize()*cardWidth + 20;
  			melds.add(meldView);
  		}
- 		
+ 		table.setMeldsPlayedFalse();
  	}
  	
  	public void update() {
- 		
+
  		for(int i = 0; i < melds.size(); i++) {
  			getChildren().removeAll(melds.get(i));
- 		}
- 		
+ 		}	
+ 		melds = new ArrayList<CardView[]>();
  		setUpTable();
+
  		
  	}
  	
@@ -82,6 +90,10 @@ package tilerummy;
  	
  	public float getPaneWidth() {
  		return paneWidth;
+ 	}
+ 	
+ 	public ArrayList<CardView[]> getTable(){
+ 		return melds;
  	}
 
  }

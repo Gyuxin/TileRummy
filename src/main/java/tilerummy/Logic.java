@@ -43,7 +43,7 @@ public class Logic {
             		for(int j = 2; j < currentMeld.getMeldSize()-2; j++){
             			Tile tempTile = currentMeld.get(j);
             			if(t.getColor().equals(tempTile.getColor()) && t.getNumber() == tempTile.getNumber()){
-            				Meld newMeld = currentMeld;
+            				Meld newMeld = new Meld(currentMeld.getMeld());
             				newMeld.slice(0, j);	// create a new meld to store the first half of the meld
             				currentMeld.slice(j, currentMeld.getMeldSize()); 	// the old meld becoming the last half of the meld 
             				newMeld.addTileAtLast(t);  		//add the tile to the newmeld
@@ -52,8 +52,6 @@ public class Logic {
             			}
             		}
                 } 
-                
-                else return false;
                 
             }
         }
